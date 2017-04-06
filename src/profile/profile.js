@@ -38,7 +38,7 @@ class Profile extends Component{
   }
 
   handleLogOut(){
-    this.setState({user: null});
+    this.setState({user: null, username: ''});
   }
 
   render() {

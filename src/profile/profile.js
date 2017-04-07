@@ -28,9 +28,12 @@ class Profile extends Component{
     for (let profile of data){
       if (profile.username === username){
         this.setState({user: username});
+        this.setState({profilePicture: profile.profilePicture});
+        this.setState({karma: profile.karma});
         this.setState({tracks: profile.songs});
         this.setState({followers: profile.followers.length});
         this.setState({genre: profile.genre });
+        this.setState({profileURL: profile.profileURL});
         return;
       }
     }
@@ -53,9 +56,12 @@ class Profile extends Component{
           Sounder
           </h1>
           <h2>{this.state.user}</h2>
+          <h3>Picture: {this.state.profilePicture}</h3>
+          <h3>Karma Rating: {this.state.karma}</h3>
           <h3>Followers: {this.state.followers}</h3>
           <h3>Genre: {this.state.genre}</h3>
           <h3>Promoted Tracks: {this.state.tracks}</h3>
+          <h3>see more: {this.state.profileURL}</h3>
           <div>
           {logOut}
           </div>

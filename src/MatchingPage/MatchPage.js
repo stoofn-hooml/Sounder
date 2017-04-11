@@ -67,10 +67,17 @@ class MatchPage extends Component{
   handleLike(){
     const numberOfArtists = data.length;
     /*Adds currentAritst to currentLogin’s property PeopleYouLike */
+    //console.log(data);
     for(let i = 0; i < numberOfArtists; i++){
       if(data[i]['username'] == this.state.currentLogin){
           (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['username']);
           console.log(data[i]['peopleYouLike']);
+          for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
+            if (data[this.state.currentArtist]['username'] === data[i]['peopleWhoLikedYou'][j]){
+              data[i]['currentMatches'].push(data[this.state.currentArtist]['username']);
+              console.log(data[i]['currentMatches']);
+            };
+          };
       }
     }
 

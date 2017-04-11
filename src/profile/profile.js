@@ -32,13 +32,13 @@ class Profile extends Component{
           <h1>
           Sounder
           </h1>
-          <h2>{this.props.user}</h2>
-          <h3>Picture: {this.state.profilePicture}</h3>
-          <h3>Karma Rating: {this.state.karma}</h3>
-          <h3>Followers: {this.state.followers}</h3>
-          <h3>Genre: {this.state.genre}</h3>
-          <h3>Promoted Tracks: {this.state.tracks}</h3>
-          <h3>see more: {this.state.profileURL}</h3>
+          <h2>{this.props.userObject['username']}</h2>
+          <h3>Picture: {this.props.userObject['profilePicture']}</h3>
+          <h3>Karma Rating: {this.props.userObject['karma']}</h3>
+          <h3>Followers: {this.props.userObject['numFollowers']}</h3>
+          <h3>Genre: {this.props.userObject['genre']}</h3>
+          <h3>Promoted Tracks: {this.props.userObject['songs']}</h3>
+          <h3>see more:  {this.props.userObject['profileURL']}</h3>
           <div>
           {logOut}
           </div>

@@ -65,6 +65,7 @@ class Profile extends Component{
           <div>
           {logOut}
           </div>
+          <input type="button" value="Start Matching" onClick={()=>this.props.setMode()}/>
         </div>
       );
     }

@@ -114,6 +114,7 @@ class MatchPage extends Component{
         {songTiles}
         <input type="button" onClick={()=>this.handleNext()} value="Next" />
         <input type="button" onClick={()=>this.handleLike()} value="Like" />
+        <input type="button" value="Back to Home" onClick={()=>this.props.setMode()}/>
       </div>
     );
   }

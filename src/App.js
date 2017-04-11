@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import MatchPage from './MatchingPage/MatchPage.js';
 import Profile from './profile/profile.js';
-
+import data from '../public/sounderUsers.json';
 
 
 const CenteredTitle=styled.h1`
@@ -20,14 +20,31 @@ const CenteredTitle=styled.h1`
 
 
 class App extends Component {
-  render() {
+  constructor(props){
+    super(props);
+    this.state={
+      mode: 'home'
 
-    return (
-      <div className="App">
-        <Profile />
-        <MatchPage />
-      </div>
-    );
+
+    }
+  }
+  render() {
+    if(this.state.mode =='home'){
+      return (
+        <div className="App">
+          <Profile setMode={(article)=>this.setState({mode:'matching'})}/>
+
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <MatchPage setMode={(article)=>this.setState({mode:'home'})} />
+        </div>
+      );
+    }
+
+
   }
 }
 

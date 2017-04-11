@@ -23,25 +23,18 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      mode: 'login'
+      mode: 'login',
+
 
 
     }
   }
 
   handleSignIn(username){
-
-    let numberOfArtists = data.length;
-    for(let i = 0; i < numberOfArtists; i++){
-      /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
-      if(data[i]['username'] == data[this.state.currentArtist]['username']){
-          (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
-          console.log(data[i]['peopleWhoLikedYou']);
-      }
-    }
-
     for (let profile of data){
       if (profile.username === username){
+
+        this.setState({userObject: profile})
         this.setState({user: username});
         this.setState({profilePicture: profile.profilePicture});
         this.setState({karma: profile.karma});
@@ -66,7 +59,7 @@ class App extends Component {
     if(this.state.mode =='home'){
       return (
         <div className="App">
-          <Profile setLogout={()=>this.handleLogOut()} user={this.state.user} setMode={()=>this.setState({mode:'matching'})}/>
+          <Profile setLogout={()=>this.handleLogOut()} userObject= {this.state.userObject} setMode={()=>this.setState({mode:'matching'})}/>
         </div>
       );
     }
@@ -80,7 +73,7 @@ class App extends Component {
     else {
       return (
         <div className="App">
-          <MatchPage setMode={()=>this.setState({mode:'home'})}  user={this.props.user}/>
+          <MatchPage setMode={()=>this.setState({mode:'home'})}  userObject={this.state.userObject}/>
         </div>
       );
     }

@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import MatchPage from './MatchingPage/MatchPage.js';
-import Profile from './profile/profile.js';
+import Profile from './profile/HomePage.js';
 import data from '../public/sounderUsers.json';
 import Login from './Components/Login.js';
 
@@ -33,16 +33,7 @@ class App extends Component {
   handleSignIn(username){
     for (let profile of data){
       if (profile.username === username){
-
-        this.setState({userObject: profile})
-        this.setState({user: username});
-        this.setState({profilePicture: profile.profilePicture});
-        this.setState({karma: profile.karma});
-        this.setState({tracks: profile.songs});
-        this.setState({followers: profile.followers.length});
-        this.setState({genre: profile.genre });
-        this.setState({profileURL: profile.profileURL});
-        this.setState({mode: 'home'});
+        this.setState({userObject: profile, mode: 'home'});
         return;
       }
     }
@@ -77,8 +68,6 @@ class App extends Component {
         </div>
       );
     }
-
-
   }
 }
 

@@ -30,6 +30,16 @@ class App extends Component {
   }
 
   handleSignIn(username){
+
+    let numberOfArtists = data.length;
+    for(let i = 0; i < numberOfArtists; i++){
+      /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
+      if(data[i]['username'] == data[this.state.currentArtist]['username']){
+          (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
+          console.log(data[i]['peopleWhoLikedYou']);
+      }
+    }
+
     for (let profile of data){
       if (profile.username === username){
         this.setState({user: username});
@@ -70,7 +80,7 @@ class App extends Component {
     else {
       return (
         <div className="App">
-          <MatchPage setMode={()=>this.setState({mode:'home'})} />
+          <MatchPage setMode={()=>this.setState({mode:'home'})}  user={this.props.user}/>
         </div>
       );
     }

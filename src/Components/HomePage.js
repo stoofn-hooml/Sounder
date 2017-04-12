@@ -5,19 +5,23 @@
 
   HomePage does not maintain its own state.
 
-  HomePage takes in three props: setMode, setLogout, and currentLogin. setMode is a callback that updates the state of mode in App.js.
-  setLogout is a function that updates the state of mode and currentLogin in App.js.  currentLogin is an object that stores the account information
+  HomePage takes in four props: data, setMode, setLogout, and currentLogin. data is our main collection of data has all of our user's account information.
+  setMode is a callback that updates the state of mode in App.js. setLogout is a function that updates the state of mode and currentLogin in App.js.  currentLogin is an object that stores the account information
   for the person who is currently logged in.
+
+  HomePage uses three functional components: LoginProfileBox, MatchList, and MatchProfileBox. LoginProfileBox represents the user
+  profile of whoever is currently logged in. MatchList represents the list of people you matched with. MatchProfileBox
+  represents the profile of one of your matches. 
 
 */
 
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import data from '../../public/sounderUsers.json';
+//import data from '../../public/sounderUsers.json';
 
 
-const MatchList = styled.ul`
+const ListOfMatches = styled.ul`
   list-style: none;
 `;
 
@@ -29,18 +33,53 @@ const CenteredTitle=styled.h1`
   text-align: center;
 `;
 
-const MatchBox=styled.div`
+const BoxArea=styled.div`
   border: 3px solid black;
   width: 50%;
   margin: auto;
 `
 
-function MakeMatches(props){
+function LoginProfileBox(props){
+  return (
+  <div>
+  <CenteredTitle>{props.currentLogin['username']}</CenteredTitle>
+  <BoxArea>
+  <h3>Picture: {props.currentLogin['profilePicture']}</h3>
+  <h3>Karma Rating: {props.currentLogin['karma']}</h3>
+  <h3>Followers: {props.currentLogin['numFollowers']}</h3>
+  <h3>Genre: {props.currentLogin['genre']}</h3>
+  <h3>Promoted Tracks: {props.currentLogin['songs']}</h3>
+  <h3>see more:  {props.currentLogin['profileURL']}</h3>
+  </BoxArea>
+  </div>);
+};
+
+
+function MatchList(props){
   const matchlog = (props.matchlist).map((user)=>{
     let name = user.username;
-    return (<MatchNames onClick={()=>{props.clickname(user)}}>{name}</MatchNames>);
+    return (<MatchNames key={name} onClick={()=>{props.clickname(user)}}>{name}</MatchNames>);
   });
-  return (<MatchList>{matchlog}</MatchList>);
+  return (<ListOfMatches>{matchlog}</ListOfMatches>);
+};
+
+
+function MatchProfileBox(props){
+  let viewmatch = props.currentMatchProfile;
+  let exploreMatchesButton = (<button onClick={()=>props.changeMatch()}>See other matches</button>);
+  return(
+    <BoxArea>
+      <h3>{viewmatch.username}</h3>
+      <h5>Picture: {viewmatch.profilePicture}</h5>
+      <h5>Karma Rating: {viewmatch.karma}</h5>
+      <h5>Followers: {viewmatch.followers}</h5>
+      <h5>Genre: {viewmatch.genre}</h5>
+      <h5>Promoted Tracks: {viewmatch.tracks}</h5>
+      <h5>see more: {viewmatch.profileURL}</h5>
+      {exploreMatchesButton}
+  </BoxArea>
+
+  )
 };
 
 
@@ -51,10 +90,10 @@ class HomePage extends Component{
     this.state = {
       username: 'username1',
       matchid: [2, 13, 15, 20],
-      view: "matchlist",
     };
 
     let tempmatches = [];
+    let data = props.data;
     for (let profile of data){
       for (let x of this.state.matchid){
         if (profile.id === x){
@@ -68,32 +107,25 @@ class HomePage extends Component{
   };
 
   changeMatch(){
-    this.setState({current: null});
+    this.setState({currentMatchProfile: null});
   }
   render() {
     let logOut = (<button onClick={()=>this.props.setLogout()}>Log Out</button>);
     let startMatching = (<button onClick={()=>this.props.setMode('matching')}> Start Matching</button>);
     let matchingSettings = (<button onClick={()=>this.props.setMode('matchingSettings')}> Edit Matching Settings</button>);
-    let changeCurrentMatchExplore = (<button onClick={()=>this.changeMatch()}>See other matches</button>);
-    if (!this.state.current) {
-      const log = (<MakeMatches matchlist={this.state.matches} clickname={(user)=>{this.setState({current: user})}}/>);
-      console.log(this.state.matches);
+
+    let loginProfileBox = (<LoginProfileBox currentLogin={this.props.currentLogin}/>);
+
+    if (!this.state.currentMatchProfile) {
+      const log = (<MatchList matchlist={this.state.matches} clickname={(user)=>{this.setState({currentMatchProfile: user})}}/>);
       return (
         <div>
-        <CenteredTitle>{this.props.currentLogin['username']}</CenteredTitle>
-        <MatchBox>
-        <h3>Picture: {this.props.currentLogin['profilePicture']}</h3>
-        <h3>Karma Rating: {this.props.currentLogin['karma']}</h3>
-        <h3>Followers: {this.props.currentLogin['numFollowers']}</h3>
-        <h3>Genre: {this.props.currentLogin['genre']}</h3>
-        <h3>Promoted Tracks: {this.props.currentLogin['songs']}</h3>
-        <h3>see more:  {this.props.currentLogin['profileURL']}</h3>
-        </MatchBox>
+        {loginProfileBox}
         <CenteredTitle>Matches</CenteredTitle>
-        <MatchBox>
+        <BoxArea>
         <h4> Explore Matches </h4>
         {log}
-        </MatchBox>
+        </BoxArea>
         <div>
         <CenteredTitle>
             {logOut}
@@ -105,42 +137,19 @@ class HomePage extends Component{
       );
     }
     else {
-      const viewmatch = this.state.current;
+      let matchProfileBox = (<MatchProfileBox currentMatchProfile={this.state.currentMatchProfile} changeMatch={()=>{this.changeMatch()}}/>);
       return (
         <div>
-        <CenteredTitle>{this.props.currentLogin['username']}</CenteredTitle>
-        <MatchBox>
-        <h3>Picture: {this.props.currentLogin['profilePicture']}</h3>
-        <h3>Karma Rating: {this.props.currentLogin['karma']}</h3>
-        <h3>Followers: {this.props.currentLogin['numFollowers']}</h3>
-        <h3>Genre: {this.props.currentLogin['genre']}</h3>
-        <h3>Promoted Tracks: {this.props.currentLogin['songs']}</h3>
-        <h3>see more:  {this.props.currentLogin['profileURL']}</h3>
-        <CenteredTitle>Matches</CenteredTitle>
-        </MatchBox>
-          <MatchBox>
-            <h3>{viewmatch.username}</h3>
-            <h5>Picture: {this.state.profilePicture}</h5>
-            <h5>Karma Rating: {viewmatch.karma}</h5>
-            <h5>Followers: {viewmatch.followers}</h5>
-            <h5>Genre: {viewmatch.genre}</h5>
-            <h5>Promoted Tracks: {viewmatch.tracks}</h5>
-            <h5>see more: {viewmatch.profileURL}</h5>
-            {changeCurrentMatchExplore}
-        </MatchBox>
-        <div>
+        {loginProfileBox}
+        {matchProfileBox}
         <CenteredTitle>
             {logOut}
             {startMatching}
             {matchingSettings}
         </CenteredTitle>
         </div>
-        </div>
       );
     }
-
-
-
   }
 }
 

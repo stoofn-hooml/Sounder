@@ -51,7 +51,7 @@ class App extends Component {
     if(this.state.mode ==='home'){
       return (
         <div className="App">
-          <HomePage setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+          <HomePage data= {data} setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
         </div>
       );

@@ -3,16 +3,19 @@
 
   This provides the implementation for the login component.
 
+  Login maintains state in the form of username.
+
+  Login has one prop: setProfile. setProfile is a callback function that updates the state in App.js of currentUser to be the username and the mode to be the home page.
+
 */
 import React, { Component } from 'react';
-import data from "../../public/sounderUsers.json";
+
 
 class Login extends Component{
   constructor(){
     super();
     this.state = {
       username: '',
-      user: null
     }
   };
 

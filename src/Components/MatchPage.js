@@ -68,7 +68,7 @@ class MatchPage extends Component{
     const numberOfArtists = data.length;
     /*Adds currentAritst to currentLogin’s property PeopleYouLike */
     for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] == this.state.currentLogin){
+      if(data[i]['username'] === this.state.currentLogin){
           (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['username']);
           console.log(data[i]['peopleYouLike']);
       }
@@ -78,7 +78,7 @@ class MatchPage extends Component{
 
     for(let i = 0; i < numberOfArtists; i++){
       /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
-      if(data[i]['username'] == data[this.state.currentArtist]['username']){
+      if(data[i]['username'] === data[this.state.currentArtist]['username']){
           (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
           console.log(data[i]['peopleWhoLikedYou']);
       }
@@ -99,7 +99,7 @@ class MatchPage extends Component{
     const numberOfArtists = data.length;
     let currentArtistsSongs;
     for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] == data[this.state.currentArtist]['username']){
+      if(data[i]['username'] === data[this.state.currentArtist]['username']){
           currentArtistsSongs = data[i]['songs'];
       }
     }

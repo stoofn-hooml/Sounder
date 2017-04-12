@@ -3,7 +3,7 @@
 
   App is the top-level component of our application. It is responsible for managing the data collection.
 
-  App maintains state in the form of currentLogin and and mode. currentLogin is an oject that stores the account information for the person who is currently logged in.
+  App maintains state in the form of currentLogin and and mode. currentLogin is an object that stores the account information for the person who is currently logged in.
   Mode determines which page is being displayed.
   */
 
@@ -52,6 +52,7 @@ class App extends Component {
       return (
         <div className="App">
           <HomePage setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+
         </div>
       );
     }

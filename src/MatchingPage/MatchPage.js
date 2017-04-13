@@ -4,7 +4,7 @@
   This provides the implementation for the MatchPage component.
 
   MatchPage maintains state in the form of currentLogin and currentArtist
-    -currentLogin stores a username
+    -currentLogin stores an id
     -currentArtist stores the idex in the array of data of the artist object we are looking at
 
 
@@ -59,33 +59,34 @@ class MatchPage extends Component{
     super(props);
 
     this.state = {
-      currentLogin: 'username1',
+      currentLogin: this.props.userObject.id,
       currentArtist: 1
     };
   }
 
   handleLike(){
     const numberOfArtists = data.length;
+    const userid = this.props.userObject.id;
     /*Adds currentAritst to currentLogin’s property PeopleYouLike */
-    //console.log(data);
+    console.log(data);
+    console.log(this.props.userObject);
     for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] == this.state.currentLogin){
-          (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['username']);
-          console.log(data[i]['peopleYouLike']);
-          for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
-            if (data[this.state.currentArtist]['username'] === data[i]['peopleWhoLikedYou'][j]){
-              data[i]['currentMatches'].push(data[this.state.currentArtist]['username']);
-              console.log(data[i]['currentMatches']);
-            };
+        (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['id']);
+        console.log(data[i]['peopleYouLike']);
+        for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
+          if (data[this.state.currentArtist]['id'] === data[i]['peopleWhoLikedYou'][j]){
+            data[i]['currentMatches'].push(data[this.state.currentArtist]['id']);
+            console.log(data[i]['currentMatches']);
           };
-      }
-    }
+        };
+
+    };
 
 
 
     for(let i = 0; i < numberOfArtists; i++){
       /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
-      if(data[i]['username'] == data[this.state.currentArtist]['username']){
+      if(data[i]['id'] == data[this.state.currentArtist]['id']){
           (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
           console.log(data[i]['peopleWhoLikedYou']);
       }
@@ -106,7 +107,7 @@ class MatchPage extends Component{
     const numberOfArtists = data.length;
     let currentArtistsSongs;
     for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] == data[this.state.currentArtist]['username']){
+      if(data[i]['id'] == data[this.state.currentArtist]['id']){
           currentArtistsSongs = data[i]['songs'];
       }
     }

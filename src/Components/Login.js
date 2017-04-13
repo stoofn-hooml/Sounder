@@ -23,7 +23,7 @@ const UsernameInput = styled.div`
 `;
 
 const LoginButton = styled.div`
-  background-color: #525252; /* Green */
+  background-color: #525252;
   border: none;
   color: white;
   padding: 10px 20px 10px 20px;

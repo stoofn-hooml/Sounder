@@ -39,10 +39,11 @@ const BoxArea=styled.div`
   margin: auto;
 `
 const Button = styled.button`
-  background-color: #525252; /* Green */
+  background-color: #525252;
   border: none;
   color: white;
-  padding: 15px 24px;
+  border-radius: 28px;
+  padding: 10px 20px 10px 20px;
   margin-right: 10px;
   text-align: center;
   text-decoration: none;

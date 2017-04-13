@@ -4,7 +4,7 @@
   This provides the implementation for the MatchPage component.
 
   MatchPage maintains state in the form of currentLogin and currentArtist
-    -currentLogin stores a username
+    -currentLogin stores an id
     -currentArtist stores the idex in the array of data of the artist object we are looking at
 
 
@@ -13,11 +13,41 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import data from '../../public/sounderUsers.json';
 
-const ArtistProfile=styled.li`
-  display:inline;
-  padding: 5px;
+const MatchingPage = styled.div`
+  text-align: center;
 `;
 
+const ArtistName=styled.li`
+  display:inline;
+  text-align: center;
+  padding: 5px;
+  color: #ff7700;
+  font-size: 24px;
+  font-style: italic;
+`;
+const ArtistFollowers=styled.li`
+  display:inline;
+  text-align: center;
+  padding: 5px;
+  color: #ff7700;
+  font-size: 16px;
+`;
+const Button = styled.button`
+  background-color: #525252;
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 28px;
+  font-size: 16px;
+  &:hover {
+    .button {
+      display: none;
+    }
+`;
 
 
 function ArtistTile(props){
@@ -25,12 +55,14 @@ function ArtistTile(props){
   const artist = props.artist;
   let artistInfo = [];
   const numberOfFollowers=artist['followers'].length;
-  const artistName = artist['username']
-  artistInfo.push((<ArtistProfile key={artistName + "-" + numberOfFollowers}> {"Followers: " + numberOfFollowers}</ArtistProfile>));
-  artistInfo.push((<ArtistProfile key={artistName}> {"Artist: " + artistName}</ArtistProfile>));
+  const artistName = artist['username'];
+  artistInfo.push((<div><ArtistName key={artistName}> {artistName}</ArtistName></div>));
+  artistInfo.push((<div><ArtistFollowers key={artistName + "-" + numberOfFollowers}> {numberOfFollowers + " Followers"}</ArtistFollowers></div>));
+
 
   return (
     <div>
+    <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" width="128px" height="128px" />
     {artistInfo}
     </div>
   )
@@ -59,26 +91,35 @@ class MatchPage extends Component{
     super(props);
 
     this.state = {
-      currentLogin: 'username1',
+      currentLogin: this.props.userObject.id,
       currentArtist: 1
     };
   }
 
   handleLike(){
     const numberOfArtists = data.length;
+    const userid = this.props.userObject.id;
     /*Adds currentAritst to currentLogin’s property PeopleYouLike */
-    for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] === this.state.currentLogin){
-          (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['username']);
-          console.log(data[i]['peopleYouLike']);
-      }
-    }
+    console.log(data);
+    console.log(this.props.userObject);
+    console.log(this.state.currentArtist);
+    // for(let i = 0; i < numberOfArtists; i++){
+    //     (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['id']);
+    //     console.log(data[i]['peopleYouLike']);
+    //     for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
+    //       if (data[this.state.currentArtist]['id'] === data[i]['peopleWhoLikedYou'][j]){
+    //         data[i]['currentMatches'].push(data[this.state.currentArtist]['id']);
+    //         console.log(data[i]['currentMatches']);
+    //       };
+    //     };
+    //
+    // };
 
 
 
     for(let i = 0; i < numberOfArtists; i++){
       /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
-      if(data[i]['username'] === data[this.state.currentArtist]['username']){
+      if(data[i]['id'] == data[this.state.currentArtist]['id']){
           (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
           console.log(data[i]['peopleWhoLikedYou']);
       }
@@ -99,7 +140,7 @@ class MatchPage extends Component{
     const numberOfArtists = data.length;
     let currentArtistsSongs;
     for(let i = 0; i < numberOfArtists; i++){
-      if(data[i]['username'] === data[this.state.currentArtist]['username']){
+      if(data[i]['id'] == data[this.state.currentArtist]['id']){
           currentArtistsSongs = data[i]['songs'];
       }
     }
@@ -109,13 +150,13 @@ class MatchPage extends Component{
     const artistTile = (<ArtistTile artist={data[this.state.currentArtist]}/>)
 
     return(
-      <div>
+      <MatchingPage>
         <ul>{artistTile}</ul>
         {songTiles}
-        <input type="button" onClick={()=>this.handleNext()} value="Next" />
-        <input type="button" onClick={()=>this.handleLike()} value="Like" />
-        <input type="button" value="Back to Home" onClick={()=>this.props.setMode()}/>
-      </div>
+        <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
+        <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
+        <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
+      </MatchingPage>
     );
   }
 }

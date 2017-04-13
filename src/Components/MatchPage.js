@@ -13,9 +13,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import data from '../../public/sounderUsers.json';
 
-const ArtistProfile=styled.li`
+const ArtistName=styled.li`
   display:inline;
+  text-align: center;
   padding: 5px;
+  color: #ff7700;
+  font-size: 16px;
+  font-style: italic;
+`;
+const ArtistFollowers=styled.li`
+  display:inline;
+  text-align: center;
+  padding: 5px;
+  color: #ff7700;
+  font-size: 10px;
 `;
 
 
@@ -25,9 +36,10 @@ function ArtistTile(props){
   const artist = props.artist;
   let artistInfo = [];
   const numberOfFollowers=artist['followers'].length;
-  const artistName = artist['username']
-  artistInfo.push((<ArtistProfile key={artistName + "-" + numberOfFollowers}> {"Followers: " + numberOfFollowers}</ArtistProfile>));
-  artistInfo.push((<ArtistProfile key={artistName}> {"Artist: " + artistName}</ArtistProfile>));
+  const artistName = artist['username'];
+  artistInfo.push((<div><ArtistName key={artistName}> {artistName}</ArtistName></div>));
+  artistInfo.push((<div><ArtistFollowers key={artistName + "-" + numberOfFollowers}> {numberOfFollowers + " Followers"}</ArtistFollowers></div>));
+
 
   return (
     <div>
@@ -70,35 +82,24 @@ class MatchPage extends Component{
     /*Adds currentAritst to currentLogin’s property PeopleYouLike */
     console.log(data);
     console.log(this.props.userObject);
-    for(let i = 0; i < numberOfArtists; i++){
-<<<<<<< HEAD:src/MatchingPage/MatchPage.js
-        (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['id']);
-        console.log(data[i]['peopleYouLike']);
-        for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
-          if (data[this.state.currentArtist]['id'] === data[i]['peopleWhoLikedYou'][j]){
-            data[i]['currentMatches'].push(data[this.state.currentArtist]['id']);
-            console.log(data[i]['currentMatches']);
-          };
-        };
-
-    };
-=======
-      if(data[i]['username'] === this.state.currentLogin){
-          (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['username']);
-          console.log(data[i]['peopleYouLike']);
-      }
-    }
->>>>>>> dfe14c7b8a1b56f18f2083c3550aa6fc9eb7ebce:src/Components/MatchPage.js
+    console.log(this.state.currentArtist);
+    // for(let i = 0; i < numberOfArtists; i++){
+    //     (data[i]['peopleYouLike']).push(data[this.state.currentArtist]['id']);
+    //     console.log(data[i]['peopleYouLike']);
+    //     for (let j=0; j<data[i]['peopleWhoLikedYou'].length; j++){
+    //       if (data[this.state.currentArtist]['id'] === data[i]['peopleWhoLikedYou'][j]){
+    //         data[i]['currentMatches'].push(data[this.state.currentArtist]['id']);
+    //         console.log(data[i]['currentMatches']);
+    //       };
+    //     };
+    //
+    // };
 
 
 
     for(let i = 0; i < numberOfArtists; i++){
       /*Adds currentLogin to currentArtist’s property PeopleWhoLikeYou*/
-<<<<<<< HEAD:src/MatchingPage/MatchPage.js
       if(data[i]['id'] == data[this.state.currentArtist]['id']){
-=======
-      if(data[i]['username'] === data[this.state.currentArtist]['username']){
->>>>>>> dfe14c7b8a1b56f18f2083c3550aa6fc9eb7ebce:src/Components/MatchPage.js
           (data[i]['peopleWhoLikedYou']).push(this.state.currentLogin);
           console.log(data[i]['peopleWhoLikedYou']);
       }
@@ -119,11 +120,7 @@ class MatchPage extends Component{
     const numberOfArtists = data.length;
     let currentArtistsSongs;
     for(let i = 0; i < numberOfArtists; i++){
-<<<<<<< HEAD:src/MatchingPage/MatchPage.js
       if(data[i]['id'] == data[this.state.currentArtist]['id']){
-=======
-      if(data[i]['username'] === data[this.state.currentArtist]['username']){
->>>>>>> dfe14c7b8a1b56f18f2083c3550aa6fc9eb7ebce:src/Components/MatchPage.js
           currentArtistsSongs = data[i]['songs'];
       }
     }

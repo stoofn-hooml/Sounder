@@ -16,7 +16,7 @@ import data from '../../public/sounderUsers.json';
 
 const ArtistName=styled.li`
   display:inline;
-  text-align: center;
+  text-align: right;
   padding: 5px;
   color: #ff7700;
   font-size: 24px;
@@ -43,10 +43,14 @@ const Button = styled.button`
   border-radius: 28px;
   font-size: 16px;
   &:hover {
-    .button {
-      display: none;
-    }
+   background-color:#FF7700;
+ }
 `;
+
+const CenteredTitle=styled.h1`
+  text-align: center;
+`;
+
 
 
 function ArtistTile(props){
@@ -61,8 +65,10 @@ function ArtistTile(props){
 
   return (
     <div>
-    <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" width="128px" height="128px" />
+    <span>
+    <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" width="160px" height="160px" />
     {artistInfo}
+    </span>
     </div>
   )
 
@@ -149,13 +155,15 @@ class MatchPage extends Component{
     const artistTile = (<ArtistTile artist={data[this.state.currentArtist]}/>)
 
     return(
-      <div>
+      <CenteredTitle>
         <ul>{artistTile}</ul>
         {songTiles}
+        <CenteredTitle>
         <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
         <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
         <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
-      </div>
+        </CenteredTitle>
+      </CenteredTitle>
 
 
     );

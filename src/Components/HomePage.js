@@ -20,6 +20,41 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 //import data from '../../public/sounderUsers.json';
 
+const Row = styled.div`
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+`
+const Column = styled.div`
+  display: table-cell;
+`
+
+
+const Username=styled.li`
+  display:inline;
+  padding: 5px;
+  color: #ff7700;
+  font-size: 60px;
+  font-style: italic;
+  margin-left: 50px;
+  width: 30%;
+`;
+const ArtistName=styled.li`
+  display:inline;
+  text-align: center;
+  padding: 5px;
+  font-size: 24px;
+  font-style: italic;
+`;
+const ArtistFollowers=styled.li`
+  display:inline;
+  text-align: center;
+  padding: 5px;
+  color: #ff7700;
+  font-size: 16px;
+`;
+
 
 const ListOfMatches = styled.ul`
   list-style: none;
@@ -27,6 +62,10 @@ const ListOfMatches = styled.ul`
 
 const MatchNames = styled.li`
   margin: 1.5em 0;
+  &:hover {
+    color:#FF7700;
+    font-weight:bold;
+  }
 `;
 
 const CenteredTitle=styled.h1`
@@ -50,22 +89,29 @@ const Button = styled.button`
   display: inline-block;
   font-size: 16px;
   &:hover {
-    .button {
-      display: none;
-    }
+   background-color:#FF7700;
+  }
 `
 function LoginProfileBox(props){
   return (
   <div>
-  <CenteredTitle>{props.currentLogin['username']}</CenteredTitle>
+
   <BoxArea>
-  <h3>Picture: {props.currentLogin['profilePicture']}</h3>
-  <h3>Karma Rating: {props.currentLogin['karma']}</h3>
-  <h3>Followers: {props.currentLogin['numFollowers']}</h3>
-  <h3>Genre: {props.currentLogin['genre']}</h3>
+  <Row>
+  <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" width="40%" height="40%" />
+  <Username>{props.currentLogin['username']}</Username>
+  </Row>
+  <div>
+  <ArtistName>Karma Rating: {props.currentLogin['karma']}</ArtistName>
+
+  <ArtistName>Karma Rating: {props.currentLogin['karma']}</ArtistName>
+  <ArtistName>Followers: {props.currentLogin['numFollowers']}</ArtistName>
+  <ArtistName>Genre: {props.currentLogin['genre']}</ArtistName>
+  </div>
   <h3>Promoted Tracks: {props.currentLogin['songs']}</h3>
   <h3>see more:  {props.currentLogin['profileURL']}</h3>
   </BoxArea>
+
   </div>);
 };
 

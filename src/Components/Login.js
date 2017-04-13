@@ -13,6 +13,8 @@ import styled from 'styled-components';
 
 const LoginPage = styled.div`
   text-align: center;
+  margin-top: 100px;
+  height: 50%;
 `;
 
 const UsernameInput = styled.div`
@@ -20,7 +22,12 @@ const UsernameInput = styled.div`
   position: relative;
   padding: 10px;
   font-size: 16px;
+  height:50;
+  width: 300px;
+  display: inline-block;
 `;
+
+
 
 const LoginButton = styled.div`
   background-color: #525252; /* Green */
@@ -34,10 +41,11 @@ const LoginButton = styled.div`
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin-top: 10px;
   &:hover {
-    .button {
-      display: none;
-    }
+   background-color:#FF7700;
+ }
+
 `;
 
 const SounderHeader = styled.div`
@@ -45,6 +53,12 @@ const SounderHeader = styled.div`
   font-weight: bold;
   font-variant: small-caps;
   color:#525252;
+`;
+
+const Input = styled.input`
+  width:200px;
+  height:25px;
+
 `;
 
 class Login extends Component{
@@ -55,12 +69,14 @@ class Login extends Component{
     }
   };
 
+
+
 handleUsername(inputEvent){
   this.setState({username: inputEvent.target.value});
 }
 
 render() {
-  let usernameInput = (<input type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
+  let usernameInput = (<Input  type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
   let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
 
   return(

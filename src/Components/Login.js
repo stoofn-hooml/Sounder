@@ -9,7 +9,43 @@
 
 */
 import React, { Component } from 'react';
+import styled from 'styled-components';
 
+const LoginPage = styled.div`
+  text-align: center;
+`;
+
+const UsernameInput = styled.div`
+  background-color: #FF7700; /* orange  */
+  position: relative;
+  padding: 10px;
+  font-size: 16px;
+`;
+
+const LoginButton = styled.div`
+  background-color: #525252; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  cursor: pointer;
+  border-radius: 28px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  &:hover {
+    .button {
+      display: none;
+    }
+`;
+
+const SounderHeader = styled.div`
+  font-size: 3.0em;
+  font-weight: bold;
+  font-variant: small-caps;
+  color:#525252;
+`;
 
 class Login extends Component{
   constructor(){
@@ -25,20 +61,20 @@ handleUsername(inputEvent){
 
 render() {
   let usernameInput = (<input type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
-  let signIn = (<button onClick={()=>this.props.setProfile(this.state.username)}>Sign In</button>);
+  let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
 
   return(
-    <div>
-      <h1>
+    <LoginPage>
+      <SounderHeader>
       Sounder
-      </h1>
-      <div>
+      </SounderHeader>
+      <UsernameInput>
       {usernameInput}
-      </div>
+      </UsernameInput>
       <div>
     {signIn}
       </div>
-    </div>
+    </LoginPage>
     );
 
   }

@@ -39,7 +39,7 @@ const BoxArea=styled.div`
   margin: auto;
 `
 const Button = styled.button`
-  background-color: black; /* Green */
+  background-color: #525252; /* Green */
   border: none;
   color: white;
   padding: 15px 24px;

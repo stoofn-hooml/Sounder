@@ -11,7 +11,7 @@
 
   HomePage uses three functional components: LoginProfileBox, MatchList, and MatchProfileBox. LoginProfileBox represents the user
   profile of whoever is currently logged in. MatchList represents the list of people you matched with. MatchProfileBox
-  represents the profile of one of your matches. 
+  represents the profile of one of your matches.
 
 */
 
@@ -38,7 +38,21 @@ const BoxArea=styled.div`
   width: 50%;
   margin: auto;
 `
-
+const Button = styled.button`
+  background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 24px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  &:hover {
+    .button {
+      display: none;
+    }
+`
 function LoginProfileBox(props){
   return (
   <div>
@@ -66,7 +80,7 @@ function MatchList(props){
 
 function MatchProfileBox(props){
   let viewmatch = props.currentMatchProfile;
-  let exploreMatchesButton = (<button onClick={()=>props.changeMatch()}>See other matches</button>);
+  let exploreMatchesButton = (<Button onClick={()=>props.changeMatch()}>See other matches</Button>);
   return(
     <BoxArea>
       <h3>{viewmatch.username}</h3>
@@ -110,9 +124,9 @@ class HomePage extends Component{
     this.setState({currentMatchProfile: null});
   }
   render() {
-    let logOut = (<button onClick={()=>this.props.setLogout()}>Log Out</button>);
-    let startMatching = (<button onClick={()=>this.props.setMode('matching')}> Start Matching</button>);
-    let matchingSettings = (<button onClick={()=>this.props.setMode('matchingSettings')}> Edit Matching Settings</button>);
+    let logOut = (<Button onClick={()=>this.props.setLogout()}>Log Out</Button>);
+    let startMatching = (<Button onClick={()=>this.props.setMode('matching')}> Start Matching</Button>);
+    let matchingSettings = (<Button onClick={()=>this.props.setMode('matchingSettings')}> Edit Matching Settings</Button>);
 
     let loginProfileBox = (<LoginProfileBox currentLogin={this.props.currentLogin}/>);
 

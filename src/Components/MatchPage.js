@@ -13,9 +13,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import data from '../../public/sounderUsers.json';
 
-const MatchingPage = styled.div`
-  text-align: center;
-`;
 
 const ArtistName=styled.li`
   display:inline;
@@ -37,6 +34,8 @@ const Button = styled.button`
   border: none;
   color: white;
   padding: 10px 20px 10px 20px;
+  border: none;
+  color: white;
   margin-right: 10px;
   text-align: center;
   text-decoration: none;
@@ -150,13 +149,15 @@ class MatchPage extends Component{
     const artistTile = (<ArtistTile artist={data[this.state.currentArtist]}/>)
 
     return(
-      <MatchingPage>
+      <div>
         <ul>{artistTile}</ul>
         {songTiles}
         <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
         <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
         <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
-      </MatchingPage>
+      </div>
+
+
     );
   }
 }

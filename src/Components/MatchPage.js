@@ -18,7 +18,7 @@ const ArtistName=styled.li`
   text-align: center;
   padding: 5px;
   color: #ff7700;
-  font-size: 16px;
+  font-size: 24px;
   font-style: italic;
 `;
 const ArtistFollowers=styled.li`
@@ -26,9 +26,23 @@ const ArtistFollowers=styled.li`
   text-align: center;
   padding: 5px;
   color: #ff7700;
-  font-size: 10px;
+  font-size: 16px;
 `;
-
+const Button = styled.button`
+  background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 24px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  &:hover {
+    .button {
+      display: none;
+    }
+`;
 
 
 function ArtistTile(props){
@@ -43,6 +57,7 @@ function ArtistTile(props){
 
   return (
     <div>
+    <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" width="128px" height="128px" />
     {artistInfo}
     </div>
   )
@@ -133,9 +148,9 @@ class MatchPage extends Component{
       <div>
         <ul>{artistTile}</ul>
         {songTiles}
-        <input type="button" onClick={()=>this.handleNext()} value="Next" />
-        <input type="button" onClick={()=>this.handleLike()} value="Like" />
-        <input type="button" value="Back to Home" onClick={()=>this.props.setMode()}/>
+        <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
+        <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
+        <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
       </div>
     );
   }

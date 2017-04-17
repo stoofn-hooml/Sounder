@@ -10,6 +10,19 @@
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Form from 'react-bootstrap/lib/Form.js';
+import FormGroup from 'react-bootstrap/lib/FormGroup.js';
+import FormControl from 'react-bootstrap/lib/FormControl.js';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel.js';
+import Checkbox from 'react-bootstrap/lib/Checkbox.js';
+
+
+import Col from 'react-bootstrap/lib/Col.js';
+import Button from 'react-bootstrap/lib/Button.js';
+
+
+
+
 
 const LoginPage = styled.div`
   text-align: center;
@@ -90,6 +103,39 @@ render() {
       <div>
     {signIn}
       </div>
+      <Form horizontal>
+    <FormGroup controlId="formHorizontalEmail">
+      <Col componentClass={ControlLabel} sm={2}>
+        Email
+      </Col>
+      <Col sm={10}>
+        <FormControl type="email" placeholder="Email" />
+      </Col>
+    </FormGroup>
+
+    <FormGroup controlId="formHorizontalPassword">
+      <Col componentClass={ControlLabel} sm={2}>
+        Password
+      </Col>
+      <Col sm={10}>
+        <FormControl type="password" placeholder="Password" />
+      </Col>
+    </FormGroup>
+
+    <FormGroup>
+      <Col smOffset={2} sm={10}>
+        <Checkbox>Remember me</Checkbox>
+      </Col>
+    </FormGroup>
+
+    <FormGroup>
+      <Col smOffset={2} sm={10}>
+        <Button type="submit">
+          Sign in
+        </Button>
+      </Col>
+    </FormGroup>
+  </Form>
     </LoginPage>
     );
 

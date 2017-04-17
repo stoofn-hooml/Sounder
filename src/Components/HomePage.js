@@ -36,9 +36,11 @@ function HomePage(props) {
     <Grid>
       <Row>
         <Col lg={9}>
-          <UserDetail currentLogin={props.currentLogin} />
           <Row>
-            <Col>
+          <UserDetail currentLogin={props.currentLogin} />
+          </Row>
+          <Row>
+            <Col lg={9}>
               <span>
                 <Button onClick={()=>props.setLogout()}>Log Out</Button>
                 <Button onClick={()=>props.setMode('matching')}> Start Matching</Button>

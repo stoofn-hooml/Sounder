@@ -31,10 +31,8 @@ function UserDetail(props){
           </Grid>
         </Col>
         </Row>
-        <Col lg={12}>
-          {props.currentLogin['songs'][0]}
-          {props.currentLogin['songs'][1]}
-          {props.currentLogin['songs'][2]}
+        <Col lg={9}>
+        <img src="https://en-support.files.wordpress.com/2009/08/soundcloud-track1.png" width="90%" height="100%" />
         </Col>
     </Grid>
 

@@ -1,9 +1,8 @@
-
 const usersTable = function(table){
   table.increments('id').primary();
   table.string('username');
   table.integer('numFollowers');
-  table.blob('profilePicture');
+  table.string('profilePictureURL');
   table.integer('karma');
   table.string('profileURL')
   table.string('genre')

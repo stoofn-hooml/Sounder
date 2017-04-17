@@ -51,7 +51,7 @@ class MatchPage extends Component{
 
     return(
       <Grid>
-        <Row>
+        <Row bsClass="topRow">
           <Col>
             <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
           </Col>

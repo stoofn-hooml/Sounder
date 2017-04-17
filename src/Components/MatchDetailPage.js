@@ -34,7 +34,7 @@ function MatchDetailPage(props){
 
     return (
       <Grid>
-        <Row>
+        <Row bsClass="topRow">
           <Col lg={3}>
             <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} />
           </Col>

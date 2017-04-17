@@ -28,19 +28,17 @@ import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 import Button from 'react-bootstrap/lib/Button.js';
-
+import '../index.css';
 
 function HomePage(props) {
 
   return (
     <Grid>
-      <Row>
+      <Row bsClass="topRow">
         <Col lg={9}>
-          <Row>
           <UserDetail currentLogin={props.currentLogin} />
-          </Row>
           <Row>
-            <Col lg={9}>
+            <Col>
               <span>
                 <Button onClick={()=>props.setLogout()}>Log Out</Button>
                 <Button onClick={()=>props.setMode('matching')}> Start Matching</Button>

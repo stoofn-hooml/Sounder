@@ -28,11 +28,13 @@ app.use(express.static(__dirname + '/site'));
 
 app.get('/sounder/users/', (request,response) =>{
   users.select().then((data)=>{
-    knex.select().from('users').where('karma', 2).then((values)=>{
       response.send(values);
     });
   });
-});
+
+app.get('/sounder/users/:id', (request, response) =>{
+  users.select
+}
 
 
 

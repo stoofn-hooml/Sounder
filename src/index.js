@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Profile from './profile/profile.js';
-import Matches from './matches.js';
+import App from './App.js';
 import './index.css';
 
 ReactDOM.render(
-  <Matches />,
+  <App/>,
+
   document.getElementById('root')
 );

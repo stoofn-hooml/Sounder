@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
+import Image from 'react-bootstrap/lib/Image.js'
 
 const UsernameRow = styled(Row)`
   color: #ff7700;
@@ -29,9 +30,9 @@ function UserDetail(props){
     <Grid >
       <Row>
         <Col lg={2} sm={2} >
-        <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg"  width="114px" height="114px" />
+          <Image src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg"  circle bsStyle="margin:10px;" width="114px" height="114px" />
         </Col>
-        <Col lg={8} sm={4} >
+        <Col lg={7} sm={3} >
           <Grid>
             <UsernameRow >{props.currentLogin['username']}</UsernameRow>
             <UserDetailRow >Genre: {props.currentLogin['genre']}</UserDetailRow>

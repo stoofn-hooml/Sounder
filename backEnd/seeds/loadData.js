@@ -18,23 +18,25 @@ exports.seed = function(knex, Promise) {
   };
 });
 
-  const matchData = data.map((user)=>{
-    for (follower of user.followers) {
-      return {
-        id: user.id,
-        follower: follower
-      };
-    };
-  });
+const matchData = [];
 
-  // Deletes ALL existing entries
-  return knex('users').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('users').insert(userData);
-    });
-    .then(function () {
-      // Inserts seed entries
-      return knex('matches').insert(matchData);
-    })
+  for (var i = 0; i < data.length; i++) {
+    for (var j = 0; j < data[i].followers.length; j++){
+      matchData.push( {
+        user1_id: data[i].id,
+        follower: data[i].followers[j]
+      })
+    }
+  }
+
+  return Promise.all([
+    knex('users').del(),
+    knex('matches').del(),
+  ])
+  .then(()=>{
+    return Promise.all([
+      knex('users').insert(userData),
+      knex('matches').insert(matchData),
+    ])
+  })
 };

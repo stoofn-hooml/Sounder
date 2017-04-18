@@ -37,7 +37,7 @@ function HomePage(props) {
     <Grid>
       <Row bsClass="topRow">
         <Col lg={9}>
-          <UserDetail currentLogin={props.currentLogin} />
+          <UserDetail class="LeftSideObject" currentLogin={props.currentLogin} />
         </Col>
         <Col lg={3}>
           <MatchLog matchlist={props.matchlist} clickMatch={(match)=>props.clickMatch(match)}/>

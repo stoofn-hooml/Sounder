@@ -31,10 +31,9 @@ const CenteredTitle=styled.h1`
   border-bottom: 2px solid #ff4b00;
 `;
 
-const MatchName = styled(Button)`
+const MatchName = styled(ListGroupItem)`
   color: black;
-  font-size: 18px;
-  margin-top: 5px;
+  font-size: 16px;
   curson: pointer;
   &:hover {
    color: #FF7700;
@@ -61,16 +60,16 @@ function MatchLog(props){
     </MatchPreview>
   );
     return (
-      <ListGroupItem>
-      <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-        <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}><Col>{name}</Col></MatchName>
-      </OverlayTrigger>
-      </ListGroupItem>
+        <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
+          <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
+            <Col lg={2}>{name}</Col>
+          </OverlayTrigger>
+        </MatchName>
     );
   });
 
   return (
-    <Grid bsStyle="border: 1px solid black">
+    <Grid>
       <Row>
         <Col lg={2}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>

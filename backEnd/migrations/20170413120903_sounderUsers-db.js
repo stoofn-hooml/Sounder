@@ -12,7 +12,7 @@ const usersTable = function(table){
 
 const matchTable = function(table){
   table.integer('user1_id');
-  table.integer('user2_id');
+  table.integer('user2_username');
 }
 
 

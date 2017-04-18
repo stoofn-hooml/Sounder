@@ -5,25 +5,42 @@ const data = JSON.parse(contents);
 
 
 exports.seed = function(knex, Promise) {
-  const records = data.map((record)=>{
+  const userData = data.map((user)=>{
     return {
-    username: record.username,
-    profilePicture: record.profilePicture,
-    numFollowers: record.numFollowers,
-    karma: record.karma,
-    profileURL: record.profileURL,
-    genre: record.genre,
-    followerRange: record.followerRange,
-    online: record.online
+    username: user.username,
+    profilePicture: user.profilePicture,
+    numFollowers: user.numFollowers,
+    karma: user.karma,
+    profileURL: user.profileURL,
+    genre: user.genre,
+    followerRange: user.followerRange,
+    online: user.online
   };
 });
-
 
   // Deletes ALL existing entries
   return knex('users').del()
     .then(function () {
       // Inserts seed entries
-      return knex('users').insert(records);
+      return knex('users').insert(userData);
+    });
+};
+
+
+exports.seed = function(knew, Promise) {
+  const matchData = data.map((user)=>{
+    for (follower of user.followers) {
+      return {
+        id: user.id,
+        follower: follower
+      }
+    }
+  });
+
+  return knex('matches').del()
+    .then(function () {
+      // Inserts seed entries
+      return knex('matches').insert(matchData);
     });
 };
 

@@ -28,6 +28,7 @@ import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 import Button from 'react-bootstrap/lib/Button.js';
+import NavBar from './NavBar.js';
 import '../index.css';
 
 function HomePage(props) {
@@ -37,15 +38,6 @@ function HomePage(props) {
       <Row bsClass="topRow">
         <Col lg={9}>
           <UserDetail currentLogin={props.currentLogin} />
-          <Row>
-            <Col>
-              <span>
-                <Button onClick={()=>props.setLogout()}>Log Out</Button>
-                <Button onClick={()=>props.setMode('matching')}> Start Matching</Button>
-                <Button onClick={()=>props.setMode('settings')}> Edit Matching Settings</Button>
-              </span>
-            </Col>
-          </Row>
         </Col>
         <Col lg={3}>
           <MatchLog matchlist={props.matchlist} clickMatch={(match)=>props.clickMatch(match)}/>

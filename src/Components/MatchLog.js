@@ -22,6 +22,8 @@ import Button from 'react-bootstrap/lib/Button.js';
 import ListGroup from 'react-bootstrap/lib/ListGroup.js';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem.js';
 import '../index.css';
+import Popover from 'react-bootstrap/lib/Popover.js';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
 
 const CenteredTitle=styled.h1`
   font-weight: bold;
@@ -29,10 +31,42 @@ const CenteredTitle=styled.h1`
   border-bottom: 2px solid #ff4b00;
 `;
 
+const MatchName = styled(Button)`
+  color: black;
+  font-size: 18px;
+  margin-top: 5px;
+  curson: pointer;
+  &:hover {
+   color: #FF7700;
+ }
+
+`;
+
+const MatchPreview = styled(Popover)`
+  width: 400px;
+
+`
+
+
 function MatchLog(props){
+
   const matchlog = (props.matchlist).map((user)=>{
     let name = user.username;
-    return (<ListGroupItem key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>{name}</ListGroupItem>);
+    const popoverHoverFocus = (
+    <MatchPreview id="popover-trigger-hover-focus" title={name}  positionLeft={200}
+      positionTop={50}>
+      <p><strong>Genre</strong> {user.genre}</p>
+      <p><strong>Followers</strong> {user.numFollowers}</p>
+      <p><strong>Karma</strong> {user.karma}</p>
+    </MatchPreview>
+  );
+    return (
+      <ListGroupItem>
+      <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
+        <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}><Col>{name}</Col></MatchName>
+      </OverlayTrigger>
+      </ListGroupItem>
+    );
   });
 
   return (

@@ -23,7 +23,7 @@ import data from '../public/sounderUsers.json';
 import LoginPage from './Components/LoginPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
-
+import NavBar from './Components/NavBar.js';
 
 
 class App extends Component {
@@ -97,6 +97,7 @@ class App extends Component {
     if(this.state.mode ==='home'){
       return (
         <div className="App">
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         </div>
       );
@@ -104,6 +105,8 @@ class App extends Component {
     if(this.state.mode ==='login'){
       return (
         <div className="App">
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+
           <LoginPage setProfile={(username)=>this.handleSignIn(username)}/>
         </div>
       );
@@ -112,6 +115,8 @@ class App extends Component {
     if(this.state.mode === 'matchdetails'){
       return (
         <div>
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} currentMatch={this.state.currentMatch} setMode={(article)=>this.setState({mode:'home'})} />
         </div>
       );
@@ -120,13 +125,19 @@ class App extends Component {
     if(this.state.mode==='settings'){
       return (
         <div className="App">
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+
           <MatchingSettingsPage setProfile={(username)=>this.handleSignIn(username)} setMode={(article)=>this.setState({mode:'home'})}/>
         </div>
       );
     }
     else {
       return (
+      <div>
+      <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+
       <MatchPage currentLogin={this.state.currentLogin} futureMatches = {this.state.futurematches} setMode={(article)=>this.setState({mode:'home'})}/>
+      </div>
       );
     }
   }

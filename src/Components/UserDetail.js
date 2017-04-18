@@ -12,22 +12,32 @@ import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 
+const UsernameRow = styled(Row)`
+  color: #ff7700;
+  font-size: 24px;
+  padding: 0;
+`;
+
+const UserDetailRow = styled(Row)`
+  font-weight: bold;
+`;
+
 function UserDetail(props){
   return (
 
 
-    <Grid>
+    <Grid >
       <Row>
-        <Col lg={4}>
-        <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" border-radius="50%" width="100px" height="100px" />
+        <Col lg={2} sm={2} >
+        <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg"  width="114px" height="114px" />
         </Col>
-        <Col lg={8}>
+        <Col lg={8} sm={4} >
           <Grid>
-            <Row>{props.currentLogin['username']}</Row>
-            <Row>Genre: {props.currentLogin['genre']}</Row>
-            <Row>Karma Rating: {props.currentLogin['karma']}</Row>
-            <Row>Followers: {props.currentLogin['numFollowers']}</Row>
-            <Row>see more:  {props.currentLogin['profileURL']}</Row>
+            <UsernameRow >{props.currentLogin['username']}</UsernameRow>
+            <UserDetailRow >Genre: {props.currentLogin['genre']}</UserDetailRow>
+            <UserDetailRow >Karma Rating: {props.currentLogin['karma']}</UserDetailRow>
+            <UserDetailRow >Followers: {props.currentLogin['numFollowers']}</UserDetailRow>
+            <UserDetailRow >see more:  {props.currentLogin['profileURL']}</UserDetailRow>
           </Grid>
         </Col>
         </Row>

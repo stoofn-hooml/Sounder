@@ -28,13 +28,18 @@ app.use(express.static(__dirname + '/site'));
 
 app.get('/sounder/users/', (request,response) =>{
   users.select().then((data)=>{
-      response.send(values);
+      response.send(data);
     });
   });
 
 app.get('/sounder/users/:id', (request, response) =>{
-  users.select
-}
+  const userID = parseInt(request.params.id);
+  users.select().then((data)=>{
+    knex.select().from('users').where('id', userID).then((values)=>{
+      response.send(values);
+    });
+  });
+});
 
 
 

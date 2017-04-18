@@ -7,6 +7,7 @@ const data = JSON.parse(contents);
 exports.seed = function(knex, Promise) {
   const userData = data.map((user)=>{
     return {
+    id: user.id,
     username: user.username,
     profilePictureURL: user.profilePicture,
     numFollowers: user.numFollowers,

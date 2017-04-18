@@ -1,5 +1,5 @@
 const usersTable = function(table){
-  table.increments('id').primary();
+  table.integer('id').primary();
   table.string('username');
   table.integer('numFollowers');
   table.string('profilePictureURL');

@@ -19,7 +19,7 @@ function UserDetail(props){
     <Grid>
       <Row>
         <Col lg={4}>
-        <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg" border-radius="50%" width="100px" height="100px" />
+        <img src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg"  width="100px" height="100px" />
         </Col>
         <Col lg={8}>
           <Grid>

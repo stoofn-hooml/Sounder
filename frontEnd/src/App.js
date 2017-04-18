@@ -105,7 +105,6 @@ class App extends Component {
     if(this.state.mode ==='login'){
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <LoginPage setProfile={(username)=>this.handleSignIn(username)}/>
         </div>

@@ -42,11 +42,6 @@ function MatchDetailPage(props){
             <UserDetail currentLogin={props.currentMatch} />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Button value="Back to Home" onClick={()=>props.setMode()}>Back To Home</Button>
-          </Col>
-        </Row>
       </Grid>
     )
 

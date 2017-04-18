@@ -52,11 +52,6 @@ class MatchPage extends Component{
     return(
       <Grid>
         <Row bsClass="topRow">
-          <Col>
-            <Button value="Back to Home" onClick={()=>this.props.setMode()}>Back To Home</Button>
-          </Col>
-        </Row>
-        <Row>
           <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
         </Row>
         <Row>

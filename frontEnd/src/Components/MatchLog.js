@@ -41,6 +41,13 @@ const MatchName = styled(ListGroupItem)`
 
 `;
 
+const MatchNameStyle = styled(Col)`
+ curson: pointer;
+  &:hover {
+   color: #FF7700;
+ }
+`
+
 const MatchPreview = styled(Popover)`
   width: 400px;
 
@@ -62,7 +69,7 @@ function MatchLog(props){
     return (
         <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-            <Col lg={2}>{name}</Col>
+            <MatchNameStyle lg={2}>{name}</MatchNameStyle>
           </OverlayTrigger>
         </MatchName>
     );

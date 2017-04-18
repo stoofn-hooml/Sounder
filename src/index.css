@@ -7,3 +7,8 @@ body {
 .topRow {
   margin-top: 50px;
 }
+
+.middleRow {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

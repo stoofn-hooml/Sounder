@@ -69,13 +69,35 @@ class App extends Component {
   match this username. It also will update the state to be the home page. */
   handleSignIn(username){
     for (let profile of data){
-      if (profile.username === username){
+      if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile, mode: 'home'});
         return;
       }
     }
     alert("This is not a valid user! Please try again.");
   }
+
+/* handle signUp will be called when a new user tries to sign up, if the username is in data, it will
+   return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
+   create a new user with username and password*/
+  handleSignUp(username, password){
+      let alreadyThere = false
+      for (let profile of data){
+          if (profile.username === username){
+              alert("This username is already taken! Please enter a different one.");
+              console.log("this user already exists")
+              alreadyThere = true
+              return;
+          }
+      }
+      if (alreadyThere === false){
+        console.log("we should create user here with username: " + username + " and password " + password);
+        //this.setState({currentLogin: profile, mode: 'home'});
+      }
+  }
+
+
+
 
   /*handleLogOut is a function that is turned on when someone tries to log out. It updates the state of currentLogin to be null.
   It updates the mode to be the login page. */
@@ -106,7 +128,7 @@ class App extends Component {
       return (
         <div className="App">
 
-          <LoginPage setProfile={(username)=>this.handleSignIn(username)}/>
+          <LoginPage setProfile={(username)=>this.handleSignIn(username)} newUser={(username,password)=>this.handleSignUp(username,password)}/>
         </div>
       );
     };

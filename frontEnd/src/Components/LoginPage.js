@@ -78,7 +78,9 @@ class Login extends Component{
   constructor(){
     super();
     this.state = {
+      mode: 'login',
       username: '',
+      password: ''
     }
   };
 
@@ -88,25 +90,63 @@ handleUsername(inputEvent){
   this.setState({username: inputEvent.target.value});
 }
 
+handlePassword(inputEvent){
+  this.setState({password: inputEvent.target.value});
+}
+
 render() {
   let usernameInput = (<Input  type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
+  let passwordInput = (<Input  type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
   let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
+  let createAccount = (<LoginButton onClick={()=>this.setState({mode:'signUp'})}>Create Account</LoginButton>);
+  let signUp = (<LoginButton onClick={()=>this.props.newUser(this.state.username,this.state.password)}>Sign Up</LoginButton>);
+  let cancel = (<LoginButton onClick={()=>this.setState({mode:'login'})} >Cancel</LoginButton>);
 
-  return(
-    <LoginPage>
-      <SounderHeader>
-      Sounder
-      </SounderHeader>
-      <UsernameInput>
-      {usernameInput}
-      </UsernameInput>
-      <div>
-      {signIn}
-      </div>
-      </LoginPage>
+  if (this.state.mode == 'login'){
+    return(
+      <LoginPage>
+        <SounderHeader>
+        Sounder
+        </SounderHeader>
+        <UsernameInput>
+          {usernameInput}
+        </UsernameInput>
+        <div>
+          <UsernameInput>
+            {passwordInput}
+          </UsernameInput>
+        </div>
+        <div>
+          {signIn}
+          {createAccount}
+        </div>
+        </LoginPage>
 
-    );
-
+      );
   }
+
+  if (this.state.mode == 'signUp'){
+    return(
+      <LoginPage>
+        <SounderHeader>
+        Sounder
+        </SounderHeader>
+        <UsernameInput>
+          {usernameInput}
+        </UsernameInput>
+        <div>
+          <UsernameInput>
+            {passwordInput}
+          </UsernameInput>
+        </div>
+        <div>
+        {signUp}
+        {cancel}
+        </div>
+        </LoginPage>
+
+      );
+  }
+}
 }
 export default Login;

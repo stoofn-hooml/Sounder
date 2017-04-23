@@ -26,6 +26,9 @@ import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
 
 
+const SERVER = 'http://localhost:4321';
+
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -39,36 +42,90 @@ class App extends Component {
     }
 
 
+    fetch(SERVER + '/sounder/users/')
+      .then((response)=>{
+        if (response.ok){
+          return response.json();
+        }
+      })
+      .then((data)=>{
+        console.log("found the data!")
+        console.log(data);
+        this.setState({data: data});
+        this.setState({matches:data});
+        this.setState({futurematches: data});
+      });
+
     /*here we set the state of matches and futurematches by iterating through currentMatchIds and futureMatchesIds respectively*/
-    let tempmatches = [];
-    let futurematches = [];
-    for (let profile of data){
-      console.log(profile.id);
-      for (let x of this.state.currentMatchIds){
-        if (profile.id === x){
-          tempmatches.push(profile);
+  //   let tempmatches = [];
+  //   let futurematches = [];
+  //   for (let profile of data){
+  //     console.log(profile.id);
+  //     for (let x of this.state.currentMatchIds){
+  //       if (profile.id === x){
+  //         tempmatches.push(profile);
+  //
+  //       };
+  //     };
+  //     for (let x of this.state.futureMatchesIds){
+  //       if (profile.id === x){
+  //         futurematches.push(profile);
+  //
+  //       };
+  //     };
+  //   };
+  //   this.state.matches = tempmatches;
+  //   this.state.futurematches = futurematches;
+  //
+  //
+  //
+  //
+  // }
+}
 
-        };
-      };
-      for (let x of this.state.futureMatchesIds){
-        if (profile.id === x){
-          futurematches.push(profile);
 
-        };
-      };
-    };
-    this.state.matches = tempmatches;
-    this.state.futurematches = futurematches;
+/*next on list of things to do, is manual enter stuff, so that ther is no IDt*/
+createNewUser(username){
+  let userData = {}
+  userData.username = username;
+  userData.numFollowers = 14;
+  userData.profilepictureURL = ' ';
+  userData.karma = 3;
+  userData.profileURL = 'https://soundcloud.com/username1';
+  userData.genre = 'Latin';
+  userData.followerRange = 20;
+  userData.online = 0;
+  const userStr = JSON.stringify(userData);
+  console.log(userStr);
+    const request = new Request(
+    SERVER + "/sounder/users/" ,
+    {
+      method:'POST',
+      body: userStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+  );
+
+    fetch(request)
+    .then((response)=>{
+      if (response.ok){
+        return response.json();
+      }
+    });
+
+
+
+}
 
 
 
 
-  }
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
   handleSignIn(username){
-    for (let profile of data){
+    console.log("testing signin")
+    for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile, mode: 'home'});
         return;
@@ -81,8 +138,9 @@ class App extends Component {
    return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
    create a new user with username and password*/
   handleSignUp(username, password){
+    console.log("trying to sign up!");
       let alreadyThere = false
-      for (let profile of data){
+      for (let profile of this.state.data){
           if (profile.username === username){
               alert("This username is already taken! Please enter a different one.");
               console.log("this user already exists")
@@ -92,6 +150,8 @@ class App extends Component {
       }
       if (alreadyThere === false){
         console.log("we should create user here with username: " + username + " and password " + password);
+
+        this.createNewUser(username);
         //this.setState({currentLogin: profile, mode: 'home'});
       }
   }

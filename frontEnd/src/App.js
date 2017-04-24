@@ -21,6 +21,7 @@ import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
 import data from '../public/sounderUsers.json';
 import LoginPage from './Components/LoginPage.js';
+import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
@@ -79,20 +80,19 @@ class App extends Component {
 
 /* handle signUp will be called when a new user tries to sign up, if the username is in data, it will
    return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
-   create a new user with username and password*/
-  handleSignUp(username, password){
+   create a new user and store them in state*/
+  handleSignUp(newUserObj){
       let alreadyThere = false
       for (let profile of data){
-          if (profile.username === username){
+          if (profile.username === newUserObj.username){
               alert("This username is already taken! Please enter a different one.");
-              console.log("this user already exists")
               alreadyThere = true
               return;
           }
       }
       if (alreadyThere === false){
-        console.log("we should create user here with username: " + username + " and password " + password);
-        //this.setState({currentLogin: profile, mode: 'home'});
+        this.setState({currentLogin: newUserObj, mode: 'home'});
+        console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
       }
   }
 
@@ -124,11 +124,21 @@ class App extends Component {
         </div>
       );
     }
+
     if(this.state.mode ==='login'){
       return (
         <div className="App">
 
-          <LoginPage setProfile={(username)=>this.handleSignIn(username)} newUser={(username,password)=>this.handleSignUp(username,password)}/>
+          <LoginPage setProfile={(username)=>this.handleSignIn(username)} switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
+        </div>
+      );
+    };
+
+    if(this.state.mode ==='signUp'){
+      return (
+        <div className="App">
+
+          <SignUpPage newUser={(obj)=>this.handleSignUp(obj)} switchToLogin={()=>this.setState({mode: 'login'})}/>
         </div>
       );
     };

@@ -10,7 +10,7 @@ const usersTable = function(table){
   table.integer('online')
 }
 
-const matchTable = function(table){
+const followerTable = function(table){
   table.integer('user1_id');
   table.integer('follower');
 }
@@ -23,7 +23,7 @@ const matchTable = function(table){
 exports.up = function(knex, Promise) {
   return Promise.all(
   [knex.schema.createTable('users', usersTable),
-  knex.schema.createTable('matches', matchTable)])
+  knex.schema.createTable('matches', followerTable)])
   .then(()=>{
     console.log("Database created");
   });
@@ -33,7 +33,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all(
   [knex.schema.dropTable('users', usersTable),
-  knex.schema.dropTable('matches', matchTable)])
+  knex.schema.dropTable('matches', followerTable)])
   .then(()=>{
     console.log("Database rekt");
   });

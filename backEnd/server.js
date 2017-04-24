@@ -14,6 +14,9 @@ const knex = require('knex')({
 });
 
 const users = knex('users');
+const followers = knex('followers');
+const matches = knex('matches');
+const likes = knex('likes');
 
 const corsOptions = {
   methods: ['GET', 'PUT', 'POST'],
@@ -29,20 +32,12 @@ app.use(express.static(__dirname + '/site'));
 
 app.use(bodyParser.json());
 
-
-
-
-
-
 app.get('/sounder/users/', (request,response) =>{
   console.log("hi! yay its working!!!");
   users.select().then((data)=>{
       response.send(data);
     });
   });
-
-
-
 
 app.post('/sounder/users', (request, response) => {
   console.log("trying to add new user!");
@@ -52,15 +47,26 @@ app.post('/sounder/users', (request, response) => {
   });
   })
 
-
-
-
 app.get('/sounder/users/:id', (request, response) =>{
   const userID = parseInt(request.params.id);
   users.select().then((data)=>{
     knex.select().from('users').where('id', userID).then((values)=>{
       response.send(values);
     });
+  });
+});
+
+// For handling requests to "likes" table
+app.get('/sounder/likes', (request, response) =>{
+  likes.select().then((data)=>{
+    response.send(data);
+  });
+});
+
+app.post('/sounder/likes', (request, response) =>{
+  console.log(request.body)
+  knex('likes').insert(request.body).then((values)=>{
+    response.send(values);
   });
 });
 

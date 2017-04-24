@@ -44,6 +44,10 @@ class MatchPage extends Component{
     this.setState({futureMatchIndex: (this.state.futureMatchIndex + 1)});
   }
 
+  handleLike(){
+    this.setState({newLike: this.props.futureMatches[this.state.futureMatchIndex].username})
+    this.props.returnLike(this.props.futureMatches[this.state.futureMatchIndex].username)
+  }
 
   render(){
 

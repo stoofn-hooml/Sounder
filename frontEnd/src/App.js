@@ -3,7 +3,7 @@
 
   App is the top-level component of our application. It is responsible for managing the data collection.
 
-  App maintains state in the form of currentLogin, mode, currentMatchIds, futureMatchesIds, currentMatch, matches, and futurematches.
+  App maintains state in the form of currentLogin, mode, currentMatchIds, futureMatchesIds, currentMatch, matches, and futureMatches.
   -currentLogin is an object that stores the account information for the person who is currently logged in.
   -mode determines which page is being displayed.
   -currentMatchIds is an array of ids that represent all the artists that currentLogin has matched with
@@ -11,7 +11,7 @@
   -currentMatch is an object that stores the account information of the person that currentLogin has matched with and the user of the profile
   that currentLogin is looking at in MatchDetailPage
   -matches is an array of objects that store the acccount information of the artists that currentLogin has matched with
-  -futurematches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
+  -futureMatches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
   */
 
 import React, { Component } from 'react';
@@ -53,12 +53,12 @@ class App extends Component {
         console.log(data);
         this.setState({data: data});
         this.setState({matches:data});
-        this.setState({futurematches: data});
+        this.setState({futureMatches: data});
       });
 
-    /*here we set the state of matches and futurematches by iterating through currentMatchIds and futureMatchesIds respectively*/
+    /*here we set the state of matches and futureMatches by iterating through currentMatchIds and futureMatchesIds respectively*/
   //   let tempmatches = [];
-  //   let futurematches = [];
+  //   let futureMatches = [];
   //   for (let profile of data){
   //     console.log(profile.id);
   //     for (let x of this.state.currentMatchIds){
@@ -69,13 +69,13 @@ class App extends Component {
   //     };
   //     for (let x of this.state.futureMatchesIds){
   //       if (profile.id === x){
-  //         futurematches.push(profile);
+  //         futureMatches.push(profile);
   //
   //       };
   //     };
   //   };
   //   this.state.matches = tempmatches;
-  //   this.state.futurematches = futurematches;
+  //   this.state.futureMatches = futureMatches;
   //
   //
   //
@@ -97,34 +97,56 @@ createNewUser(username){
   userData.online = 0;
   const userStr = JSON.stringify(userData);
   console.log(userStr);
-    const request = new Request(
-    SERVER + "/sounder/users/" ,
+  const request = new Request(
+  SERVER + "/sounder/users/" ,
+  {
+    method:'POST',
+    body: userStr,
+    headers: new Headers({'Content-type': 'application/json'})
+  }
+  );
+
+  fetch(request)
+  .then((response)=>{
+    if (response.ok){
+      return response.json();
+    }
+  });
+}
+
+addLike(id, username){
+  let likeData = {}
+  likeData.user1_id = id;
+  likeData.liked_user = username;
+  const likeStr = JSON.stringify(likeData);
+  const request = new Request(
+    SERVER + "/sounder/likes",
     {
-      method:'POST',
-      body: userStr,
+      method: 'POST',
+      body: likeStr,
       headers: new Headers({'Content-type': 'application/json'})
     }
   );
 
-    fetch(request)
-    .then((response)=>{
-      if (response.ok){
-        return response.json();
-      }
-    });
-
-
-
+  fetch(request)
+  .then((response)=>{
+    if (response.ok){
+      return response.json();
+    }
+  });
 }
 
-
-
+  handleLike(username){
+    console.log(username)
+    this.addLike(this.state.currentLogin.id, username)
+  }
 
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
   handleSignIn(username){
     console.log("testing signin")
+    console.log(this.state.futureMatches)
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile, mode: 'home'});
@@ -217,7 +239,7 @@ createNewUser(username){
       <div>
       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-      <MatchPage currentLogin={this.state.currentLogin} futureMatches = {this.state.futurematches} setMode={(article)=>this.setState({mode:'home'})}/>
+      <MatchPage returnLike={(liked_user)=>this.handleLike(liked_user)} currentLogin={this.state.currentLogin} futureMatches = {this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }

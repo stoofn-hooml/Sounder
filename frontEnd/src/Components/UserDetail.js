@@ -25,13 +25,15 @@ const UserDetailRow = styled(Row)`
 `;
 
 function UserDetail(props){
+  console.log(props);
+  console.log(props.currentLogin.profilePictureURL)
   return (
 
 
     <Grid >
       <Row>
         <Col lg={2} sm={2} >
-          <Image src="https://pbs.twimg.com/profile_images/503711643378155522/yi8jEioQ.jpeg"  circle bsStyle="margin:10px;" width="114px" height="114px" />
+          <Image src={props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />
         </Col>
         <Col lg={7} sm={3} >
           <Grid>
@@ -44,9 +46,9 @@ function UserDetail(props){
         </Col>
         </Row>
         <Col lg={9}>
-        <EmbedSong songURL="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/106276300&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true" ></EmbedSong>
-        <EmbedSong songURL="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/196990901&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></EmbedSong>
-        <EmbedSong songURL="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/274807237&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></EmbedSong>
+        <EmbedSong songURL={props.currentLogin.song1} ></EmbedSong>
+        <EmbedSong songURL={props.currentLogin.song2}></EmbedSong>
+        <EmbedSong songURL={props.currentLogin.song3}></EmbedSong>
         </Col>
     </Grid>
 

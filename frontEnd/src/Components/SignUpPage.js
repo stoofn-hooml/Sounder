@@ -130,6 +130,7 @@ handleGenres(inputEvent){ //make this an array handler later
 
 handlePhotoURL(inputEvent){
   this.setState({photoURL: inputEvent.target.value});
+
 }
 
 handleEmail(inputEvent){
@@ -149,7 +150,9 @@ createUser(){ //creates the actual user object
   let newUserObj = {
   username: this.state.username,
   password: this.state.password,
-  songs:[this.state.song1,this.state.song2, this.state.song3],
+  song1: this.state.song1,
+  song2: this.state.song2,
+  song3: this.state.song3,
   profileURL: this.state.profileURL,
   genre: [this.state.genres], //make this an array later
   numFollowers: this.state.numFollowers,

@@ -4,10 +4,13 @@ const usersTable = function(table){
   table.integer('numFollowers');
   table.string('profilePictureURL');
   table.integer('karma');
-  table.string('profileURL')
-  table.string('genre')
-  table.integer('followerRange')
-  table.integer('online')
+  table.string('profileURL');
+  table.string('genre');
+  table.integer('followerRange');
+  table.integer('online');
+  table.string('song1');
+  table.string('song2');
+  table.string('song3');
 }
 
 const followerTable = function(table){

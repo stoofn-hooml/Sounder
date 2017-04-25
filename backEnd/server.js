@@ -70,6 +70,20 @@ app.post('/sounder/likes', (request, response) =>{
   });
 });
 
+// For handling requests to "matches" table
+app.get('/sounder/matches', (request, response) =>{
+  matches.select().then((data)=>{
+    response.send(data);
+  });
+});
+
+app.post('/sounder/matches', (request, response) =>{
+  console.log(request.body)
+  knex('matches').insert(request.body).then((values)=>{
+    response.send(values);
+  });
+});
+
 
 
 server.listen(port);

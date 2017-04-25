@@ -24,11 +24,6 @@ import Col from 'react-bootstrap/lib/Col.js';
 import Button from 'react-bootstrap/lib/Button.js';
 
 
-
-
-
-
-
 class MatchPage extends Component{
   constructor(props){
     super(props);
@@ -45,13 +40,35 @@ class MatchPage extends Component{
   }
 
   handleLike(){
-    this.setState({newLike: this.props.futureMatches[this.state.futureMatchIndex].username})
-    this.props.returnLike(this.props.futureMatches[this.state.futureMatchIndex].username)
+    for (let pair of this.props.likeData){
+      console.log(pair)
+      // Don't know if this is necessary, but will catch duplicate likes
+      if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_user === this.props.futureMatches[this.state.futureMatchIndex].username)){
+        console.log("This user has already been liked, will not record!")
+        this.handleNext();
+        return;
+      }
+    }
+    this.props.returnLike(this.props.futureMatches[this.state.futureMatchIndex].username);
+    this.checkMatch()
+    this.handleNext();
+
+  }
+
+  // Helper function, checks to see if the "like" occurs in the reverse direction, meaning we have a like
+  checkMatch(){
+    //console.log("checking for match");
+    //console.log(this.props.likeData);
+    for (let pair of this.props.likeData){
+      //console.log("Looping on likeData:" + pair.user1_id + ", " + pair.liked_user);
+      if ((pair.user1_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_user === this.props.currentLogin.username)){
+        //console.log("Match found!");
+        this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].username)
+      }
+    }
   }
 
   render(){
-
-
 
     return(
       <Grid>

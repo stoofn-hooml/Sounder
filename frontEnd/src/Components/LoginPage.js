@@ -95,12 +95,23 @@ handlePassword(inputEvent){
 }
 
 render() {
-  let usernameInput = (<Input  type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
-  let passwordInput = (<Input  type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
+  // let usernameInput = (<Input  type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
+  // let passwordInput = (<Input  type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
+  // let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
+  // let createAccount = (<LoginButton onClick={()=>this.setState({mode:'signUp'})}>Create Account</LoginButton>);
+  // let signUp = (<LoginButton onClick={()=>this.props.newUser(this.state.username,this.state.password)}>Sign Up</LoginButton>);
+  // let cancel = (<LoginButton onClick={()=>this.setState({mode:'login'})} >Cancel</LoginButton>);
+
+
+  let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
+  let passwordInput = (<Input  placeholder="Password" type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
   let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
-  let createAccount = (<LoginButton onClick={()=>this.setState({mode:'signUp'})}>Create Account</LoginButton>);
-  let signUp = (<LoginButton onClick={()=>this.props.newUser(this.state.username,this.state.password)}>Sign Up</LoginButton>);
-  let cancel = (<LoginButton onClick={()=>this.setState({mode:'login'})} >Cancel</LoginButton>);
+  let createAccount = (<LoginButton onClick={()=>{this.props.switchToSignUp(); console.log("go to signup!!")}}>Create Account</LoginButton>);
+
+
+
+
+
 
   if (this.state.mode == 'login'){
     return(
@@ -140,8 +151,8 @@ render() {
           </UsernameInput>
         </div>
         <div>
-        {signUp}
-        {cancel}
+        {signIn}
+        {createAccount}
         </div>
         </LoginPage>
 

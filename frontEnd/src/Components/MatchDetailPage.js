@@ -19,7 +19,6 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import data from '../../public/sounderUsers.json';
 import UserDetail from './UserDetail.js';
 import MatchLog from './MatchLog.js';
 import Grid from 'react-bootstrap/lib/Grid.js';

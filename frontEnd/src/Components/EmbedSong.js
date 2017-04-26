@@ -11,10 +11,19 @@ the embedded song window from soundcloud
 import React from 'react';
 
 function EmbedSong(props){
-
+  console.log(props);
+  let songString = props.songURL.split('src="');
+  let songNotFinal = songString[1].split('"');
+  let songFinal = songNotFinal[0];
+  console.log(songNotFinal);
+  console.log(songFinal);
+  let isong = (<iframe width="100%" height="150" scrolling="no" frameBorder="no"
+  src={songFinal} ></iframe>);
   return(
-    <iframe width="100%" height="150" scrolling="no" frameBorder="no"
-    src={props.songURL} ></iframe>
+    <div>
+    {isong}
+    </div>
+
 
   );
 };

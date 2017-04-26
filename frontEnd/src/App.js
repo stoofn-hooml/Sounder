@@ -92,12 +92,15 @@ createNewUser(newUserObj){
   let userData = {}
   userData.username = newUserObj.username;
   userData.numFollowers = newUserObj.numFollowers;
-  userData.profilepictureURL = newUserObj.profileURL;
+  userData.profilepictureURL = newUserObj.photoURL;
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
   userData.genre = newUserObj.genre[0];
   userData.followerRange = 20;
   userData.online = 0;
+  userData.song1 = newUserObj.song1;
+  userData.song2 = newUserObj.song2;
+  userData.song3 = newUserObj.song3;
   const userStr = JSON.stringify(userData);
   console.log(userStr);
   const request = new Request(

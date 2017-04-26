@@ -41,7 +41,6 @@ class App extends Component {
 
     }
 
-
     fetch(SERVER + '/sounder/users/')
       .then((response)=>{
         if (response.ok){
@@ -126,10 +125,10 @@ createNewUser(username){
   });
 }
 
-addLike(id, username){
+addLike(user_id, liked_id){
   let likeData = {}
-  likeData.user1_id = id;
-  likeData.liked_user = username;
+  likeData.user_id = user_id;
+  likeData.liked_id = liked_id;
   const likeStr = JSON.stringify(likeData);
   const request = new Request(
     SERVER + "/sounder/likes",
@@ -148,10 +147,10 @@ addLike(id, username){
   });
 }
 
-addMatch(username){
+addMatch(matched_id){
   let matchData = {}
-  matchData.user1_id = this.state.currentLogin.id;
-  matchData.match = username;
+  matchData.user_id = this.state.currentLogin.id;
+  matchData.matched_id = matched_id;
   const matchStr = JSON.stringify(matchData);
   const request = new Request(
     SERVER + "/sounder/matches",
@@ -170,8 +169,8 @@ addMatch(username){
   });
 }
 
-  handleLike(username){
-    this.addLike(this.state.currentLogin.id, username)
+  handleLike(liked_id){
+    this.addLike(this.state.currentLogin.id, liked_id)
   }
 
 
@@ -269,7 +268,7 @@ addMatch(username){
       <div>
       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-      <MatchPage returnMatch={(matched_user)=>this.addMatch(matched_user)} likeData={this.state.likes} returnLike={(liked_user)=>this.handleLike(liked_user)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
+      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }

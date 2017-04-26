@@ -43,13 +43,13 @@ class MatchPage extends Component{
     for (let pair of this.props.likeData){
       console.log(pair)
       // Don't know if this is necessary, but will catch duplicate likes
-      if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_user === this.props.futureMatches[this.state.futureMatchIndex].username)){
+      if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
         console.log("This user has already been liked, will not record!")
         this.handleNext();
         return;
       }
     }
-    this.props.returnLike(this.props.futureMatches[this.state.futureMatchIndex].username);
+    this.props.returnLike(this.props.futureMatches[this.state.futureMatchIndex].id);
     this.checkMatch()
     this.handleNext();
 
@@ -58,12 +58,10 @@ class MatchPage extends Component{
   // Helper function, checks to see if the "like" occurs in the reverse direction, meaning we have a like
   checkMatch(){
     //console.log("checking for match");
-    //console.log(this.props.likeData);
     for (let pair of this.props.likeData){
-      //console.log("Looping on likeData:" + pair.user1_id + ", " + pair.liked_user);
-      if ((pair.user1_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_user === this.props.currentLogin.username)){
+      if ((pair.user1_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_user === this.props.currentLogin.id)){
         //console.log("Match found!");
-        this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].username)
+        this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].id)
       }
     }
   }

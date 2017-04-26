@@ -28,8 +28,6 @@ var port = 4321;
 
 app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
-
-
 app.use(bodyParser.json());
 
 app.get('/sounder/users/', (request,response) =>{

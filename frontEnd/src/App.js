@@ -144,10 +144,29 @@ addLike(user_id, liked_id){
     if (response.ok){
       return response.json();
     }
-  });
+  })
+  .then(()=>{
+    this.updateLikes();
+  })
+}
+
+// THIS IS IMPORTANT: We need to "refetch" our data as it's being updated on
+// the backend if we want frontend to reflect these changes in real-time
+updateLikes(){
+  fetch(SERVER + '/sounder/likes/')
+        .then((response)=>{
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          console.log("updated the likes data!")
+          this.setState({likes: data});
+        });
 }
 
 addMatch(matched_id){
+  console.log("adding match")
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;
   matchData.matched_id = matched_id;

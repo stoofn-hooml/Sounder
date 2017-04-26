@@ -42,7 +42,6 @@ class App extends Component {
 
     }
 
-
     fetch(SERVER + '/sounder/users/')
       .then((response)=>{
         if (response.ok){
@@ -56,6 +55,18 @@ class App extends Component {
         this.setState({matches:data});
         this.setState({futureMatches: data});
       });
+
+    fetch(SERVER + '/sounder/likes/')
+          .then((response)=>{
+            if (response.ok){
+              return response.json();
+            }
+          })
+          .then((data)=>{
+            console.log("found the likes data!")
+            //console.log(data);
+            this.setState({likes: data});
+          });
 
     /*here we set the state of matches and futureMatches by iterating through currentMatchIds and futureMatchesIds respectively*/
   //   let tempmatches = [];
@@ -120,10 +131,10 @@ createNewUser(newUserObj){
   });
 }
 
-addLike(id, username){
+addLike(user_id, liked_id){
   let likeData = {}
-  likeData.user1_id = id;
-  likeData.liked_user = username;
+  likeData.user_id = user_id;
+  likeData.liked_id = liked_id;
   const likeStr = JSON.stringify(likeData);
   const request = new Request(
     SERVER + "/sounder/likes",
@@ -139,20 +150,60 @@ addLike(id, username){
     if (response.ok){
       return response.json();
     }
+  })
+  .then(()=>{
+    this.updateLikes();
+  })
+}
+
+// THIS IS IMPORTANT: We need to "refetch" our data as it's being updated on
+// the backend if we want frontend to reflect these changes in real-time
+updateLikes(){
+  fetch(SERVER + '/sounder/likes/')
+        .then((response)=>{
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          console.log("updated the likes data!")
+          this.setState({likes: data});
+        });
+}
+
+addMatch(matched_id){
+  console.log("adding match")
+  let matchData = {}
+  matchData.user_id = this.state.currentLogin.id;
+  matchData.matched_id = matched_id;
+  const matchStr = JSON.stringify(matchData);
+  const request = new Request(
+    SERVER + "/sounder/matches",
+    {
+      method: 'POST',
+      body: matchStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+  );
+
+  fetch(request)
+  .then((response)=>{
+    if (response.ok){
+      return response.json();
+    }
   });
 }
 
-  handleLike(username){
-    console.log(username)
-    this.addLike(this.state.currentLogin.id, username)
+  handleLike(liked_id){
+    this.addLike(this.state.currentLogin.id, liked_id)
   }
 
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
   handleSignIn(username){
-    console.log("testing signin")
-    console.log(this.state.futureMatches)
+    //console.log("testing signin")
+    //console.log(this.state.futureMatches)
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile, mode: 'home'});
@@ -186,9 +237,6 @@ addLike(id, username){
         //this.setState({currentLogin: profile, mode: 'home'});
       }
   }
-
-
-
 
   /*handleLogOut is a function that is turned on when someone tries to log out. It updates the state of currentLogin to be null.
   It updates the mode to be the login page. */
@@ -257,7 +305,7 @@ addLike(id, username){
       <div>
       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-      <MatchPage returnLike={(liked_user)=>this.handleLike(liked_user)} currentLogin={this.state.currentLogin} futureMatches = {this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
+      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }

@@ -26,7 +26,8 @@ const UserDetailRow = styled(Row)`
 
 function UserDetail(props){
   console.log(props);
-  console.log(props.currentLogin.profilePictureURL)
+  console.log(props.currentLogin.profilePictureURL);
+  console.log(props.currentLogin.profileURL);
   return (
 
 
@@ -37,7 +38,7 @@ function UserDetail(props){
         </Col>
         <Col lg={7} sm={3} >
           <Grid>
-            <UsernameRow >{props.currentLogin['username']}</UsernameRow>
+            <UsernameRow componentClass="a" href={props.currentLogin.profileURL} >{props.currentLogin['username']}</UsernameRow>
             <UserDetailRow >Genre: {props.currentLogin['genre']}</UserDetailRow>
             <UserDetailRow >Karma Rating: {props.currentLogin['karma']}</UserDetailRow>
             <UserDetailRow >Followers: {props.currentLogin['numFollowers']}</UserDetailRow>

@@ -19,11 +19,10 @@ exports.seed = function(knex, Promise) {
   };
 });
 
-const matchData = [];
-
+const followerData = [];
   for (var i = 0; i < data.length; i++) {
     for (var j = 0; j < data[i].followers.length; j++){
-      matchData.push( {
+      followerData.push( {
         user1_id: data[i].id,
         follower: data[i].followers[j]
       })
@@ -32,12 +31,12 @@ const matchData = [];
 
   return Promise.all([
     knex('users').del(),
-    knex('matches').del(),
+    knex('followers').del(),
   ])
   .then(()=>{
     return Promise.all([
       knex('users').insert(userData),
-      knex('matches').insert(matchData),
+      knex('followers').insert(followerData),
     ])
   })
 };

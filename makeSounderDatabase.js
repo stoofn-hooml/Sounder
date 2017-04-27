@@ -43,4 +43,3 @@ for(i = 1; i <numberOfUsers + 1; i++){
 /*Here, we make our sounderUsers list into a JSON file*/
 var myJSON = JSON.stringify(sounderUsers);
 console.log(myJSON);
-

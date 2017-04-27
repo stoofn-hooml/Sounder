@@ -28,8 +28,6 @@ var port = 4321;
 
 app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
-
-
 app.use(bodyParser.json());
 
 app.get('/sounder/users/', (request,response) =>{
@@ -66,6 +64,20 @@ app.get('/sounder/likes', (request, response) =>{
 app.post('/sounder/likes', (request, response) =>{
   console.log(request.body)
   knex('likes').insert(request.body).then((values)=>{
+    response.send(values);
+  });
+});
+
+// For handling requests to "matches" table
+app.get('/sounder/matches', (request, response) =>{
+  matches.select().then((data)=>{
+    response.send(data);
+  });
+});
+
+app.post('/sounder/matches', (request, response) =>{
+  console.log(request.body)
+  knex('matches').insert(request.body).then((values)=>{
     response.send(values);
   });
 });

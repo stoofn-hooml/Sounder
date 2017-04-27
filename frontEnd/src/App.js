@@ -54,6 +54,8 @@ class App extends Component {
         this.setState({futureMatches: data});
       });
 
+    //fetch(SERVER + '/sounder/users/')
+
     fetch(SERVER + '/sounder/likes/')
           .then((response)=>{
             if (response.ok){

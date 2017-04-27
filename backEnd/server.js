@@ -83,6 +83,15 @@ app.post('/sounder/matches', (request, response) =>{
 });
 
 
+//for handling matches of user
+app.get('/sounder/matches/:id', (request,response) => {
+  const userID = parseInt(request.params.id);
+  console.log("this should be and id + "+ userID)
+  response.send(knex('matches').where(function() {
+      this.where('user_id',userID).orWhere('matched_id', userID)
+  }))
+})
+
 
 server.listen(port);
 console.log("Listening on port %d", server.address().port);

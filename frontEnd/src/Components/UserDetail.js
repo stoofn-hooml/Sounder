@@ -25,8 +25,6 @@ const UserDetailRow = styled(Row)`
 `;
 
 function UserDetail(props){
-  console.log(props);
-  console.log(props.currentLogin.profilePictureURL)
   return (
 
 

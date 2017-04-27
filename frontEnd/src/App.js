@@ -48,8 +48,6 @@ class App extends Component {
         }
       })
       .then((data)=>{
-        console.log("found the data!")
-        console.log(data);
         this.setState({data: data});
         this.setState({matches:data});
         this.setState({futureMatches: data});
@@ -62,8 +60,6 @@ class App extends Component {
             }
           })
           .then((data)=>{
-            console.log("found the likes data!")
-            //console.log(data);
             this.setState({likes: data});
           });
 
@@ -98,7 +94,6 @@ class App extends Component {
 /*next on list of things to do, is manual enter stuff, so that ther is no IDt*/
 createNewUser(newUserObj){
   console.log("new user!");
-  console.log(newUserObj);
   let userData = {}
   userData.username = newUserObj.username;
   userData.numFollowers = newUserObj.numFollowers;
@@ -125,9 +120,18 @@ createNewUser(newUserObj){
   fetch(request)
   .then((response)=>{
     if (response.ok){
+      console.log("Updating users")
       this.updateUsers();
       return response.json();
     }
+  })
+  .then((response)=>{
+    // ************************************************
+    // This needs to be fixed !!!!!!
+    // ************************************************
+    let tempObj = Object.assign({}, newUserObj, {id : response[0]});
+    this.setState({currentLogin: tempObj, mode: 'home'});
+    console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
   });
 }
 
@@ -179,8 +183,6 @@ updateUsers(){
           }
         })
         .then((data)=>{
-          console.log("found the data!")
-          console.log(data);
           this.setState({data: data});
           this.setState({matches:data});
           this.setState({futureMatches: data});
@@ -188,7 +190,6 @@ updateUsers(){
 }
 
 addMatch(matched_id){
-  console.log("adding match")
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;
   matchData.matched_id = matched_id;
@@ -211,6 +212,8 @@ addMatch(matched_id){
 }
 
   handleLike(liked_id){
+    console.log(this.state.currentLogin.id);
+    console.log(liked_id);
     this.addLike(this.state.currentLogin.id, liked_id)
   }
 
@@ -246,11 +249,8 @@ addMatch(matched_id){
       if (alreadyThere === false){
 
         this.createNewUser(newUserObj);
-        this.setState({currentLogin: newUserObj, mode: 'home'});
-        console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
-
-
-        //this.setState({currentLogin: profile, mode: 'home'});
+        //this.setState({currentLogin: newUserObj, mode: 'home'});
+        //console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
       }
   }
 

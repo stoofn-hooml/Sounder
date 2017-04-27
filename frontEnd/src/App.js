@@ -125,6 +125,7 @@ createNewUser(newUserObj){
   fetch(request)
   .then((response)=>{
     if (response.ok){
+      this.updateUsers();
       return response.json();
     }
   });
@@ -167,6 +168,22 @@ updateLikes(){
         .then((data)=>{
           console.log("updated the likes data!")
           this.setState({likes: data});
+        });
+}
+
+updateUsers(){
+  fetch(SERVER + '/sounder/users/')
+        .then((response)=>{
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          console.log("found the data!")
+          console.log(data);
+          this.setState({data: data});
+          this.setState({matches:data});
+          this.setState({futureMatches: data});
         });
 }
 

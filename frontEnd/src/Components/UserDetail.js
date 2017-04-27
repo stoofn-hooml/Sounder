@@ -26,15 +26,14 @@ const UserDetailRow = styled(Row)`
 
 function UserDetail(props){
   console.log(props);
-  console.log(props.currentLogin.profilePictureURL);
+  console.log(props.currentLogin.profilePicture);
   console.log(props.currentLogin.profileURL);
   return (
-
 
     <Grid >
       <Row>
         <Col lg={2} sm={2} >
-          <Image src={props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />
+          <Image src={props.currentLogin.profilePicture}  circle bsStyle="margin:10px;" width="114px" height="114px" />
         </Col>
         <Col lg={7} sm={3} >
           <Grid>

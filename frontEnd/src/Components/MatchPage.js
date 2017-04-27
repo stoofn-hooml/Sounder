@@ -56,10 +56,8 @@ class MatchPage extends Component{
 
   // Helper function, checks to see if the "like" occurs in the reverse direction, meaning we have a match
   checkMatch(){
-    //console.log("checking for match");
     for (let pair of this.props.likeData){
       if ((pair.user_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_id === this.props.currentLogin.id)){
-        //console.log("Match found!");
         this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].id)
       }
     }

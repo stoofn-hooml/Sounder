@@ -1,9 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/frontEnd/node_modules
-/backEnd/node_modules
-/node_modules
+/frontEnd/node_modules/
+/backEnd/node_modules/
+/node_modules/
 # testing
 /coverage
 

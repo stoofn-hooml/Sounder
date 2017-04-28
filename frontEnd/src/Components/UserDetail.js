@@ -25,17 +25,19 @@ const UserDetailRow = styled(Row)`
 `;
 
 function UserDetail(props){
+  console.log(props);
+  console.log(props.currentLogin.profilePicture);
+  console.log(props.currentLogin.profileURL);
   return (
-
 
     <Grid >
       <Row>
         <Col lg={2} sm={2} >
-          <Image src={props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />
+          <Image src={props.currentLogin.profilePicture}  circle bsStyle="margin:10px;" width="114px" height="114px" />
         </Col>
         <Col lg={7} sm={3} >
           <Grid>
-            <UsernameRow >{props.currentLogin['username']}</UsernameRow>
+            <UsernameRow componentClass="a" href={props.currentLogin.profileURL} >{props.currentLogin['username']}</UsernameRow>
             <UserDetailRow >Genre: {props.currentLogin['genre']}</UserDetailRow>
             <UserDetailRow >Karma Rating: {props.currentLogin['karma']}</UserDetailRow>
             <UserDetailRow >Followers: {props.currentLogin['numFollowers']}</UserDetailRow>

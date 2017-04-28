@@ -11,16 +11,21 @@ import Button from 'react-bootstrap/lib/Button.js';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
-
+import EmbedSong from './EmbedSong.js';
 
 
 class MatchingSettings extends Component{
   constructor(){
     super();
+
     this.state = {
       min:0,
       max:1000,
-      selectedGenres: []
+      selectedGenres: [],
+      song1: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/106276300&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
+      song2: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/196990901&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
+      song3: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/274807237&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
+      profileURL: "https://soundcloud.com/username1"
     }
   };
 
@@ -33,6 +38,19 @@ class MatchingSettings extends Component{
     this.setState({max: inputEvent.target.value});
     console.log(this.state);
   }
+
+  handleURL(inputEvent){
+    const songNum = inputEvent.target.name;
+    const url = inputEvent.target.value;
+    this.setState({[songNum]: url});
+    console.log("changed URL")
+  }
+
+  handleProfile(inputEvent){
+      this.setState({profileURL: inputEvent.target.value});
+      console.log(this.state);
+  }
+
 
   render() {
     let minFollowers = (<input style={{display: 'inline'}} id="minFollowers" type="text" size="10" value={this.state.min} onChange={(event)=> {this.handleMin(event)}} />);
@@ -52,23 +70,46 @@ class MatchingSettings extends Component{
       return(
         <Grid>
           <Row bsClass="topRow">
-            <h1>
-            Matching Settings
-            </h1>
-              <Row bsClass="middleRow">
-                <div id="slider" >
-                  <h5 style={{display: 'inline'}}> Follower Range </h5>
-                  {minFollowers}
-                  <p style={{display: 'inline'}}> to </p>
-                  {maxFollowers}
-                </div>
-              </Row>
-              <Row bsClass="middleRow">
-                <div>
-                  {genre}
-                </div>
-              </Row>
-
+            <Col lg={6} md={6}>
+              <h1>Account Settings</h1>
+                <Row bsClass="middleRow">
+                  <h5 style={{display: 'inline'}}> SoundCloud Profile: </h5>
+                  <input style={{display: 'inline'}} name="profileURL" type="text" size="auto" value={this.state.profileURL} onChange={(event)=>{this.handleProfile(event)}} />
+                </Row>
+                <Row bsClass="middleRow">
+                  <div id="slider" >
+                    <h5 style={{display: 'inline'}}> Follower Range </h5>
+                    {minFollowers}
+                    <p style={{display: 'inline'}}> to </p>
+                    {maxFollowers}
+                  </div>
+                </Row>
+                <Row bsClass="middleRow">
+                  <div>
+                    {genre}
+                  </div>
+                </Row>
+                <Row bsClass="middleRow">
+                  <Button bsStyle="primary">Save</Button>
+                </Row>
+              </Col>
+              <Col lg={6} md={6}>
+                <Row>
+                  <EmbedSong songURL={this.state.song1}></EmbedSong>
+                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <input style={{display: 'inline'}} name="song1" type="text" size="auto" value={this.state.song1} onChange={(event)=> {this.handleURL(event)}} />
+                </Row>
+                <Row bsClass="middleRow">
+                  <EmbedSong songURL={this.state.song2}></EmbedSong>
+                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <input style={{display: 'inline'}} name="song2" type="text" size="auto" value={this.state.song2} onChange={(event)=> {this.handleURL(event)}} />
+                </Row>
+                <Row bsClass="middleRow">
+                  <EmbedSong songURL={this.state.song3}></EmbedSong>
+                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <input style={{display: 'inline'}} name="song3" type="text" size="auto" value={this.state.song3} onChange={(event)=> {this.handleURL(event)}} />
+                </Row>
+              </Col>
           </Row>
         </Grid>
 

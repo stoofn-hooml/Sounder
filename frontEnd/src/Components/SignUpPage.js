@@ -15,6 +15,8 @@ import FormGroup from 'react-bootstrap/lib/FormGroup.js';
 import FormControl from 'react-bootstrap/lib/FormControl.js';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel.js';
 import Checkbox from 'react-bootstrap/lib/Checkbox.js';
+import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
+import MenuItem from 'react-bootstrap/lib/MenuItem.js';
 
 
 import Col from 'react-bootstrap/lib/Col.js';
@@ -197,6 +199,18 @@ render() {
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.photoURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
 
+  let genreOps = ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", "Deep House",
+  "Disco", "Drum & Bass", "Dubstep", "Electronic", "Folk & Singer-Songwriter", "Hip-Hop & Rap", "House", "Indie", "Jazz & Blues", "Latin",
+  "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", "Soundtrack", "Techno", "Trance", "Trap", "Triphop", "World"]
+  let counter = 0;
+  const genrelist = (genreOps).map((genrei)=>{ //creates a genrelist that is displayed in the "Genre" dropdown
+    counter += 1;
+    return (<MenuItem eventKey={counter} onClick={()=>{console.log(genrei)}}> {genrei} </MenuItem>);});
+
+  let genre = (<DropdownButton title='Genres' id='genre-dropdown' onChange={(event)=>{this.handleGenres(event)}}>
+            {genrelist}
+            </DropdownButton>)
+
   let signUp = (<LoginButton onClick={()=>this.createUser()}>Sign Up</LoginButton>);
   let cancel = (<LoginButton onClick={()=>this.props.switchToLogin()} >Cancel</LoginButton>);
 
@@ -238,7 +252,7 @@ render() {
 
         <div>
           <UsernameInput>
-            {genresInput}
+            {genre}
           </UsernameInput>
         </div>
 

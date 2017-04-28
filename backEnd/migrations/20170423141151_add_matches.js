@@ -17,7 +17,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all(
     knex.schema.renameTable('followers', 'matches'),
-  knex.schema.dropTable('matches'))
+    knex.schema.dropTable('matches'))
   .then(()=>{
     console.log("Dropped")
   })

@@ -11,8 +11,10 @@ import styled from 'styled-components';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
+import Modal from 'react-bootstrap/lib/Modal.js';
 import Image from 'react-bootstrap/lib/Image.js';
 import EmbedSong from './EmbedSong.js';
+import Button from 'react-bootstrap/lib/Button.js';
 
 const UsernameRow = styled(Row)`
   color: #ff7700;
@@ -24,35 +26,117 @@ const UserDetailRow = styled(Row)`
   font-weight: bold;
 `;
 
-function UserDetail(props){
-  return (
+const LoginButton = styled.div`
+  background-color: #525252; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  cursor: pointer;
+  border-radius: 28px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  &:hover {
+   background-color:#FF7700;
+ }
+
+`;
 
 
-    <Grid >
-      <Row>
-        <Col lg={2} sm={2} >
-          <Image src={props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />
-        </Col>
-        <Col lg={7} sm={3} >
-          <Grid>
-            <UsernameRow >{props.currentLogin['username']}</UsernameRow>
-            <UserDetailRow >Genre: {props.currentLogin['genre']}</UserDetailRow>
-            <UserDetailRow >Karma Rating: {props.currentLogin['karma']}</UserDetailRow>
-            <UserDetailRow >Followers: {props.currentLogin['numFollowers']}</UserDetailRow>
-            <UserDetailRow >see more:  {props.currentLogin['profileURL']}</UserDetailRow>
+class UserDetail extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+      showModal: false
+    };
+  }
+
+
+render(){
+
+  let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />)
+  let basicUserInfo = (<div>
+                       <UsernameRow >{this.props.currentLogin['username']}</UsernameRow>
+                       <UserDetailRow>Genre: {this.props.currentLogin['genre']}</UserDetailRow>
+                       <UserDetailRow>Karma Rating: {this.props.currentLogin['karma']}</UserDetailRow>
+                       <UserDetailRow>Followers: {this.props.currentLogin['numFollowers']}</UserDetailRow>
+                       </div>)
+  let songs = (<div>
+              <EmbedSong songURL={this.props.currentLogin.song1} ></EmbedSong>
+              <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
+              <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
+              </div>)
+
+  let repostModal = (<Modal show={this.state.showModal} onHide={closeModal} container={this} aria-labelledby="contained-modal-title">
+                        <Modal.Header closeButton>
+                          <Modal.Title id="contained-modal-title">Repost one of your Matchs Songs!</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p> To repost a song, simply click on the orange SoundCloud icon in the top left corner of the song widget.
+                            This will bring you to a page which will allow you to directly repost on SoundCloud.</p>
+                            <h4> Dont Forget to Repost! </h4>
+                            <p>Make sure you remember to repost, otherwise your match will give you a bad karma rating. </p>
+                        </Modal.Body>
+                      </Modal>);
+
+    let closeModal = () => this.setState({ showModal: false })
+
+    let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
+    let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)
+
+    /*Checks to see if the User is looking at MatchDetailPage*/
+    if(this.props.profileLink){
+        return(
+        <Grid>
+            <Row bsClass="padded">
+              <div className="modal-container">
+                      {goToProfile}
+                      {repostModalButton}
+                      {repostModal}
+              </div>
+            </Row>
+            <Row>
+              <Col lg={2} sm={2} >
+                {profilePicture}
+              </Col>
+              <Col lg={7} sm={3} >
+              <Grid>
+                {basicUserInfo}
+              </Grid>
+              </Col>
+            </Row>
+              <Col lg={9}>
+                {songs}
+              </Col>
           </Grid>
-        </Col>
-        </Row>
-        <Col lg={9}>
-        <EmbedSong songURL={props.currentLogin.song1} ></EmbedSong>
-        <EmbedSong songURL={props.currentLogin.song2}></EmbedSong>
-        <EmbedSong songURL={props.currentLogin.song3}></EmbedSong>
-        </Col>
-    </Grid>
+        )
+    }
+      /*User is currently looking at their own profile so doesn't need link to profile button or repost Modal*/
+      else{
+        return(
+          <Grid>
+            <Row>
+              <Col lg={2} sm={2} >
+                {profilePicture}
+              </Col>
+              <Col lg={7} sm={3} >
+              <Grid>
+                {basicUserInfo}
+              </Grid>
+              </Col>
+            </Row>
+              <Col lg={9}>
+                {songs}
+              </Col>
+          </Grid>
+        )
+      }
 
-
-  );
+   }
 };
 
-
-export default UserDetail;
+  export default UserDetail;

@@ -1,8 +1,12 @@
+import appRouter from '../frontEnd/index.jsx'
+
+
 const http = require('http');
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const server = http.createServer(app);
+
 //bodyparser for passing JSON around without having to parse each time
 var bodyParser = require('body-parser');
 
@@ -26,9 +30,67 @@ const corsOptions = {
 
 var port = 4321;
 
+
+
+const routes = createRoutes(appRouter());
+
+const router = express.Router();
+
+// var path = require('path');
+// var viewPath = path.join(__dirname, 'app/views');
+//
+// app.set('views', viewPath);
+//
+// //var router = express.Router();
+//
+// app.get('/home',
+//   function(req, res) {
+//     res.render('home', { user: req.user });
+//   });
+
+
+// // serve static assets normally
+// app.use(express.static(__dirname + '/public'))
+// const path = require("path")
+// // Handles all routes so you do not get a not found error
+// app.get('*', function (request, response){
+//     console.log("trying to get some path")
+//     response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+// })
+//
+//
+//
+
+
+
+
+
+
+
 app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());
+
+
+
+
+
+
+require('babel-register');
+var path = require('path');
+var favicon = require('serve-favicon');
+
+
+
+const routes = createRoutes(appRouter());
+
+const router = express.Router();
+
+
+
+
+
+
 
 app.get('/sounder/users/', (request,response) =>{
   console.log("hi! yay its working!!!");

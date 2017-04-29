@@ -271,6 +271,86 @@ addMatch(matched_id){
 
   /*The following determines which page should be displayed based on what the state of mode is. */
 
+
+
+//   class Home extends Component{
+//       render(){
+//         return (
+//           <div className="App">
+//           <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+//           <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+//           </div>
+//         );
+//       }
+//     }
+//
+//
+// class Login extends Component{
+//   render(){
+//     return (
+//       <div className="App">
+//
+//         <LoginPage setProfile={(username)=>this.handleSignIn(username)} newUser={(username,password)=>this.handleSignUp(username,password)} switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
+//       </div>
+//     );
+//   }
+// }
+//
+//
+// class SignUp extends Component{
+//     render(){
+//       return (
+//         <div className="App">
+//
+//           <SignUpPage newUser={(obj)=>this.handleSignUp(obj)} switchToLogin={()=>this.setState({mode: 'login'})}/>
+//         </div>
+//       );
+//     }
+// }
+//
+//
+// class MatchDetails extends Component{
+//   render(){
+//     return (
+//       <div>
+//       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+//
+//         <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} currentMatch={this.state.currentMatch} setMode={(article)=>this.setState({mode:'home'})} />
+//       </div>
+//     );
+//   }
+// }
+//
+// class Settings extends Component{
+//   render(){
+//     return (
+//       <div className="App">
+//       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+//
+//         <MatchingSettingsPage
+//           currentLogin={this.state.currentLogin}
+//           setProfile={(username)=>this.handleSignIn(username)}
+//           setMode={(article)=>this.setState({mode:'home'})}
+//         />
+//       </div>
+//     );
+//   }
+// }
+//
+// class Match extends Component{
+//   render(){
+//     return (
+//     <div>
+//     <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+//
+//     <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
+//     </div>
+//     );
+//   }
+// }
+
+
+
   render() {
     if(this.state.mode ==='home'){
       return (
@@ -279,6 +359,7 @@ addMatch(matched_id){
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         </div>
       );
+
     }
     if(this.state.mode ==='login'){
       return (
@@ -331,6 +412,8 @@ addMatch(matched_id){
       );
     }
   }
+
+
 }
 
 export default App;

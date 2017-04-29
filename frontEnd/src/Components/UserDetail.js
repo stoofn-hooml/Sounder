@@ -71,6 +71,8 @@ render(){
               <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
               </div>)
 
+  let closeModal = () => this.setState({ showModal: false })
+
   let repostModal = (<Modal show={this.state.showModal} onHide={closeModal} container={this} aria-labelledby="contained-modal-title">
                         <Modal.Header closeButton>
                           <Modal.Title id="contained-modal-title">Repost one of your Matchs Songs!</Modal.Title>
@@ -82,8 +84,6 @@ render(){
                             <p>Make sure you remember to repost, otherwise your match will give you a bad karma rating. </p>
                         </Modal.Body>
                       </Modal>);
-
-    let closeModal = () => this.setState({ showModal: false })
 
     let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
     let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)

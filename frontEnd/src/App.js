@@ -37,43 +37,18 @@ class App extends Component {
       mode: 'login',
       currentLogin: null,
       currentMatchIds: [2, 13, 15, 20, 17, 18, 19, 25, 27, 29, 30, 31, 32, 33, 34, 35, 37, 38, 40, 42,43],
-      futureMatchesIds: [3, 5, 6, 7,8 ,9 ,10 ,11],
+      futureMatches: [],
       currentMatch: null,
     }
 
       this.updateUsers();
       this.updateLikes();
-    /*here we set the state of matches and futureMatches by iterating through currentMatchIds and futureMatchesIds respectively*/
-  //   let tempmatches = [];
-  //   let futureMatches = [];
-  //   for (let profile of data){
-  //     console.log(profile.id);
-  //     for (let x of this.state.currentMatchIds){
-  //       if (profile.id === x){
-  //         tempmatches.push(profile);
-  //
-  //       };
-  //     };
-  //     for (let x of this.state.futureMatchesIds){
-  //       if (profile.id === x){
-  //         futureMatches.push(profile);
-  //
-  //       };
-  //     };
-  //   };
-  //   this.state.matches = tempmatches;
-  //   this.state.futureMatches = futureMatches;
-  //
-  //
-  //
-  //
-  // }
+
 }
 
 
 /*next on list of things to do, is manual enter stuff, so that ther is no IDt*/
 createNewUser(newUserObj){
-  console.log("new user!");
   let userData = {}
   userData.username = newUserObj.username;
   userData.numFollowers = newUserObj.numFollowers;
@@ -87,7 +62,6 @@ createNewUser(newUserObj){
   userData.song2 = newUserObj.song2;
   userData.song3 = newUserObj.song3;
   const userStr = JSON.stringify(userData);
-  console.log(userStr);
   const request = new Request(
   SERVER + "/sounder/users/" ,
   {
@@ -100,7 +74,6 @@ createNewUser(newUserObj){
   fetch(request)
   .then((response)=>{
     if (response.ok){
-      console.log("Updating users")
       this.updateUsers();
       return response.json();
     }
@@ -150,7 +123,6 @@ updateLikes(){
           }
         })
         .then((data)=>{
-          console.log("updated the likes data!")
           this.setState({likes: data});
         });
 }
@@ -164,15 +136,14 @@ updateUsers(){
         })
         .then((data)=>{
           this.setState({data: data});
-          this.setState({matches: data});
-          this.setState({futureMatches: data});
+          //this.setState({futureMatches: data});
         });
 }
 
-updateMatches(id){
-  //console.log(this.state.currentLogin);
-  console.log("here is the id!")
-  console.log(id);
+
+
+
+loadMatches(id){
   fetch(SERVER + '/sounder/matches/' + id)
         .then((response)=>{
           if (response.ok){
@@ -180,33 +151,41 @@ updateMatches(id){
           }
         })
         .then((data)=>{
-          // console.log(data);
-          // console.log(data.matched_id);
-          // console.log(this.getMatches(data))
-          let matchData = this.getMatches(data);
-          // console.log("here are our matches!");
-          //
+          this.getMatches(id, data);
+          // let matchData = this.getMatches(id, data);
           // this.setState({matches:matchData});
-          // console.log(this.state.matches);
         })
 }
 
-getMatches(matchData){
+getMatches(id, matchData){
   let matchArray = [];
   let objArray = [];
+  let futureMatchArray = [];
   for (let match of matchData) {
-    matchArray.push(match.matched_id);
+    if(match.matched_id !== id){
+      matchArray.push(match.matched_id);
+    } else{
+      matchArray.push(match.user_id);
+    }
+
   }
-  for (let id of matchArray) {
+  for (let matchid of matchArray) {
     for (let user of this.state.data){
-      if (id === user.id) {
+      if (matchid === user.id) {
         objArray.push(user);
       }
     }
   }
-  //console.log(objArray);
-  return objArray;
+  for (let user of this.state.data){
+    if((matchArray.indexOf(user.id) < 0) &&(user.id !== id)){
+      futureMatchArray.push(user);
+    }
+  }
+  this.setState({matches: objArray});
+  this.setState({futureMatches: futureMatchArray});
 }
+
+
 
 addMatch(matched_id){
   let matchData = {}
@@ -227,25 +206,24 @@ addMatch(matched_id){
     if (response.ok){
       return response.json();
     }
+    }).then((data)=>{
+    this.loadMatches(this.state.currentLogin.id);
   });
 }
 
   handleLike(liked_id){
-    console.log(this.state.currentLogin.id);
-    console.log(liked_id);
     this.addLike(this.state.currentLogin.id, liked_id)
+
   }
 
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
   handleSignIn(username){
-    //console.log("testing signin")
-    //console.log(this.state.futureMatches)
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile});
-        this.updateMatches(profile.id);
+        this.loadMatches(profile.id);
         this.setState({mode: 'home'});
         return;
       }
@@ -257,7 +235,6 @@ addMatch(matched_id){
    return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
    create a new user with username and password*/
   handleSignUp(newUserObj){
-    console.log("trying to sign up!");
       let alreadyThere = false
       for (let profile of this.state.data){
           if (profile.username === newUserObj.username){
@@ -292,9 +269,7 @@ addMatch(matched_id){
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
-    if(this.state.mode ==='home'){
-      console.log("state of matches");
-      console.log(this.state.matches);
+    if(this.state.mode ==='home' && this.state.matches){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

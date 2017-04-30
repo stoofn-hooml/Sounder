@@ -77,7 +77,7 @@ app.post('/sounder/matches', (request, response) =>{
 
 app.get('/sounder/matches/:id', (request, response)=>{
   const userID = parseInt(request.params.id);
-    knex.select('matched_id').from('matches').where('user_id', userID).then((matches)=>{
+    knex.select().from('matches').where('user_id', userID).orWhere('matched_id', userID).then((matches)=>{
       response.send(matches);
     });
 });

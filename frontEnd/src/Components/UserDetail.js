@@ -25,9 +25,9 @@ const UserDetailRow = styled(Row)`
 `;
 
 function UserDetail(props){
-  console.log(props);
-  console.log(props.currentLogin.profilePicture);
-  console.log(props.currentLogin.profileURL);
+  // console.log(props);
+  // console.log(props.currentLogin.profilePicture);
+  // console.log(props.currentLogin.profileURL);
   return (
 
     <Grid >

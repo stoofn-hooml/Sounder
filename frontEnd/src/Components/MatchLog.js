@@ -55,7 +55,6 @@ const MatchPreview = styled(Popover)`
 
 
 function MatchLog(props){
-
   const matchlog = (props.matchlist).map((user)=>{
     let name = user.username;
     const popoverHoverFocus = (

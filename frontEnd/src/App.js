@@ -41,29 +41,8 @@ class App extends Component {
       currentMatch: null,
     }
 
-    fetch(SERVER + '/sounder/users/')
-      .then((response)=>{
-        if (response.ok){
-          return response.json();
-        }
-      })
-      .then((data)=>{
-        //need to get a list of matches here
-        this.setState({data: data});
-        this.setState({matches:data});
-        this.setState({futureMatches: data});
-      });
-
-    fetch(SERVER + '/sounder/likes/')
-          .then((response)=>{
-            if (response.ok){
-              return response.json();
-            }
-          })
-          .then((data)=>{
-            this.setState({likes: data});
-          });
-
+      this.updateUsers();
+      this.updateLikes();
     /*here we set the state of matches and futureMatches by iterating through currentMatchIds and futureMatchesIds respectively*/
   //   let tempmatches = [];
   //   let futureMatches = [];
@@ -185,9 +164,48 @@ updateUsers(){
         })
         .then((data)=>{
           this.setState({data: data});
-          this.setState({matches:data});
+          this.setState({matches: data});
           this.setState({futureMatches: data});
         });
+}
+
+updateMatches(id){
+  //console.log(this.state.currentLogin);
+  console.log("here is the id!")
+  console.log(id);
+  fetch(SERVER + '/sounder/matches/' + id)
+        .then((response)=>{
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          // console.log(data);
+          // console.log(data.matched_id);
+          // console.log(this.getMatches(data))
+          let matchData = this.getMatches(data);
+          // console.log("here are our matches!");
+          //
+          // this.setState({matches:matchData});
+          // console.log(this.state.matches);
+        })
+}
+
+getMatches(matchData){
+  let matchArray = [];
+  let objArray = [];
+  for (let match of matchData) {
+    matchArray.push(match.matched_id);
+  }
+  for (let id of matchArray) {
+    for (let user of this.state.data){
+      if (id === user.id) {
+        objArray.push(user);
+      }
+    }
+  }
+  //console.log(objArray);
+  return objArray;
 }
 
 addMatch(matched_id){
@@ -226,7 +244,9 @@ addMatch(matched_id){
     //console.log(this.state.futureMatches)
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
-        this.setState({currentLogin: profile, mode: 'home'});
+        this.setState({currentLogin: profile});
+        this.updateMatches(profile.id);
+        this.setState({mode: 'home'});
         return;
       }
     }
@@ -273,6 +293,8 @@ addMatch(matched_id){
 
   render() {
     if(this.state.mode ==='home'){
+      console.log("state of matches");
+      console.log(this.state.matches);
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

@@ -13,11 +13,6 @@ const knex = require('knex')({
   }
 });
 
-const users = knex('users');
-const followers = knex('followers');
-const matches = knex('matches');
-const likes = knex('likes');
-
 const corsOptions = {
   methods: ['GET', 'PUT', 'POST'],
   origin: '*',
@@ -32,7 +27,7 @@ app.use(bodyParser.json());
 
 app.get('/sounder/users/', (request,response) =>{
   console.log("hi! yay its working!!!");
-  users.select().then((data)=>{
+  knex('users').select().then((data)=>{
       response.send(data);
     });
   });
@@ -47,22 +42,20 @@ app.post('/sounder/users', (request, response) => {
 
 app.get('/sounder/users/:id', (request, response) =>{
   const userID = parseInt(request.params.id);
-  users.select().then((data)=>{
     knex.select().from('users').where('id', userID).then((values)=>{
       response.send(values);
     });
-  });
 });
 
 // For handling requests to "likes" table
 app.get('/sounder/likes', (request, response) =>{
-  likes.select().then((data)=>{
+  knex('likes').select().then((data)=>{
     response.send(data);
   });
 });
 
 app.post('/sounder/likes', (request, response) =>{
-  console.log(request.body)
+  //console.log(request.body)
   knex('likes').insert(request.body).then((values)=>{
     response.send(values);
   });
@@ -70,18 +63,24 @@ app.post('/sounder/likes', (request, response) =>{
 
 // For handling requests to "matches" table
 app.get('/sounder/matches', (request, response) =>{
-  matches.select().then((data)=>{
+  knex('matches').select().then((data)=>{
     response.send(data);
   });
 });
 
 app.post('/sounder/matches', (request, response) =>{
-  console.log(request.body)
+  //console.log(request.body)
   knex('matches').insert(request.body).then((values)=>{
     response.send(values);
   });
 });
 
+app.get('/sounder/matches/:id', (request, response)=>{
+  const userID = parseInt(request.params.id);
+    knex.select().from('matches').where('user_id', userID).orWhere('matched_id', userID).then((matches)=>{
+      response.send(matches);
+    });
+});
 
 
 server.listen(port);

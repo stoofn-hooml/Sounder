@@ -58,28 +58,38 @@ class MatchPage extends Component{
   checkMatch(){
     for (let pair of this.props.likeData){
       if ((pair.user_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_id === this.props.currentLogin.id)){
+        console.log("we foudn a new match!");
+        alert("You just matched with " + this.props.futureMatches[this.state.futureMatchIndex].username + "!")
         this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].id)
       }
     }
   }
 
   render(){
+    if(this.props.futureMatches.length > 0){
+      return(
+        <Grid>
+          <Row bsClass="topRow">
+            <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
+              <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
+            </Col>
+          </Row>
+        </Grid>
 
-    return(
-      <Grid>
-        <Row bsClass="topRow">
-          <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
-            <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
-          </Col>
-        </Row>
-      </Grid>
 
+      );
 
-    );
+    } else {
+      return(
+        <div><p>Sorry, there is no one to match with!</p></div>
+      )
+
+    }
+
   }
 }
 

@@ -36,10 +36,10 @@ function HomePage(props) {
   return (
     <Grid>
       <Row bsClass="topRow">
-        <Col lg={9}>
+        <Col lg={9} md={9} sm={5}>
           <UserDetail currentLogin={props.currentLogin} />
         </Col>
-        <Col lg={3}>
+        <Col lg={3} md={3} sm={3}>
           <MatchLog matchlist={props.matchlist} clickMatch={(match)=>props.clickMatch(match)}/>
         </Col>
       </Row>

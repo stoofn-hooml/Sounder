@@ -75,7 +75,7 @@ function MatchLog(props){
   });
 
   return (
-    <Grid>
+    <Grid fluid={true}>
       <Row>
         <Col lg={2}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>

@@ -91,7 +91,7 @@ render(){
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
         return(
-        <Grid>
+        <Grid fluid={true}>
             <Row bsClass="padded">
               <div className="modal-container">
                       {goToProfile}
@@ -109,7 +109,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9}>
+              <Col lg={9} m={6}>
                 {songs}
               </Col>
           </Grid>
@@ -118,7 +118,7 @@ render(){
       /*User is currently looking at their own profile so doesn't need link to profile button or repost Modal*/
       else{
         return(
-          <Grid>
+          <Grid fluid={true}>
             <Row>
               <Col lg={2} sm={2} >
                 {profilePicture}
@@ -129,7 +129,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9}>
+              <Col lg={9} m={6}>
                 {songs}
               </Col>
           </Grid>

@@ -32,12 +32,12 @@ import Button from 'react-bootstrap/lib/Button.js';
 function MatchDetailPage(props){
 
     return (
-      <Grid>
+      <Grid fluid={true}>
         <Row bsClass="topRow">
-          <Col lg={3}>
+          <Col lg={3} md={3}>
             <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} />
           </Col>
-          <Col lg={9}>
+          <Col lg={9} md={9}>
             <UserDetail currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL}/>
           </Col>
         </Row>

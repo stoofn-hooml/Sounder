@@ -15,6 +15,7 @@ import Modal from 'react-bootstrap/lib/Modal.js';
 import Image from 'react-bootstrap/lib/Image.js';
 import EmbedSong from './EmbedSong.js';
 import Button from 'react-bootstrap/lib/Button.js';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon.js';
 
 const UsernameRow = styled(Row)`
   color: #ff7700;
@@ -51,18 +52,53 @@ class UserDetail extends Component{
     super(props);
 
     this.state = {
-      showModal: false
+      showModal: false,
+      karma: [37,78]
     };
   }
+
+  createKarma(rating){
+    if (this.state.karma[0]/this.state.karma[1] > 0.8){
+      return(
+        <div>
+        <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" />
+      </div>
+    )}
+    if (this.state.karma[0]/this.state.karma[1] > 0.6){
+      return(
+        <div>
+        <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" />
+      </div>
+    )}
+    if (this.state.karma[0]/this.state.karma[1] > 0.4){
+      return(
+        <div>
+        <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
+      </div>
+    )}
+    if (this.state.karma[0]/this.state.karma[1] > 0.2){
+      return(
+        <div>
+        <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
+      </div>
+    )}
+    else{
+      return(
+        <div>
+          <Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
+        </div>
+    )}
+  };
 
 
 render(){
 
   let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />)
+  let karmaScore = (this.createKarma())
   let basicUserInfo = (<div>
                        <UsernameRow >{this.props.currentLogin['username']}</UsernameRow>
                        <UserDetailRow>Genre: {this.props.currentLogin['genre']}</UserDetailRow>
-                       <UserDetailRow>Karma Rating: {this.props.currentLogin['karma']}</UserDetailRow>
+                       <UserDetailRow>Karma Rating: {karmaScore}</UserDetailRow>
                        <UserDetailRow>Followers: {this.props.currentLogin['numFollowers']}</UserDetailRow>
                        </div>)
   let songs = (<div>
@@ -91,7 +127,7 @@ render(){
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
         return(
-        <Grid>
+        <Grid fluid={true}>
             <Row bsClass="padded">
               <div className="modal-container">
                       {goToProfile}
@@ -109,7 +145,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9}>
+              <Col lg={9} m={6}>
                 {songs}
               </Col>
           </Grid>
@@ -118,7 +154,7 @@ render(){
       /*User is currently looking at their own profile so doesn't need link to profile button or repost Modal*/
       else{
         return(
-          <Grid>
+          <Grid fluid={true}>
             <Row>
               <Col lg={2} sm={2} >
                 {profilePicture}
@@ -129,7 +165,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9}>
+              <Col lg={9} m={6}>
                 {songs}
               </Col>
           </Grid>

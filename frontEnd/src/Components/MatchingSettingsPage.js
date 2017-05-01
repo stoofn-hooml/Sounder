@@ -113,17 +113,17 @@ class MatchingSettings extends Component{
               </Col>
               <Col lg={6} md={6}>
                 <Row>
-                  <EmbedSong songURL={this.state.song1}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song1}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song1" type="text" size="auto" value={this.state.song1} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="middleRow">
-                  <EmbedSong songURL={this.state.song2}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song2" type="text" size="auto" value={this.state.song2} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="middleRow">
-                  <EmbedSong songURL={this.state.song3}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song3" type="text" size="auto" value={this.state.song3} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>

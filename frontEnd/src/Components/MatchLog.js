@@ -77,7 +77,7 @@ function MatchLog(props){
   return (
     <Grid>
       <Row>
-        <Col lg={2}><CenteredTitle>Matches</CenteredTitle></Col>
+        <Col lg={2} m={3}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>
       <Row>
         <Col lg={2}>

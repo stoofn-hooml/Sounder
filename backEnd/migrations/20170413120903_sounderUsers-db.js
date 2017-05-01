@@ -6,7 +6,8 @@ const usersTable = function(table){
   table.integer('karma');
   table.string('profileURL');
   table.string('genre');
-  table.integer('followerRange');
+  table.integer('followerRangeMin'); //new
+  table.integer('followeRangeMax'); //new
   table.integer('online');
   table.string('song1');
   table.string('song2');

@@ -56,7 +56,8 @@ createNewUser(newUserObj){
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
   userData.genre = newUserObj.genre[0];
-  userData.followerRange = 20;
+  userData.followerRangeMin = 0;
+  userData.followerRangeMax = 100000000;
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
@@ -266,6 +267,49 @@ addMatch(matched_id){
     this.setState({currentMatch: match});
   }
 
+  /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
+  updateSettings(updatedUserObj){
+    console.log(updatedUserObj);
+    this.setState({currentLogin:updatedUserObj});
+
+    // let userData = {}
+    // userData.username = newUserObj.username;
+    // userData.numFollowers = newUserObj.numFollowers;
+    // userData.profilepictureURL = newUserObj.photoURL;
+    // userData.karma = newUserObj.karma;
+    // userData.profileURL = newUserObj.profileURL;
+    // userData.genre = newUserObj.genre[0];
+    // userData.followerRange = 20;
+    // userData.online = 0;
+    // userData.song1 = newUserObj.song1;
+    // userData.song2 = newUserObj.song2;
+    // userData.song3 = newUserObj.song3;
+    // const userStr = JSON.stringify(userData);
+    // const request = new Request(
+    // SERVER + "/sounder/users/" ,
+    // {
+    //   method:'POST',
+    //   body: userStr,
+    //   headers: new Headers({'Content-type': 'application/json'})
+    // }
+    // );
+    //
+    // fetch(request)
+    // .then((response)=>{
+    //   if (response.ok){
+    //     this.updateUsers();
+    //     return response.json();
+    //   }
+    // })
+    // .then((response)=>{
+    //   // ************************************************
+    //   // This needs to be fixed !!!!!!
+    //   // ************************************************
+    //   let tempObj = Object.assign({}, newUserObj, {id : response[0]});
+    //   this.setState({currentLogin: tempObj, mode: 'home'});
+    //   console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
+    // });
+  }
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
@@ -306,13 +350,14 @@ addMatch(matched_id){
     };
 
     if(this.state.mode==='settings'){
+      console.log(this.state.currentLogin);
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
-            setProfile={(username)=>this.handleSignIn(username)}
+            updateSettings={(obj)=>this.updateSettings(obj)}
             setMode={(article)=>this.setState({mode:'home'})}
           />
         </div>

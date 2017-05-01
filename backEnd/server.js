@@ -47,6 +47,30 @@ app.get('/sounder/users/:id', (request, response) =>{
     });
 });
 
+// Adds an updated User by deleting the old one and adding new
+app.put('/sounder/users/:id', (request, response) =>{
+  const userID = parseInt(request.params.id);
+  const min = parseInt(request.body.followerRangeMin);
+  const max = parseInt(request.body.followerRangeMax);
+
+  let updatedUserObj = request.body
+  console.log(request.body.genre)
+  console.log(min)
+
+  knex('users').where('id', userID).update({
+    followerRangeMin:min,
+    followerRangeMax:max,
+    genre: request.body.genre,
+    song1: request.body.song1,
+    song2: request.body.song2,
+    song3: request.body.song3,
+    profileURL: request.body.profleURL
+  }).then((data)=>{
+    response.send(data);
+  });
+
+});
+
 // For handling requests to "likes" table
 app.get('/sounder/likes', (request, response) =>{
   knex('likes').select().then((data)=>{

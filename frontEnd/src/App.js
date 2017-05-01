@@ -270,45 +270,26 @@ addMatch(matched_id){
   /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
   updateSettings(updatedUserObj){
     console.log(updatedUserObj);
-    this.setState({currentLogin:updatedUserObj});
+    this.setState({currentLogin:updatedUserObj})
 
-    // let userData = {}
-    // userData.username = newUserObj.username;
-    // userData.numFollowers = newUserObj.numFollowers;
-    // userData.profilepictureURL = newUserObj.photoURL;
-    // userData.karma = newUserObj.karma;
-    // userData.profileURL = newUserObj.profileURL;
-    // userData.genre = newUserObj.genre[0];
-    // userData.followerRange = 20;
-    // userData.online = 0;
-    // userData.song1 = newUserObj.song1;
-    // userData.song2 = newUserObj.song2;
-    // userData.song3 = newUserObj.song3;
-    // const userStr = JSON.stringify(userData);
-    // const request = new Request(
-    // SERVER + "/sounder/users/" ,
-    // {
-    //   method:'POST',
-    //   body: userStr,
-    //   headers: new Headers({'Content-type': 'application/json'})
-    // }
-    // );
-    //
-    // fetch(request)
-    // .then((response)=>{
-    //   if (response.ok){
-    //     this.updateUsers();
-    //     return response.json();
-    //   }
-    // })
-    // .then((response)=>{
-    //   // ************************************************
-    //   // This needs to be fixed !!!!!!
-    //   // ************************************************
-    //   let tempObj = Object.assign({}, newUserObj, {id : response[0]});
-    //   this.setState({currentLogin: tempObj, mode: 'home'});
-    //   console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
-    // });
+
+    const userStr = JSON.stringify(updatedUserObj);
+    const request = new Request(
+    SERVER + "/sounder/users/" + updatedUserObj.id ,
+    {
+      method:'PUT',
+      body: userStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+    );
+
+    fetch(request)
+    .then((response)=>{
+      if (response.ok){
+        this.updateUsers();
+        return response.json();
+      }
+    });
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
 

@@ -12,3 +12,8 @@ body {
   margin-top: 50px;
   margin-bottom: 50px;
 }
+
+.padded {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

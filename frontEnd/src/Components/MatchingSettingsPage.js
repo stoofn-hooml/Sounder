@@ -14,6 +14,7 @@ import Col from 'react-bootstrap/lib/Col.js';
 import EmbedSong from './EmbedSong.js';
 
 
+
 class MatchingSettings extends Component{
   constructor(props){
     super();
@@ -48,6 +49,12 @@ class MatchingSettings extends Component{
       this.setState({profileURL: inputEvent.target.value});
   }
 
+  handleGenre(genre){
+      console.log(genre);
+      this.setState({genre: genre});
+      console.log(this.state.genre)
+  }
+
   handleSave(){ //sends the updatedUserObj back up to App.js
     let updatedUserObj = Object.assign({}, this.props.currentLogin, {
       followerRangeMin:this.state.min,
@@ -72,11 +79,14 @@ class MatchingSettings extends Component{
     let counter = 0;
     const genrelist = (genreOps).map((genrei)=>{ //creates a genrelist that is displayed in the "Genre" dropdown
       counter += 1;
-      return (<MenuItem eventKey={counter} onClick={()=>{console.log(genrei)}}> {genrei} </MenuItem>);});
+      return (<MenuItem eventKey={counter} onClick={()=>{this.handleGenre(genrei)}}> {genrei} </MenuItem>);});
 
     let genre = (<DropdownButton title='Genres' id='genre-dropdown'>
               {genrelist}
               </DropdownButton>)
+
+
+
       return(
         <Grid>
           <Row bsClass="topRow">

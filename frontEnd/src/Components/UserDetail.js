@@ -33,7 +33,7 @@ function UserDetail(props){
     <Grid >
       <Row>
         <Col lg={2} sm={2} >
-          <Image src={props.currentLogin.profilePicture}  circle bsStyle="margin:10px;" width="114px" height="114px" />
+          <Image src={props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />
         </Col>
         <Col lg={7} sm={3} >
           <Grid>

@@ -52,7 +52,7 @@ createNewUser(newUserObj){
   let userData = {}
   userData.username = newUserObj.username;
   userData.numFollowers = newUserObj.numFollowers;
-  userData.profilepictureURL = newUserObj.photoURL;
+  userData.profilepictureURL = newUserObj.profilePictureURL;
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
   userData.genre = newUserObj.genre[0];
@@ -61,6 +61,7 @@ createNewUser(newUserObj){
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
   userData.song3 = newUserObj.song3;
+  console.log(userData);
   const userStr = JSON.stringify(userData);
   const request = new Request(
   SERVER + "/sounder/users/" ,
@@ -139,9 +140,6 @@ updateUsers(){
           //this.setState({futureMatches: data});
         });
 }
-
-
-
 
 loadMatches(id){
   fetch(SERVER + '/sounder/matches/' + id)

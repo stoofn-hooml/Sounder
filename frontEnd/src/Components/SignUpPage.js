@@ -89,7 +89,7 @@ class SignUp extends Component{
       profileURL: '',
       genres: '', //make this an array later
       numFollowers: '',
-      photoURL: '',
+      profilePictureURL: '',
       email: ''
 
     }
@@ -130,7 +130,7 @@ handleGenres(inputEvent){ //make this an array handler later
 }
 
 handlePhotoURL(inputEvent){
-  this.setState({photoURL: inputEvent.target.value});
+  this.setState({profilePictureURL: inputEvent.target.value});
 
 }
 
@@ -157,7 +157,7 @@ createUser(){ //creates the actual user object
   profileURL: this.state.profileURL,
   genre: [this.state.genres], //make this an array later
   numFollowers: this.state.numFollowers,
-  profilePicture: this.state.photoURL,
+  profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
   karma: 0
 
@@ -197,7 +197,7 @@ render() {
   let profileURLInput = (<Input  placeholder="Soundcloud Profile URL" type="text" value={this.state.profileURL} onChange={(event)=>{this.handleProfileURL(event)}}/>);
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
   let genresInput = (<Input  placeholder="genre (later dropdown)" type="text" value={this.state.genres} onChange={(event)=>{this.handleGenres(event)}}/>);
-  let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.photoURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
+  let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
 
   let genreOps = ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", "Deep House",

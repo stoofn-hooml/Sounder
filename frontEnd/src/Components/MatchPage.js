@@ -23,6 +23,32 @@ import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 import Button from 'react-bootstrap/lib/Button.js';
 
+const LoginButton = styled.div`
+  background-color: #525252; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  cursor: pointer;
+  border-radius: 28px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  &:hover {
+   background-color:#FF7700;
+ }
+
+`;
+
+const MatchPageWrap = styled.div`
+  text-align: center;
+  margin-top: 20px;
+
+`;
+
+
 
 class MatchPage extends Component{
   constructor(props){
@@ -69,14 +95,16 @@ class MatchPage extends Component{
     if(this.props.futureMatches.length > 0){
       return(
         <Grid>
+          <Row>
+            <MatchPageWrap>
+            <Col>
+              <LoginButton onClick={()=>this.handleNext()} value="Next">Next</LoginButton>
+              <LoginButton onClick={()=>this.handleLike()} value="Like">Like</LoginButton>
+            </Col>
+            </MatchPageWrap>
+          </Row>
           <Row bsClass="topRow">
             <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
-              <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
-            </Col>
           </Row>
         </Grid>
 

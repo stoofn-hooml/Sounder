@@ -66,6 +66,7 @@ class MatchingSettings extends Component{
       profileURL: this.state.profleURL
     });
     this.props.updateSettings(updatedUserObj);
+    alert("Changes Saved!")
   }
 
 
@@ -103,6 +104,7 @@ class MatchingSettings extends Component{
                 <Row bsClass="middleRow">
                   <div>
                     {genre}
+                    <input style={{marginLeft:"20px"}} value={this.state.genre}/>
                   </div>
                 </Row>
                 <Row bsClass="middleRow">

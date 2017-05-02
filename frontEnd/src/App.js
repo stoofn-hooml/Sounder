@@ -39,6 +39,7 @@ class App extends Component {
       currentMatchIds: [2, 13, 15, 20, 17, 18, 19, 25, 27, 29, 30, 31, 32, 33, 34, 35, 37, 38, 40, 42,43],
       futureMatches: [],
       currentMatch: null,
+      matches: []
     }
 
       this.updateUsers();
@@ -87,6 +88,7 @@ createNewUser(newUserObj){
     let tempObj = Object.assign({}, newUserObj, {id : response[0]});
     this.setState({currentLogin: tempObj, mode: 'home'});
     console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
+    this.loadMatches(tempObj.id);
   });
 }
 
@@ -246,6 +248,7 @@ addMatch(matched_id){
       if (alreadyThere === false){
 
         this.createNewUser(newUserObj);
+
         //this.setState({currentLogin: newUserObj, mode: 'home'});
         //console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
       }
@@ -346,6 +349,7 @@ addMatch(matched_id){
       );
     }
     else {
+      console.log(this.state.currentLogin);
       return (
       <div>
       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

@@ -6,6 +6,10 @@ const server = http.createServer(app);
 //bodyparser for passing JSON around without having to parse each time
 var bodyParser = require('body-parser');
 
+
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -22,8 +26,108 @@ const corsOptions = {
 var port = 4321;
 
 app.use(cors(corsOptions));
-app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());
+
+
+
+
+app.use(express.static(__dirname + '/build'));
+
+
+
+//+-------------------Passport Stuff------------------------+
+
+
+
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+// app.use(require('morgan')('combined'));
+// app.use(require('cookie-parser')());
+// app.use(require('body-parser').urlencoded({ extended: true }));
+// app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+// var engine = require('consolidate');
+// app.set('views', __dirname + '/build/static');
+// app.engine('html', engine.mustache);
+// app.set('view engine', 'html');
+
+
+ var path = require('path');
+
+
+
+// Define routes.
+app.get('/',
+  //require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    res.render('login.html', { user: req.user });
+  });
+
+app.get('/login',
+  function(req, res){
+    res.sendFile(path.join(__dirname + '/build/login.html'));
+});
+
+
+app.post('/login',
+//  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+});
+
+
+app.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+
+
+
+
+
+
+//+-------------------Passport Stuff, Above------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/sounder/users/', (request,response) =>{
   console.log("hi! yay its working!!!");

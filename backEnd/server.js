@@ -32,6 +32,7 @@ app.get('/sounder/users/', (request,response) =>{
     });
   });
 
+//adds user to db
 app.post('/sounder/users', (request, response) => {
   console.log("trying to add new user!");
   console.log(request.body);
@@ -64,7 +65,9 @@ app.put('/sounder/users/:id', (request, response) =>{
     song1: request.body.song1,
     song2: request.body.song2,
     song3: request.body.song3,
-    profileURL: request.body.profleURL
+    profileURL: request.body.profleURL,
+    thumbsUpTotal: request.body.thumbsUpTotal,
+    totalRatings: request.body.totalRatings
   }).then((data)=>{
     response.send(data);
   });

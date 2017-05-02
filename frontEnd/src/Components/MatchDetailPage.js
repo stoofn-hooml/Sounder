@@ -38,7 +38,7 @@ function MatchDetailPage(props){
             <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} />
           </Col>
           <Col lg={9} md={9}>
-            <UserDetail currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL}/>
+            <UserDetail currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL} updateSettings={(obj)=>props.updateSettings(obj)} />
           </Col>
         </Row>
       </Grid>

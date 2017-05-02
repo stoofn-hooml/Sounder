@@ -50,7 +50,7 @@ const LoginButton = styled.div`
 class UserDetail extends Component{
   constructor(props){
     super(props);
-
+    console.log(props);
     this.state = {
       showModal: false,
       karma: [37,78]
@@ -58,25 +58,32 @@ class UserDetail extends Component{
   }
 
   createKarma(rating){
-    if (this.state.karma[0]/this.state.karma[1] > 0.8){
+    if (this.props.currentLogin.totalRatings ===0){
+      console.log('no ratings yet');
+      return(
+        <div>
+        <p>No Ratings Yet</p>
+      </div>
+    )}
+    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.8){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.6){
+    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.6){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.4){
+    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.4){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.2){
+    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.2){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
@@ -90,6 +97,24 @@ class UserDetail extends Component{
     )}
   };
 
+  handleKarmaRating(event){
+    (console.log(event.target.value));
+    let updatedUserObj;
+    if (event.target.value === "Thumbs Up"){
+      updatedUserObj = Object.assign({}, this.props.currentLogin, {
+        thumbsUpTotal:this.props.currentLogin.thumbsUpTotal +1,
+        totalRatings:this.props.currentLogin.totalRatings +1
+      });
+    };
+    if (event.target.value === "Thumbs Down"){
+      updatedUserObj = Object.assign({}, this.props.currentLogin, {
+        thumbsUpTotal:this.props.currentLogin.thumbsUpTotal,
+        totalRatings:this.props.currentLogin.totalRatings +1
+      });
+    };
+    this.props.updateSettings(updatedUserObj);
+    console.log(updatedUserObj);
+  };
 
 render(){
 
@@ -124,6 +149,23 @@ render(){
     let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
     let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)
 
+
+    //Adds the karma rating system
+    let rateButton = (<form>
+                        <div className="radio">
+                          <label>
+                            <input type="radio" value="Thumbs Up" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            Thumbs Up! Rad!
+                          </label>
+                        </div>
+                        <div className="radio">
+                          <label>
+                            <input type="radio" value="Thumbs Down" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            Thumbs Down! Yuck!
+                          </label>
+                        </div>
+                      </form>)
+
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
         return(
@@ -133,6 +175,7 @@ render(){
                       {goToProfile}
                       {repostModalButton}
                       {repostModal}
+                      {rateButton}
               </div>
             </Row>
             <Row>

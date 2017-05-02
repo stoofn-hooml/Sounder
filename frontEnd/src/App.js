@@ -323,7 +323,10 @@ addMatch(matched_id){
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-          <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} currentMatch={this.state.currentMatch} setMode={(article)=>this.setState({mode:'home'})} />
+          <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
+                            matchlist={this.state.matches} currentMatch={this.state.currentMatch}
+                            setMode={(article)=>this.setState({mode:'home'})}
+                            updateSettings={(obj)=>this.updateSettings(obj)} />
         </div>
       );
     };

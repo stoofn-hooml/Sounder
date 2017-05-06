@@ -3,23 +3,21 @@
 
   App is the top-level component of our application. It is responsible for managing the data collection.
 
-  App maintains state in the form of currentLogin, mode, currentMatchIds, futureMatchesIds, currentMatch, matches, and futureMatches.
-  -currentLogin is an object that stores the account information for the person who is currently logged in.
+  App maintains state in the form of mode, currentLogin, currentMatch, matches, and futureMatches.
   -mode determines which page is being displayed.
-  -currentMatchIds is an array of ids that represent all the artists that currentLogin has matched with
-  -futureMatchesIds is an array of ids that represent all the artists that currentLogin could potentially match with
-  -currentMatch is an object that stores the account information of the person that currentLogin has matched with and the user of the profile
-  that currentLogin is looking at in MatchDetailPage
+  -currentLogin is an object that stores the account information for the person who is currently logged in.
+  -currentMatch is an object that stores the account information of the person that will be dispalyed in MatchDetailPage
   -matches is an array of objects that store the acccount information of the artists that currentLogin has matched with
   -futureMatches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
+  -likes is an array with all the likes in the database
+
   */
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 
 import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
-import data from '../public/sounderUsers.json';
 import LoginPage from './Components/LoginPage.js';
 import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
@@ -36,10 +34,10 @@ class App extends Component {
     this.state={
       mode: 'login',
       currentLogin: null,
-      currentMatchIds: [2, 13, 15, 20, 17, 18, 19, 25, 27, 29, 30, 31, 32, 33, 34, 35, 37, 38, 40, 42,43],
       futureMatches: [],
       currentMatch: null,
-      matches: []
+      matches: [],
+      likes: null
     }
 
       this.updateUsers();
@@ -119,6 +117,7 @@ addLike(user_id, liked_id){
 
 // THIS IS IMPORTANT: We need to "refetch" our data as it's being updated on
 // the backend if we want frontend to reflect these changes in real-time
+/*retrieves all the data in the likes table*/
 updateLikes(){
   fetch(SERVER + '/sounder/likes/')
         .then((response)=>{
@@ -130,7 +129,7 @@ updateLikes(){
           this.setState({likes: data});
         });
 }
-
+/*retrieves all the data from the users table*/
 updateUsers(){
   fetch(SERVER + '/sounder/users/')
         .then((response)=>{
@@ -144,6 +143,8 @@ updateUsers(){
         });
 }
 
+/*given a user id, this function retrieves all the people that that user has matched with
+ invokes the getMatches function to do most of the work */
 loadMatches(id){
   fetch(SERVER + '/sounder/matches/' + id)
         .then((response)=>{
@@ -153,11 +154,12 @@ loadMatches(id){
         })
         .then((data)=>{
           this.getMatches(id, data);
-          // let matchData = this.getMatches(id, data);
-          // this.setState({matches:matchData});
         })
 }
 
+/*getMatches is a helper function for loadMatches
+ it sets the state of matches and futureMatches
+*/
 getMatches(id, matchData){
   let matchArray = [];
   let objArray = [];
@@ -187,7 +189,7 @@ getMatches(id, matchData){
 }
 
 
-
+/* adds a match (currentLogin.id & matched_id) to the match table */
 addMatch(matched_id){
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;
@@ -212,6 +214,7 @@ addMatch(matched_id){
   });
 }
 
+/*adds a like (currentLogin.id likes liked_id) to the likes table*/
   handleLike(liked_id){
     this.addLike(this.state.currentLogin.id, liked_id)
 
@@ -299,7 +302,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -322,6 +325,8 @@ addMatch(matched_id){
     };
 
     if(this.state.mode === 'matchdetails'){
+      console.log("this is what is in the likes array");
+      console.log(this.state.likes);
       return (
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

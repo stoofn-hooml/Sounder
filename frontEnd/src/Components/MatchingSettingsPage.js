@@ -1,5 +1,5 @@
 /*
-  MatchingSettingsPAge.js
+  MatchingSettingsPage.js
 
   This provides the implementation for the profile component.
 

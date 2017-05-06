@@ -1,8 +1,12 @@
 /*
-UserDetail.js
+  UserDetail.js
 
-UserDetail takes in one prop: currentLogin
--currentLogin is an object that stores the account information for the person who is currently logged in.
+  UserDetail maintains state in the form of showModal.
+    -showModal determines if the modal should be displayed or not.
+
+  UserDetail takes in one prop: currentLogin and profileLink
+  -currentLogin is an object that stores the account information for the person who is currently logged in.
+  -profileLink is a link to the SoundCloud profile of the person whose profile we are viewing
 
 */
 
@@ -14,7 +18,6 @@ import Col from 'react-bootstrap/lib/Col.js';
 import Modal from 'react-bootstrap/lib/Modal.js';
 import Image from 'react-bootstrap/lib/Image.js';
 import EmbedSong from './EmbedSong.js';
-import Button from 'react-bootstrap/lib/Button.js';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon.js';
 
 const UsernameRow = styled(Row)`

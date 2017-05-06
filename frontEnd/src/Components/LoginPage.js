@@ -10,15 +10,10 @@
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Form from 'react-bootstrap/lib/Form.js';
-import FormGroup from 'react-bootstrap/lib/FormGroup.js';
-import FormControl from 'react-bootstrap/lib/FormControl.js';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel.js';
-import Checkbox from 'react-bootstrap/lib/Checkbox.js';
 
 
-import Col from 'react-bootstrap/lib/Col.js';
-import Button from 'react-bootstrap/lib/Button.js';
+//import Col from 'react-bootstrap/lib/Col.js';
+//import Button from 'react-bootstrap/lib/Button.js';
 
 
 
@@ -95,12 +90,7 @@ handlePassword(inputEvent){
 }
 
 render() {
-  // let usernameInput = (<Input  type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
-  // let passwordInput = (<Input  type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
-  // let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
-  // let createAccount = (<LoginButton onClick={()=>this.setState({mode:'signUp'})}>Create Account</LoginButton>);
-  // let signUp = (<LoginButton onClick={()=>this.props.newUser(this.state.username,this.state.password)}>Sign Up</LoginButton>);
-  // let cancel = (<LoginButton onClick={()=>this.setState({mode:'login'})} >Cancel</LoginButton>);
+
 
 
   let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
@@ -113,7 +103,7 @@ render() {
 
 
 
-  if (this.state.mode == 'login'){
+  if (this.state.mode === 'login'){
     return(
       <LoginPage>
         <SounderHeader>
@@ -136,7 +126,7 @@ render() {
       );
   }
 
-  if (this.state.mode == 'signUp'){
+  if (this.state.mode === 'signUp'){
     return(
       <LoginPage>
         <SounderHeader>

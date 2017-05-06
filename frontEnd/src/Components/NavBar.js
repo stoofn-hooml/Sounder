@@ -1,4 +1,15 @@
-import React, { Component } from 'react';
+/*
+  NavBar.js
+
+  This provides the implementation for the NavBar component.
+
+  NavBar has one prop: setMode.
+    -setMode is a callback function that determines which page we are looking at
+
+
+*/
+
+import React from 'react';
 import Navbar from 'react-bootstrap/lib/Navbar.js';
 import NavItem from 'react-bootstrap/lib/NavItem.js';
 import Nav from 'react-bootstrap/lib/Nav.js';

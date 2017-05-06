@@ -13,7 +13,6 @@ import React from 'react';
 function EmbedSong(props){
   if(props.songURL && (props.songURL).length >= 20){
     let songString = props.songURL.split('src="');
-    console.log({songNotFinal});
     let songNotFinal = songString[1].split('"');
     let songFinal = songNotFinal[0];
     let isong = (<iframe width="100%" height="150" scrolling="no" frameBorder="no"

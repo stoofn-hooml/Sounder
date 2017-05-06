@@ -1,26 +1,18 @@
 /*
-  LoginPage.js
+  SignUpPage.js
 
-  This provides the implementation for the login component.
+  This provides the implementation for the signUp page.
 
-  LoginPage maintains state in the form of username.
-
-  LoginPage has one prop: setProfile. setProfile is a callback function that updates the state in App.js of currentUser to be the username and the mode to be the home page.
 
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Form from 'react-bootstrap/lib/Form.js';
-import FormGroup from 'react-bootstrap/lib/FormGroup.js';
-import FormControl from 'react-bootstrap/lib/FormControl.js';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel.js';
-import Checkbox from 'react-bootstrap/lib/Checkbox.js';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
 import MenuItem from 'react-bootstrap/lib/MenuItem.js';
 
 
-import Col from 'react-bootstrap/lib/Col.js';
-import Button from 'react-bootstrap/lib/Button.js';
+//import Col from 'react-bootstrap/lib/Col.js';
+
 
 
 

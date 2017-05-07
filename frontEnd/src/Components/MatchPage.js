@@ -59,10 +59,30 @@ class MatchPage extends Component{
     };
   }
 
+  checkLiked(index){//checks whether the next up user has been liked
+      for (let pair of this.props.likeData){
+        if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[index].id)){
+          console.log("This user"+ this.props.futureMatches[index].username + "has already been liked, will not record!")
+          return true;
+        }
+      }
+    return false;
+  }
 
   handleNext(){
-    this.setState({futureMatchIndex: (this.state.futureMatchIndex + 1)});
-  }
+    let i = this.state.futureMatchIndex+1 //index of next user
+
+      while (i < this.props.futureMatches.length){
+          if(this.checkLiked(i)){
+            i+=1;
+          }else{
+            break;
+          }
+      }
+        this.setState({futureMatchIndex: i});
+
+      }
+
 
   handleLike(){
     for (let pair of this.props.likeData){
@@ -90,8 +110,12 @@ class MatchPage extends Component{
     }
   }
 
+  handleRefresh(){
+    this.setState({futureMatchIndex: 0});
+  }
+
   render(){
-    if(this.props.futureMatches.length > 0){
+    if(this.props.futureMatches.length > 0 && this.state.futureMatchIndex < this.props.futureMatches.length){
       return(
         <Grid>
           <Row>
@@ -112,7 +136,10 @@ class MatchPage extends Component{
 
     } else {
       return(
-        <div><p>Sorry, there is no one to match with!</p></div>
+        <div><p>Sorry, there is no one to match with! Try widening your search by follower range in Settings.</p>
+        <LoginButton onClick={()=>this.props.goToSettings()} value="Settings">Settings</LoginButton>
+        <p>Or refresh matches.</p>
+        <LoginButton onClick={()=>this.handleRefresh()} value="Refresh">Refresh</LoginButton></div>
       )
 
     }

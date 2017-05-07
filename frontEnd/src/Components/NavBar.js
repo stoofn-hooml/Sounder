@@ -34,7 +34,7 @@ function NavBar(props){
           <NavItem onClick={()=>props.setMode('home')} eventKey={1} href="#">Home</NavItem>
         </Nav>
         <Nav pullRight>
-          <NavItem onClick={()=>props.setMode('matching')} eventKey={2} href="#">Start Matching</NavItem>
+          <NavItem onClick={()=>{props.updateFutureMatches(); props.setMode('matching');}} eventKey={2} href="#">Start Matching</NavItem>
           <NavDropdown eventKey={3} title="Account" id="basic-nav-dropdown">
             <MenuItem onClick={()=>props.setMode('settings')} eventKey={3.1}>Settings</MenuItem>
             <MenuItem divider />

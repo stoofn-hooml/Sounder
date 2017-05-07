@@ -59,7 +59,6 @@ createNewUser(newUserObj){
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
   userData.song3 = newUserObj.song3;
-  console.log(userData);
   const userStr = JSON.stringify(userData);
   const request = new Request(
   SERVER + "/sounder/users/" ,
@@ -173,8 +172,8 @@ getMatches(id, matchData){
       }
     }
   }
-  for (let user of this.state.data){
-    if((matchArray.indexOf(user.id) < 0) &&(user.id !== id)){
+  for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
+    if((matchArray.indexOf(user.id) < 0) &&(user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
       futureMatchArray.push(user);
     }
   }
@@ -282,6 +281,8 @@ addMatch(matched_id){
         return response.json();
       }
     });
+
+    this.loadMatches(this.state.currentLogin.id); //loads futureMatches based on new settings
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
 
@@ -289,7 +290,7 @@ addMatch(matched_id){
     if(this.state.mode ==='home' && this.state.matches){
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  currentLogin={this.state.currentLogin} />
         </div>
       );
@@ -315,7 +316,7 @@ addMatch(matched_id){
     if(this.state.mode === 'matchdetails'){
       return (
         <div>
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
@@ -328,7 +329,7 @@ addMatch(matched_id){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
@@ -338,12 +339,12 @@ addMatch(matched_id){
         </div>
       );
     }
-    else {
+    else { /*MatchPage*/
       return (
       <div>
-      <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
+      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }

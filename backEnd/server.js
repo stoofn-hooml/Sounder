@@ -75,28 +75,31 @@ passport.use(new Strategy(
 ));
 
 
-// var engine = require('consolidate');
-// app.set('views', __dirname + '/build/static');
-// app.engine('html', engine.mustache);
-// app.set('view engine', 'html');
+var engine = require('consolidate');
+app.set('views', __dirname + '/build/');
+app.engine('html', engine.mustache);
+app.set('view engine', 'html');
 
 
- var path = require('path');
+var path = require('path');
 
 
 
 // Define routes.
 app.get('/', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
     console.log(req.user);
-    res.render('login.html', { user: req.user });
+    console.log("jj")
+    res.render('index.html', { user: req.user });
   });
 
 app.get('/login', function(req, res){
-    res.sendFile(path.join(__dirname + '/build/login.html'));
+    //res.sendFile(path.join(__dirname + '/build/login.html'));
+    res.render('login.html')
 });
 
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+    console.log("asdfasd")
     res.redirect('/');
 });
 

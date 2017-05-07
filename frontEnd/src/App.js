@@ -182,8 +182,6 @@ getMatches(id, matchData){
   this.setState({futureMatches: futureMatchArray});
 }
 
-
-
 addMatch(matched_id){
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;

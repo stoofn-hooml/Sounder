@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginPage2 from './Components/loginPage2.js';
+import LoginPage2 from './loginPage2.js';
 import './index.css';
 
 ReactDOM.render(

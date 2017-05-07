@@ -6,7 +6,7 @@ const server = http.createServer(app);
 //bodyparser for passing JSON around without having to parse each time
 var bodyParser = require('body-parser');
 
-
+// Required for passport authentication local strategy
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
@@ -28,15 +28,11 @@ var port = 4321;
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-
-
-
 app.use(express.static(__dirname + '/build'));
 
 
 
 //+-------------------Passport Stuff------------------------+
-
 
 
 // Use application-level middleware for common functionality, including
@@ -48,10 +44,35 @@ app.use(express.static(__dirname + '/build'));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
+
 app.use(passport.initialize());
 app.use(passport.session());
 
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     console.log("hey!!!")
+//     console.log(username)
+//     knex.select().from('users').where('username', username).then((response)=>{
+//       console.log(response)
+//     })
+//   }
+// ))
 
+passport.use(new Strategy(
+  function(username, password, done) {
+    console.log("made it here")
+    // User.findOne({ username: username }, function (err, user) {
+    //   if (err) { return done(err); }
+    //   if (!user) {
+    //     return done(null, false, { message: 'Incorrect username.' });
+    //   }
+    //   if (!user.validPassword(password)) {
+    //     return done(null, false, { message: 'Incorrect password.' });
+    //   }
+    //   return done(null, user);
+    // });
+  }
+));
 
 
 // var engine = require('consolidate');
@@ -65,27 +86,22 @@ app.use(passport.session());
 
 
 // Define routes.
-app.get('/',
-  //require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res) {
+app.get('/', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
+    console.log(req.user);
     res.render('login.html', { user: req.user });
   });
 
-app.get('/login',
-  function(req, res){
+app.get('/login', function(req, res){
     res.sendFile(path.join(__dirname + '/build/login.html'));
 });
 
 
-app.post('/login',
-//  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
     res.redirect('/');
 });
 
 
-app.get('/logout',
-  function(req, res){
+app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
@@ -130,14 +146,12 @@ app.get('/logout',
 
 
 app.get('/sounder/users/', (request,response) =>{
-  console.log("hi! yay its working!!!");
   knex('users').select().then((data)=>{
       response.send(data);
     });
   });
 
 app.post('/sounder/users', (request, response) => {
-  console.log("trying to add new user!");
   console.log(request.body);
   knex('users').insert(request.body).then((values)=>{
     response.send(values);

@@ -16,7 +16,6 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
 import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
 import data from '../public/sounderUsers.json';

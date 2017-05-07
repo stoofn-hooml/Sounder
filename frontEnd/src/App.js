@@ -14,8 +14,6 @@
   */
 
 import React, { Component } from 'react';
-//import styled from 'styled-components';
-
 import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
 import LoginPage from './Components/LoginPage.js';
@@ -80,9 +78,7 @@ createNewUser(newUserObj){
     }
   })
   .then((response)=>{
-    // ************************************************
-    // This needs to be fixed !!!!!!
-    // ************************************************
+
     let tempObj = Object.assign({}, newUserObj, {id : response[0]});
     this.setState({currentLogin: tempObj, mode: 'home'});
     console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
@@ -115,8 +111,6 @@ addLike(user_id, liked_id){
   })
 }
 
-// THIS IS IMPORTANT: We need to "refetch" our data as it's being updated on
-// the backend if we want frontend to reflect these changes in real-time
 /*retrieves all the data in the likes table*/
 updateLikes(){
   fetch(SERVER + '/sounder/likes/')
@@ -243,17 +237,12 @@ addMatch(matched_id){
       for (let profile of this.state.data){
           if (profile.username === newUserObj.username){
               alert("This username is already taken! Please enter a different one.");
-              console.log("this user already exists")
               alreadyThere = true
               return;
           }
       }
       if (alreadyThere === false){
-
         this.createNewUser(newUserObj);
-
-        //this.setState({currentLogin: newUserObj, mode: 'home'});
-        //console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
       }
   }
 
@@ -273,7 +262,6 @@ addMatch(matched_id){
 
   /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
   updateSettings(updatedUserObj){
-    console.log(updatedUserObj);
     this.setState({currentLogin:updatedUserObj})
 
 
@@ -325,8 +313,6 @@ addMatch(matched_id){
     };
 
     if(this.state.mode === 'matchdetails'){
-      console.log("this is what is in the likes array");
-      console.log(this.state.likes);
       return (
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
@@ -340,7 +326,6 @@ addMatch(matched_id){
     };
 
     if(this.state.mode==='settings'){
-      console.log(this.state.currentLogin);
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
@@ -354,7 +339,6 @@ addMatch(matched_id){
       );
     }
     else {
-      console.log(this.state.currentLogin);
       return (
       <div>
       <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

@@ -25,22 +25,14 @@ app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());
 
+// For getting general user data
 app.get('/sounder/users/', (request,response) =>{
-  console.log("hi! yay its working!!!");
   knex('users').select().then((data)=>{
       response.send(data);
     });
   });
 
-//adds user to db
-app.post('/sounder/users', (request, response) => {
-  console.log("trying to add new user!");
-  console.log(request.body);
-  knex('users').insert(request.body).then((values)=>{
-    response.send(values);
-  });
-  })
-
+// For getting specific user data
 app.get('/sounder/users/:id', (request, response) =>{
   const userID = parseInt(request.params.id);
     knex.select().from('users').where('id', userID).then((values)=>{
@@ -48,15 +40,21 @@ app.get('/sounder/users/:id', (request, response) =>{
     });
 });
 
-// Adds an updated User by deleting the old one and adding new
+//adds user to db
+app.post('/sounder/users', (request, response) => {
+  knex('users').insert(request.body).then((values)=>{
+    response.send(values);
+  });
+});
+
+
+// Adds an updated user by deleting the old one and adding new
 app.put('/sounder/users/:id', (request, response) =>{
   const userID = parseInt(request.params.id);
   const min = parseInt(request.body.followerRangeMin);
   const max = parseInt(request.body.followerRangeMax);
 
   let updatedUserObj = request.body
-  console.log(request.body.genre)
-  console.log(min)
 
   knex('users').where('id', userID).update({
     followerRangeMin:min,
@@ -71,7 +69,6 @@ app.put('/sounder/users/:id', (request, response) =>{
   }).then((data)=>{
     response.send(data);
   });
-
 });
 
 // For handling requests to "likes" table
@@ -81,6 +78,7 @@ app.get('/sounder/likes', (request, response) =>{
   });
 });
 
+// For adding a new "like" to the database
 app.post('/sounder/likes', (request, response) =>{
   //console.log(request.body)
   knex('likes').insert(request.body).then((values)=>{
@@ -95,13 +93,14 @@ app.get('/sounder/matches', (request, response) =>{
   });
 });
 
+// For adding a new "match" to the database
 app.post('/sounder/matches', (request, response) =>{
-  //console.log(request.body)
   knex('matches').insert(request.body).then((values)=>{
     response.send(values);
   });
 });
 
+// For getting specific matches based on id
 app.get('/sounder/matches/:id', (request, response)=>{
   const userID = parseInt(request.params.id);
     knex.select().from('matches').where('user_id', userID).orWhere('matched_id', userID).then((matches)=>{

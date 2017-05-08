@@ -158,11 +158,21 @@ getMatches(id, matchData){
   let matchArray = [];
   let objArray = [];
   let futureMatchArray = [];
+  let timeOfMatches = {};
   for (let match of matchData) {
+    let times = [];
     if(match.matched_id !== id){
       matchArray.push(match.matched_id);
+      times.push(match.matchTime);
+      times.push(match.matchTimeInt);
+      timeOfMatches[match.matched_id] = times;
     } else{
       matchArray.push(match.user_id);
+      console.log("here are the times");
+      console.log(match.matchTime);
+      times.push(match.matchTime);
+      times.push(match.matchTimeInt);
+      timeOfMatches[match.user_id] = times;
     }
 
   }
@@ -178,8 +188,11 @@ getMatches(id, matchData){
       futureMatchArray.push(user);
     }
   }
+  console.log("better display!!!");
+  console.log(timeOfMatches);
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
+  this.setState({matchTimes: timeOfMatches});
 }
 
 
@@ -188,6 +201,12 @@ addMatch(matched_id){
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;
   matchData.matched_id = matched_id;
+  const now = new Date();
+  matchData.matchTime = String(now).slice(4,15);
+  matchData.matchTimeInt = now.getTime();
+  console.log("here is the time:");
+  console.log(matchData.matchTime);
+  console.log(matchData.matchTimeInt);
   const matchStr = JSON.stringify(matchData);
   const request = new Request(
     SERVER + "/sounder/matches",
@@ -286,11 +305,13 @@ addMatch(matched_id){
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
-    if(this.state.mode ==='home' && this.state.matches){
+
+    if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
+      console.log(this.state.matchTimes);
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  currentLogin={this.state.currentLogin} />
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -320,7 +341,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} />
+                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes = {this.state.matchTimes} />
         </div>
       );
     };

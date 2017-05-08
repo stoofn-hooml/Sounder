@@ -54,6 +54,16 @@ const MatchPreview = styled(Popover)`
 function MatchLog(props){
   const matchlog = (props.matchlist).map((user)=>{
     let name = user.username;
+    let timeString = props.matchTimes[user.id][0];
+    let time;
+    if (timeString.length === 11){
+      console.log(timeString);
+        time = timeString;
+    } else{
+      time = '';
+
+    }
+    //name = name + ' ' + time;
     const popoverHoverFocus = (
     <MatchPreview id="popover-trigger-hover-focus" title={name}  positionLeft={200}
       positionTop={50}>
@@ -65,7 +75,7 @@ function MatchLog(props){
     return (
         <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-            <MatchNameStyle lg={2}>{name}</MatchNameStyle>
+            <MatchNameStyle lg={12}> {name}</MatchNameStyle>
           </OverlayTrigger>
         </MatchName>
     );

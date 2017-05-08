@@ -28,7 +28,8 @@ import Col from 'react-bootstrap/lib/Col.js';
 import '../index.css';
 
 function HomePage(props) {
-
+  console.log("home apge");
+  console.log
   return (
     <Grid>
       <Row bsClass="topRow">
@@ -36,7 +37,7 @@ function HomePage(props) {
           <UserDetail currentLogin={props.currentLogin} />
         </Col>
         <Col lg={3} md={3} sm={3}>
-          <MatchLog matchlist={props.matchlist} clickMatch={(match)=>props.clickMatch(match)}/>
+          <MatchLog matchlist={props.matchlist} clickMatch={(match)=>props.clickMatch(match)} matchTimes ={props.matchTimes}/>
         </Col>
       </Row>
     </Grid>

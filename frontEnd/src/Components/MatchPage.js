@@ -52,16 +52,21 @@ const MatchPageWrap = styled.div`
 class MatchPage extends Component{
   constructor(props){
     super(props);
-
+    if (this.checkLiked(0)){
+        this.state = {
+          futureMatchIndex: this.findNext(0)
+        }
+    }
+    else{
     this.state = {
       futureMatchIndex:0
-
     };
+    }
   }
 
   checkLiked(index){//checks whether the next up user has been liked
       for (let pair of this.props.likeData){
-        if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[index].id)){
+        if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[index].id)){
           console.log("This user"+ this.props.futureMatches[index].username + "has already been liked, will not record!")
           return true;
         }
@@ -69,26 +74,27 @@ class MatchPage extends Component{
     return false;
   }
 
-  handleNext(){
-    let i = this.state.futureMatchIndex+1 //index of next user
-
+  findNext(currentIndex){ //finds the next valid match candidate to be displayed at/after currentIndex
+    let i = currentIndex+1 //index of next user
       while (i < this.props.futureMatches.length){
-          if(this.checkLiked(i)){
+          if(this.checkLiked(i)){ //keeps going through candidates untill we get to one that hasn't been liked
             i+=1;
           }else{
-            break;
+            return i;
           }
       }
-        this.setState({futureMatchIndex: i});
+      return this.props.futureMatches.length; //return end of array index
+  }
 
+  handleNext(){
+        this.setState({futureMatchIndex: this.findNext(this.state.futureMatchIndex)});
       }
 
 
   handleLike(){
     for (let pair of this.props.likeData){
       // Don't know if this is necessary, but will catch duplicate likes
-      if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
-        console.log("This user has already been liked, will not record!")
+      if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
         this.handleNext();
         return;
       }
@@ -103,7 +109,6 @@ class MatchPage extends Component{
   checkMatch(){
     for (let pair of this.props.likeData){
       if ((pair.user_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_id === this.props.currentLogin.id)){
-        console.log("we foudn a new match!");
         alert("You just matched with " + this.props.futureMatches[this.state.futureMatchIndex].username + "!")
         this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].id)
       }
@@ -111,7 +116,7 @@ class MatchPage extends Component{
   }
 
   handleRefresh(){
-    this.setState({futureMatchIndex: 0});
+    this.setState({futureMatchIndex: this.findNext(0)});
   }
 
   render(){

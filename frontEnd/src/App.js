@@ -168,17 +168,23 @@ getMatches(id, matchData){
       timeOfMatches[match.matched_id] = times;
     } else{
       matchArray.push(match.user_id);
-      console.log("here are the times");
-      console.log(match.matchTime);
       times.push(match.matchTime);
       times.push(match.matchTimeInt);
       timeOfMatches[match.user_id] = times;
     }
 
   }
-  for (let matchid of matchArray) {
+  var sortedMatchIdArray = Object.keys(timeOfMatches).map(function(key) {
+      return [key, timeOfMatches[key][1]];
+  });
+
+  // Sort the array based on the second element
+  sortedMatchIdArray.sort(function(first, second) {
+      return second[1] - first[1];
+  });
+  for (let matchid of sortedMatchIdArray) {
     for (let user of this.state.data){
-      if (matchid === user.id) {
+      if (matchid[0] === String(user.id)) {
         objArray.push(user);
       }
     }
@@ -188,8 +194,6 @@ getMatches(id, matchData){
       futureMatchArray.push(user);
     }
   }
-  console.log("better display!!!");
-  console.log(timeOfMatches);
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
   this.setState({matchTimes: timeOfMatches});
@@ -333,7 +337,7 @@ addMatch(matched_id){
       );
     };
 
-    if(this.state.mode === 'matchdetails'){
+    if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

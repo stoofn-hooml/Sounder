@@ -5,8 +5,10 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "consolidate": "^0.14.5",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "knex": "^0.12.9",
     "mustache": "^2.3.0",
     "passport": "^0.3.2",

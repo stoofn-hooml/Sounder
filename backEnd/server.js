@@ -38,9 +38,9 @@ app.use(express.static(__dirname + '/build'));
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 // app.use(require('morgan')('combined'));
-// app.use(require('cookie-parser')());
-// app.use(require('body-parser').urlencoded({ extended: true }));
-// app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
@@ -48,19 +48,17 @@ app.use(express.static(__dirname + '/build'));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     console.log("hey!!!")
-//     console.log(username)
-//     knex.select().from('users').where('username', username).then((response)=>{
-//       console.log(response)
-//     })
-//   }
-// ))
-
 passport.use(new Strategy(
   function(username, password, done) {
-    console.log("made it here")
+    knex.select().from('users').where('username', username).then((response)=>{
+      if (response.length === 0) {
+        console.log("Incorrect username")
+      }
+      else if (response[0].password === password){
+        console.log("Password success");
+        return done(null, response);
+      }
+    })
     // User.findOne({ username: username }, function (err, user) {
     //   if (err) { return done(err); }
     //   if (!user) {
@@ -74,6 +72,14 @@ passport.use(new Strategy(
   }
 ));
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 
 var engine = require('consolidate');
 app.set('views', __dirname + '/build/');
@@ -86,7 +92,7 @@ var path = require('path');
 
 
 // Define routes.
-app.get('/', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
+app.get('/home', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
     console.log(req.user);
     console.log("jj")
     res.render('index.html', { user: req.user });
@@ -99,8 +105,7 @@ app.get('/login', function(req, res){
 
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
-    console.log("asdfasd")
-    res.redirect('/');
+    res.redirect('/home');
 });
 
 

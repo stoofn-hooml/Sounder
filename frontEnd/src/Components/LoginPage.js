@@ -15,6 +15,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup.js';
 import FormControl from 'react-bootstrap/lib/FormControl.js';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel.js';
 import Checkbox from 'react-bootstrap/lib/Checkbox.js';
+import Select from 'react-select';
 
 
 import Col from 'react-bootstrap/lib/Col.js';

@@ -94,7 +94,6 @@ var path = require('path');
 // Define routes.
 app.get('/home', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
     console.log(req.user);
-    console.log("jj")
     res.render('index.html', { user: req.user });
   });
 

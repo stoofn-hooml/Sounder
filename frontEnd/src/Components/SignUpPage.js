@@ -9,7 +9,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
 import MenuItem from 'react-bootstrap/lib/MenuItem.js';
-
+import Select from 'react-select';
+import MultiGenreSelect from './MultiGenreSelect.js';
 
 //import Col from 'react-bootstrap/lib/Col.js';
 
@@ -82,12 +83,16 @@ class SignUp extends Component{
       genres: '', //make this an array later
       numFollowers: '',
       profilePictureURL: '',
-      email: ''
+      email: '',
+			value: []
 
     }
   };
 
-
+handleSelectChange (value) {
+  console.log('You\'ve selected:', value);
+  this.setState({ value });
+}
 
 handleUsername(inputEvent){
   this.setState({username: inputEvent.target.value});
@@ -147,11 +152,11 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: [this.state.genres], //make this an array later
+  genre: [this.state.value], //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
-  karma: 0
+  karma: 0,
 
   /* How to handle these? */
 
@@ -204,6 +209,7 @@ render() {
             {genrelist}
             </DropdownButton>)
 
+
   let signUp = (<LoginButton onClick={()=>this.createUser()}>Sign Up</LoginButton>);
   let cancel = (<LoginButton onClick={()=>this.props.switchToLogin()} >Cancel</LoginButton>);
 
@@ -245,7 +251,7 @@ render() {
 
         <div>
           <UsernameInput>
-            {genre}
+            <MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>
           </UsernameInput>
         </div>
 

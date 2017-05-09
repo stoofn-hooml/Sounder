@@ -52,9 +52,10 @@ createNewUser(newUserObj){
   userData.profilepictureURL = newUserObj.profilePictureURL;
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
-  userData.genre = newUserObj.genre[0];
   userData.followerRangeMin = 0;
   userData.followerRangeMax = 100000000;
+  userData.genre = newUserObj.genre.join();
+  console.log(userData.genre);
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;

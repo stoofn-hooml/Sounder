@@ -272,7 +272,9 @@ addMatch(matched_id){
   /*handleLogOut is a function that is turned on when someone tries to log out. It updates the state of currentLogin to be null.
   It updates the mode to be the login page. */
   handleLogOut(){
-      this.setState({currentLogin:null, mode:'login'});
+      this.setState({currentLogin:null, matches: [], mode: 'login'});
+      /*reload the page*/
+      location.reload(true);
     }
 
 /*clickMatch is a callback function that is turned on when a match in the matchlog is clicked. It changes the state of currentMatch and the mode. */
@@ -314,7 +316,7 @@ addMatch(matched_id){
       console.log(this.state.matchTimes);
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
@@ -340,7 +342,7 @@ addMatch(matched_id){
     if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
 
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
@@ -353,7 +355,7 @@ addMatch(matched_id){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
@@ -366,7 +368,7 @@ addMatch(matched_id){
     else {
       return (
       <div>
-      <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+      <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
 
       <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>

@@ -38,7 +38,7 @@ function NavBar(props){
           <NavDropdown eventKey={3} title="Account" id="basic-nav-dropdown">
             <MenuItem onClick={()=>props.setMode('settings')} eventKey={3.1}>Settings</MenuItem>
             <MenuItem divider />
-            <MenuItem onClick={()=>props.setMode('login')} eventKey={3.3}>Logout</MenuItem>
+            <MenuItem onClick={()=>props.handleLogOut()} eventKey={3.3}>Logout</MenuItem>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>

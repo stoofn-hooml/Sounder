@@ -6,22 +6,47 @@
   MatchPage maintains state in the form of futureMatchIndex
     -futureMatchIndex represents an index in the array of futureMatches
 
-  MatchPage has three props: currentLogin, futureMatches, setMode.
+  MatchPage has three props: currentLogin, futureMatches, likeData.
   -currentLogin is an object that stores the account information for the person who is currently logged in.
   -futureMatches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
-  -setMode is a callback that updates the state of mode in App.js.
+  -likeData is all the likes from the likes table
 
 
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import data from '../../public/sounderUsers.json';
 
 import UserDetail from './UserDetail.js';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
-import Button from 'react-bootstrap/lib/Button.js';
+//import Button from 'react-bootstrap/lib/Button.js';
+
+const LoginButton = styled.div`
+  background-color: #525252; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  cursor: pointer;
+  border-radius: 28px;
+  margin-right: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  &:hover {
+   background-color:#FF7700;
+ }
+
+`;
+
+const MatchPageWrap = styled.div`
+  text-align: center;
+  margin-top: 20px;
+
+`;
+
 
 
 class MatchPage extends Component{
@@ -69,14 +94,16 @@ class MatchPage extends Component{
     if(this.props.futureMatches.length > 0){
       return(
         <Grid>
+          <Row>
+            <MatchPageWrap>
+            <Col>
+              <LoginButton onClick={()=>this.handleNext()} value="Next">Next</LoginButton>
+              <LoginButton onClick={()=>this.handleLike()} value="Like">Like</LoginButton>
+            </Col>
+            </MatchPageWrap>
+          </Row>
           <Row bsClass="topRow">
             <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button onClick={()=>this.handleNext()} value="Next">Next</Button>
-              <Button onClick={()=>this.handleLike()} value="Like">Like</Button>
-            </Col>
           </Row>
         </Grid>
 

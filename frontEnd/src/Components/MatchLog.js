@@ -11,14 +11,11 @@ of the artists that currentLogin has matched with
 */
 
 
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from 'styled-components';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
-import Panel from 'react-bootstrap/lib/Panel.js';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup.js';
-import Button from 'react-bootstrap/lib/Button.js';
 import ListGroup from 'react-bootstrap/lib/ListGroup.js';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem.js';
 import '../index.css';
@@ -77,7 +74,7 @@ function MatchLog(props){
   return (
     <Grid>
       <Row>
-        <Col lg={2}><CenteredTitle>Matches</CenteredTitle></Col>
+        <Col lg={2} m={3}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>
       <Row>
         <Col lg={2}>

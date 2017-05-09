@@ -3,22 +3,19 @@
 
   App is the top-level component of our application. It is responsible for managing the data collection.
 
-  App maintains state in the form of currentLogin, mode, currentMatchIds, futureMatchesIds, currentMatch, matches, and futureMatches.
-  -currentLogin is an object that stores the account information for the person who is currently logged in.
+  App maintains state in the form of mode, currentLogin, currentMatch, matches, and futureMatches.
   -mode determines which page is being displayed.
-  -currentMatchIds is an array of ids that represent all the artists that currentLogin has matched with
-  -futureMatchesIds is an array of ids that represent all the artists that currentLogin could potentially match with
-  -currentMatch is an object that stores the account information of the person that currentLogin has matched with and the user of the profile
-  that currentLogin is looking at in MatchDetailPage
+  -currentLogin is an object that stores the account information for the person who is currently logged in.
+  -currentMatch is an object that stores the account information of the person that will be dispalyed in MatchDetailPage
   -matches is an array of objects that store the acccount information of the artists that currentLogin has matched with
   -futureMatches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
+  -likes is an array with all the likes in the database
+
   */
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
-import data from '../public/sounderUsers.json';
 import LoginPage from './Components/LoginPage.js';
 import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
@@ -35,9 +32,10 @@ class App extends Component {
     this.state={
       mode: 'home',
       currentLogin: null,
-      currentMatchIds: [2, 13, 15, 20, 17, 18, 19, 25, 27, 29, 30, 31, 32, 33, 34, 35, 37, 38, 40, 42,43],
       futureMatches: [],
       currentMatch: null,
+      matches: [],
+      likes: null
     }
 
       this.updateUsers();
@@ -55,7 +53,8 @@ createNewUser(newUserObj){
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
   userData.genre = newUserObj.genre[0];
-  userData.followerRange = 20;
+  userData.followerRangeMin = 0;
+  userData.followerRangeMax = 100000000;
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
@@ -79,12 +78,11 @@ createNewUser(newUserObj){
     }
   })
   .then((response)=>{
-    // ************************************************
-    // This needs to be fixed !!!!!!
-    // ************************************************
+
     let tempObj = Object.assign({}, newUserObj, {id : response[0]});
     this.setState({currentLogin: tempObj, mode: 'home'});
     console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
+    this.loadMatches(tempObj.id);
   });
 }
 
@@ -113,8 +111,7 @@ addLike(user_id, liked_id){
   })
 }
 
-// THIS IS IMPORTANT: We need to "refetch" our data as it's being updated on
-// the backend if we want frontend to reflect these changes in real-time
+/*retrieves all the data in the likes table*/
 updateLikes(){
   fetch(SERVER + '/sounder/likes/')
         .then((response)=>{
@@ -126,7 +123,7 @@ updateLikes(){
           this.setState({likes: data});
         });
 }
-
+/*retrieves all the data from the users table*/
 updateUsers(){
   fetch(SERVER + '/sounder/users/')
         .then((response)=>{
@@ -140,6 +137,8 @@ updateUsers(){
         });
 }
 
+/*given a user id, this function retrieves all the people that that user has matched with
+ invokes the getMatches function to do most of the work */
 loadMatches(id){
   fetch(SERVER + '/sounder/matches/' + id)
         .then((response)=>{
@@ -149,11 +148,12 @@ loadMatches(id){
         })
         .then((data)=>{
           this.getMatches(id, data);
-          // let matchData = this.getMatches(id, data);
-          // this.setState({matches:matchData});
         })
 }
 
+/*getMatches is a helper function for loadMatches
+ it sets the state of matches and futureMatches
+*/
 getMatches(id, matchData){
   let matchArray = [];
   let objArray = [];
@@ -182,6 +182,8 @@ getMatches(id, matchData){
   this.setState({futureMatches: futureMatchArray});
 }
 
+
+/* adds a match (currentLogin.id & matched_id) to the match table */
 addMatch(matched_id){
   let matchData = {}
   matchData.user_id = this.state.currentLogin.id;
@@ -206,6 +208,7 @@ addMatch(matched_id){
   });
 }
 
+/*adds a like (currentLogin.id likes liked_id) to the likes table*/
   handleLike(liked_id){
     this.addLike(this.state.currentLogin.id, liked_id)
 
@@ -234,16 +237,12 @@ addMatch(matched_id){
       for (let profile of this.state.data){
           if (profile.username === newUserObj.username){
               alert("This username is already taken! Please enter a different one.");
-              console.log("this user already exists")
               alreadyThere = true
               return;
           }
       }
       if (alreadyThere === false){
-
         this.createNewUser(newUserObj);
-        //this.setState({currentLogin: newUserObj, mode: 'home'});
-        //console.log("new User created " + newUserObj + " with username " + newUserObj.username + " and password " + newUserObj.password);
       }
   }
 
@@ -261,6 +260,29 @@ addMatch(matched_id){
     this.setState({currentMatch: match});
   }
 
+  /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
+  updateSettings(updatedUserObj){
+    this.setState({currentLogin:updatedUserObj})
+
+
+    const userStr = JSON.stringify(updatedUserObj);
+    const request = new Request(
+    SERVER + "/sounder/users/" + updatedUserObj.id ,
+    {
+      method:'PUT',
+      body: userStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+    );
+
+    fetch(request)
+    .then((response)=>{
+      if (response.ok){
+        this.updateUsers();
+        return response.json();
+      }
+    });
+  }
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
@@ -268,7 +290,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  setLogout={()=>this.handleLogOut()} currentLogin={this.state.currentLogin} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -295,7 +317,10 @@ addMatch(matched_id){
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-          <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} currentMatch={this.state.currentMatch} setMode={(article)=>this.setState({mode:'home'})} />
+          <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
+                            matchlist={this.state.matches} currentMatch={this.state.currentMatch}
+                            setMode={(article)=>this.setState({mode:'home'})}
+                            updateSettings={(obj)=>this.updateSettings(obj)} />
         </div>
       );
     };
@@ -307,7 +332,7 @@ addMatch(matched_id){
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
-            setProfile={(username)=>this.handleSignIn(username)}
+            updateSettings={(obj)=>this.updateSettings(obj)}
             setMode={(article)=>this.setState({mode:'home'})}
           />
         </div>

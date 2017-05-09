@@ -1,5 +1,5 @@
 /*
-  MatchingSettingsPAge.js
+  MatchingSettingsPage.js
 
   This provides the implementation for the profile component.
 
@@ -14,41 +14,59 @@ import Col from 'react-bootstrap/lib/Col.js';
 import EmbedSong from './EmbedSong.js';
 
 
+
 class MatchingSettings extends Component{
-  constructor(){
+  constructor(props){
     super();
 
     this.state = {
-      min:0,
-      max:1000,
-      selectedGenres: [],
-      song1: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/106276300&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
-      song2: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/196990901&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
-      song3: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/274807237&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true",
-      profileURL: "https://soundcloud.com/username1"
+      min:props.currentLogin.followerRangeMin,
+      max:props.currentLogin.followerRangeMax,
+      genre: props.currentLogin.genre,
+      song1: props.currentLogin.song1,
+      song2: props.currentLogin.song2,
+      song3: props.currentLogin.song3,
+      profileURL: props.currentLogin.profleURL
     }
   };
 
 
   handleMin(inputEvent){
     this.setState({min: inputEvent.target.value});
-    console.log(this.state);
   }
+
   handleMax(inputEvent){
     this.setState({max: inputEvent.target.value});
-    console.log(this.state);
   }
 
   handleURL(inputEvent){
     const songNum = inputEvent.target.name;
     const url = inputEvent.target.value;
     this.setState({[songNum]: url});
-    console.log("changed URL")
   }
 
   handleProfile(inputEvent){
       this.setState({profileURL: inputEvent.target.value});
-      console.log(this.state);
+  }
+
+  handleGenre(genre){
+      console.log(genre);
+      this.setState({genre: genre});
+      console.log(this.state.genre)
+  }
+
+  handleSave(){ //sends the updatedUserObj back up to App.js
+    let updatedUserObj = Object.assign({}, this.props.currentLogin, {
+      followerRangeMin:this.state.min,
+      followerRangeMax:this.state.max,
+      genre: this.state.genre,
+      song1: this.state.song1,
+      song2: this.state.song2,
+      song3: this.state.song3,
+      profileURL: this.state.profleURL
+    });
+    this.props.updateSettings(updatedUserObj);
+    alert("Changes Saved!")
   }
 
 
@@ -62,20 +80,19 @@ class MatchingSettings extends Component{
     let counter = 0;
     const genrelist = (genreOps).map((genrei)=>{ //creates a genrelist that is displayed in the "Genre" dropdown
       counter += 1;
-      return (<MenuItem eventKey={counter} onClick={()=>{console.log(genrei)}}> {genrei} </MenuItem>);});
+      return (<MenuItem eventKey={counter} onClick={()=>{this.handleGenre(genrei)}}> {genrei} </MenuItem>);});
 
     let genre = (<DropdownButton title='Genres' id='genre-dropdown'>
               {genrelist}
               </DropdownButton>)
+
+
+
       return(
         <Grid>
           <Row bsClass="topRow">
             <Col lg={6} md={6}>
               <h1>Account Settings</h1>
-                <Row bsClass="middleRow">
-                  <h5 style={{display: 'inline'}}> SoundCloud Profile: </h5>
-                  <input style={{display: 'inline'}} name="profileURL" type="text" size="auto" value={this.state.profileURL} onChange={(event)=>{this.handleProfile(event)}} />
-                </Row>
                 <Row bsClass="middleRow">
                   <div id="slider" >
                     <h5 style={{display: 'inline'}}> Follower Range </h5>
@@ -87,25 +104,26 @@ class MatchingSettings extends Component{
                 <Row bsClass="middleRow">
                   <div>
                     {genre}
+                    <input style={{marginLeft:"20px"}} value={this.state.genre}/>
                   </div>
                 </Row>
                 <Row bsClass="middleRow">
-                  <Button bsStyle="primary">Save</Button>
+                  <Button bsStyle="primary" onClick={(event)=> {this.handleSave()}}>Save</Button>
                 </Row>
               </Col>
               <Col lg={6} md={6}>
                 <Row>
-                  <EmbedSong songURL={this.state.song1}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song1}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song1" type="text" size="auto" value={this.state.song1} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="middleRow">
-                  <EmbedSong songURL={this.state.song2}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song2" type="text" size="auto" value={this.state.song2} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="middleRow">
-                  <EmbedSong songURL={this.state.song3}></EmbedSong>
+                  <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song3" type="text" size="auto" value={this.state.song3} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>

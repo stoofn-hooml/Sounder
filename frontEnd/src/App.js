@@ -31,13 +31,13 @@ class App extends Component {
     super(props);
     this.state={
       mode: 'home',
-      currentLogin: null,
+      currentLogin:null,
       futureMatches: [],
       currentMatch: null,
       matches: [],
       likes: null
     }
-
+      
       this.updateUsers();
       this.updateLikes();
 }

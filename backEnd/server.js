@@ -59,16 +59,6 @@ passport.use(new Strategy(
         return done(null, response);
       }
     })
-    // User.findOne({ username: username }, function (err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
   }
 ));
 
@@ -83,23 +73,22 @@ passport.deserializeUser(function(user, done) {
 
 var engine = require('consolidate');
 app.set('views', __dirname + '/build/');
-app.engine('html', engine.mustache);
-app.set('view engine', 'html');
+//app.engine('ejs', engine.mustache);
+app.set('view engine', 'ejs');
 
 
 var path = require('path');
 
 
-
 // Define routes.
 app.get('/home', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
     console.log(req.user);
-    res.render('index.html', { user: req.user });
+    res.render('index.ejs', { user: req.user[0] })
   });
 
 app.get('/login', function(req, res){
     //res.sendFile(path.join(__dirname + '/build/login.html'));
-    res.render('login.html')
+    res.render('login.ejs')
 });
 
 
@@ -112,9 +101,6 @@ app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
-
-
-
 
 
 //+-------------------Passport Stuff, Above------------------------+

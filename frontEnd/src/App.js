@@ -40,9 +40,7 @@ class App extends Component {
 
       this.updateUsers();
       this.updateLikes();
-
 }
-
 
 /*next on list of things to do, is manual enter stuff, so that ther is no IDt*/
 createNewUser(newUserObj){
@@ -123,6 +121,7 @@ updateLikes(){
           this.setState({likes: data});
         });
 }
+
 /*retrieves all the data from the users table*/
 updateUsers(){
   fetch(SERVER + '/sounder/users/')

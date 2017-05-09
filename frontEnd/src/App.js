@@ -172,11 +172,27 @@ getMatches(id, matchData){
       }
     }
   }
+
+  let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
+
   for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
-    if((matchArray.indexOf(user.id) < 0) &&(user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
+    if((matchArray.indexOf(user.id) < 0) && (user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
+      //if for not matched, and within followerRange min and max
+      let doesNotLikeYou = true;
+
+      for (let pair of this.state.likes){ //finds those that have already liked the user and puts them in alredyLikedArray
+        if ((pair.user_id === user.id) && (pair.liked_id === this.state.currentLogin.id)){
+          alreadyLikedYouArray.push(user);
+          doesNotLikeYou = false;
+        }
+      }
+
+      if(doesNotLikeYou){
       futureMatchArray.push(user);
+      }
     }
   }
+  futureMatchArray = alreadyLikedYouArray.concat(futureMatchArray); //merges two arrays with already liked you first
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
 }

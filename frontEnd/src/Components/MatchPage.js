@@ -71,6 +71,8 @@ class MatchPage extends Component{
           return true;
         }
       }
+    console.log("This user "+ this.props.futureMatches[index].username + "has not yet been liked, displaying")
+    console.log(this.props.futureMatches)
     return false;
   }
 
@@ -116,7 +118,7 @@ class MatchPage extends Component{
   }
 
   handleRefresh(){
-    this.setState({futureMatchIndex: this.findNext(0)});
+    this.setState({futureMatchIndex: this.findNext(-1)}); //goes back to start (-1 is because of how findnext works normally)
   }
 
   render(){

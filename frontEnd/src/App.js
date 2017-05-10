@@ -21,7 +21,7 @@ import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
-
+import WelcomePage from './Components/WelcomePage.js';
 
 const SERVER = 'http://localhost:4321';
 
@@ -30,17 +30,40 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      mode: 'home',
+      mode: 'welcome',
       currentLogin:null,
       futureMatches: [],
       currentMatch: null,
       matches: [],
       likes: null
     }
-      
+
       this.updateUsers();
       this.updateLikes();
+      this.loadLogin();
 }
+
+
+
+loadLogin(){
+  console.log("trying to call load login")
+  fetch(SERVER + '/api/user_data', {credentials: 'include'})
+        .then((response)=>{
+          console.log(response)
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          console.log("holy shit!");
+          console.log(data);
+
+          this.setState({currentLogin: data});
+          //this.setState({futureMatches: data});
+        });
+}
+
+
 
 /*next on list of things to do, is manual enter stuff, so that ther is no IDt*/
 createNewUser(newUserObj){
@@ -285,7 +308,15 @@ addMatch(matched_id){
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
-    if(this.state.mode ==='home' && this.state.matches){
+    if(this.state.mode === 'welcome'){
+      return(
+        <div className="App">
+      <WelcomePage setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+      </div>
+    )
+    }
+    if(this.state.mode ==='home' && this.state.matches && this.state.currentLogin){
+
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})}/>

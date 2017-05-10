@@ -28,25 +28,8 @@ var port = 4321;
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/build'));
 
 
-
-//+-------------------Passport Stuff------------------------+
-
-
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
-// app.use(require('morgan')('combined'));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-
-// Initialize Passport and restore authentication state, if any, from the
-// session.
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 passport.use(new Strategy(
   function(username, password, done) {
@@ -62,7 +45,28 @@ passport.use(new Strategy(
   }
 ));
 
+// /****** Passport functions ******/
+// passport.serializeUser(function (user, done) {
+//     console.log('serialized');
+//     done(null, user.id);
+// });
+//
+// passport.deserializeUser(function (id, done) {
+//     console.log("start of deserialize");
+//     knex.select().from('users').where('id', id).then((response)=>{
+//       if (response.length === 0) {
+//         console.log("unable to deserialize user")
+//       }
+//       else {
+//         console.log("Deserialized user");
+//         return done(null, response);
+//       }
+//     })
+//   });
+
 passport.serializeUser(function(user, done) {
+  console.log(user);
+  console.log("serialized user!")
   done(null, user);
 });
 
@@ -71,10 +75,49 @@ passport.deserializeUser(function(user, done) {
 });
 
 
+
+
+
+
+
+
+
+
+
+app.use(express.static(__dirname + '/build'));
+
+
+
+//+-------------------Passport Stuff------------------------+
+
+//THIS WORKED
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+// app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+//THIS WORKED ABOVE
+
+
+
+
+
+
+
+
+
 var engine = require('consolidate');
 app.set('views', __dirname + '/build/');
-//app.engine('ejs', engine.mustache);
-app.set('view engine', 'ejs');
+app.engine('html', engine.mustache);
+app.set('view engine', 'html');
 
 
 var path = require('path');
@@ -84,29 +127,54 @@ var path = require('path');
 app.get('/home',
  //require('connect-ensure-login').ensureLoggedIn(),
  function(req, res) {
-    //console.log(req.user);
+    console.log(req.user);
   //  res.render('index.ejs', { user: req.user[0] })
   });
 
 app.get('/login', function(req, res){
     //res.sendFile(path.join(__dirname + '/build/login.html'));
-    res.render('login.ejs')
+    res.render('login.html')
 });
 
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}), function(req, res) {
     console.log("hello");
     console.log(req.user[0]['id']);
     let userID = req.user[0]['id'];
-    res.redirect('/profile/' + userID);
+    res.redirect('index.html');
   //  res.redirect('/home');
 });
+
+
+
+
+app.get('/api/user_data', function(req, res) {
+            console.log('trying to make request');
+            //console.log(req.user[0]);
+            console.log("what this")
+            console.log(req.session.passport.user);
+            if (req.user === undefined) {
+                // The user is not logged in
+                res.json({});
+            } else {
+                  res.send(req.user[0]);
+                // res.json({
+                //     user: req.user[]
+                // });
+            }
+        });
+
+
+
 
 
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
+
+
+
 
 
 //+-------------------Passport Stuff, Above------------------------+

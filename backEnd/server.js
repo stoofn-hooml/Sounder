@@ -81,9 +81,11 @@ var path = require('path');
 
 
 // Define routes.
-app.get('/home', /* require('connect-ensure-login').ensureLoggedIn(), */ function(req, res) {
-    console.log(req.user);
-    res.render('index.ejs', { user: req.user[0] })
+app.get('/home',
+ //require('connect-ensure-login').ensureLoggedIn(),
+ function(req, res) {
+    //console.log(req.user);
+  //  res.render('index.ejs', { user: req.user[0] })
   });
 
 app.get('/login', function(req, res){
@@ -93,7 +95,11 @@ app.get('/login', function(req, res){
 
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
-    res.redirect('/home');
+    console.log("hello");
+    console.log(req.user[0]['id']);
+    let userID = req.user[0]['id'];
+    res.redirect('/profile/' + userID);
+  //  res.redirect('/home');
 });
 
 

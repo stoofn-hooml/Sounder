@@ -21,27 +21,23 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Bootstrap App</title>
+  <title>Bootstrap App</title>
   </head>
   <body>
-    <div>
-     <% if (!user) { %>
-  	<p>Welcome! Please <a href="/login">log in</a>.</p>
-  <% } else { %>
-  	<p><%= user.username %></p>
-  <% } %>
+    <div id='login'>
+      <form method='post' action='/login'>
+        <div>
+          <label>Usermame:</label>
+          <input text="text" name="username"/><br/>
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" name="password"/>
+        </div>
+        <div>
+          <input type="submit" value="Submit"/>
+        </div>
+      </form>
     </div>
-    <div id="root" ></div>
-    <script src="profile.jsx" type="text/jsx"></script>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
   </body>
 </html>

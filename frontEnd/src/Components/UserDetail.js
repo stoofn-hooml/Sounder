@@ -14,7 +14,6 @@ import Col from 'react-bootstrap/lib/Col.js';
 import Modal from 'react-bootstrap/lib/Modal.js';
 import Image from 'react-bootstrap/lib/Image.js';
 import EmbedSong from './EmbedSong.js';
-import Button from 'react-bootstrap/lib/Button.js';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon.js';
 
 const UsernameRow = styled(Row)`

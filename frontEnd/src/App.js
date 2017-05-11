@@ -318,7 +318,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -348,7 +348,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes = {this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes={this.state.matchTimes} />
         </div>
       );
     };

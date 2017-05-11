@@ -10,7 +10,6 @@
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Select from 'react-select';
 
 
 //import Col from 'react-bootstrap/lib/Col.js';

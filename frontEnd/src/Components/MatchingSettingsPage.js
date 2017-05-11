@@ -4,8 +4,6 @@
   This provides the implementation for the profile component.
 
 */
-import DropdownButton from 'react-bootstrap/lib/DropdownButton.js'
-import MenuItem from 'react-bootstrap/lib/MenuItem.js'
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button.js';
 import Grid from 'react-bootstrap/lib/Grid.js';

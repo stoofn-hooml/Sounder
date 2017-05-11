@@ -33,7 +33,7 @@ function MatchDetailPage(props){
       <Grid fluid={true}>
         <Row bsClass="topRow">
           <Col lg={3} md={3}>
-            <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} matchTimes ={props.matchTimes} />
+            <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} matchTimes={props.matchTimes} />
           </Col>
           <Col lg={9} md={9}>
             <UserDetail currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL} updateSettings={(obj)=>props.updateSettings(obj)} />

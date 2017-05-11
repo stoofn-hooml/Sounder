@@ -94,11 +94,11 @@ render(){
 
   let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />)
   let karmaScore = (this.createKarma())
-  // don't think i'm concatenating the array when it's stored into the database correctly, but here's where it would go
-  let initgenres = (this.props.currentLogin['genre'].split(" "))
+  //adds spaces after commas in string of multiple genres
+  let genres = (this.props.currentLogin['genre'].replace(/,/g, ", "))
   let basicUserInfo = (<div>
                        <UsernameRow >{this.props.currentLogin['username']}</UsernameRow>
-                       <UserDetailRow>Genre: {this.props.currentLogin['genre']}</UserDetailRow>
+                       <UserDetailRow>Genre: {genres}</UserDetailRow>
                        <UserDetailRow>Karma Rating: {karmaScore}</UserDetailRow>
                        <UserDetailRow>Followers: {this.props.currentLogin['numFollowers']}</UserDetailRow>
                        </div>)

@@ -54,7 +54,8 @@ createNewUser(newUserObj){
   userData.profileURL = newUserObj.profileURL;
   userData.followerRangeMin = 0;
   userData.followerRangeMax = 100000000;
-  userData.genre = newUserObj.genre.join();
+  //react-select stores multiselected items as string already, don't need to change to store in database
+  userData.genre = newUserObj.genre;
   console.log(userData.genre);
   userData.online = 0;
   userData.song1 = newUserObj.song1;

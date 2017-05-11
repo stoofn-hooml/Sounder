@@ -12,10 +12,6 @@ import MultiGenreSelect from './MultiGenreSelect.js';
 //import Col from 'react-bootstrap/lib/Col.js';
 
 
-
-
-
-
 const LoginPage = styled.div`
   text-align: center;
   margin-top: 100px;
@@ -89,6 +85,7 @@ class SignUp extends Component{
 handleSelectChange (value) {
   console.log('You\'ve selected:', value);
   this.setState({ value });
+  console.log(this.state.value);
 }
 
 handleUsername(inputEvent){
@@ -149,7 +146,7 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: [this.state.value], //make this an array later
+  genre: this.state.value, //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
@@ -170,6 +167,7 @@ createUser(){ //creates the actual user object
   //online:
   }
 
+  console.log(this.state.value);
   let complete = true;
   Object.keys(newUserObj).map(function(key){ //checks that all fields complete
     if (newUserObj[key] === ""){
@@ -192,7 +190,6 @@ render() {
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
-
   let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
   let signUp = (<LoginButton onClick={()=>this.createUser()}>Sign Up</LoginButton>);
   let cancel = (<LoginButton onClick={()=>this.props.switchToLogin()} >Cancel</LoginButton>);

@@ -26,7 +26,7 @@ class MatchingSettings extends Component{
       song2: props.currentLogin.song2,
       song3: props.currentLogin.song3,
       profileURL: props.currentLogin.profleURL,
-      value: []
+      value: props.currentLogin.genre
     }
   };
 
@@ -59,7 +59,7 @@ class MatchingSettings extends Component{
     let updatedUserObj = Object.assign({}, this.props.currentLogin, {
       followerRangeMin:this.state.min,
       followerRangeMax:this.state.max,
-      genre: this.state.genre,
+      genre: this.state.value,
       song1: this.state.song1,
       song2: this.state.song2,
       song3: this.state.song3,

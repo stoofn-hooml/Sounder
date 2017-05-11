@@ -21,7 +21,7 @@ import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
-
+import NotifierGenerator from './Components/NotifierGenerator.js';
 
 const SERVER = 'http://localhost:4321';
 
@@ -317,6 +317,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
+        <NotifierGenerator/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );

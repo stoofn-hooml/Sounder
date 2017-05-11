@@ -6,6 +6,7 @@
     "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
+    "react-bs-notifier": "^4.3.2",
     "react-dom": "^15.4.2",
     "react-select": "^1.0.0-rc.3",
     "styled-components": "^1.4.4"

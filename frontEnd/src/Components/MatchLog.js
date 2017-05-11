@@ -81,15 +81,16 @@ function MatchLog(props){
     const popoverHoverFocus = (
     <MatchPreview id="popover-trigger-hover-focus" title={name}  positionLeft={200}
       positionTop={50}>
-      <p><strong>Genre</strong> {user.genre}</p>
+      <p><strong>Genre</strong> {user.genre.replace(/,/g, ", ")}</p>
       <p><strong>Followers</strong> {user.numFollowers}</p>
       <p><strong>Karma</strong> {user.karma}</p>
+      <p><strong>Matched</strong> {time}</p>
     </MatchPreview>
   );
     return (
         <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-            <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle><TimeStyle>{time}</TimeStyle></MatchNameStyle>
+            <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle></MatchNameStyle>
           </OverlayTrigger>
         </MatchName>
     );

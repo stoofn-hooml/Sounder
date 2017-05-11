@@ -1,12 +1,8 @@
 /*
-  UserDetail.js
+UserDetail.js
 
-  UserDetail maintains state in the form of showModal.
-    -showModal determines if the modal should be displayed or not.
-
-  UserDetail takes in one prop: currentLogin and profileLink
-  -currentLogin is an object that stores the account information for the person who is currently logged in.
-  -profileLink is a link to the SoundCloud profile of the person whose profile we are viewing
+UserDetail takes in one prop: currentLogin
+-currentLogin is an object that stores the account information for the person who is currently logged in.
 
 */
 
@@ -53,7 +49,7 @@ const LoginButton = styled.div`
 class UserDetail extends Component{
   constructor(props){
     super(props);
-    console.log(props);
+
     this.state = {
       showModal: false,
       karma: [37,78]
@@ -61,32 +57,25 @@ class UserDetail extends Component{
   }
 
   createKarma(rating){
-    if (this.props.currentLogin.totalRatings ===0){
-      console.log('no ratings yet');
-      return(
-        <div>
-        <p>No Ratings Yet</p>
-      </div>
-    )}
-    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.8){
+    if (this.state.karma[0]/this.state.karma[1] > 0.8){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" />
       </div>
     )}
-    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.6){
+    if (this.state.karma[0]/this.state.karma[1] > 0.6){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.4){
+    if (this.state.karma[0]/this.state.karma[1] > 0.4){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    else if (this.props.currentLogin.thumbsUpTotal/this.props.currentLogin.totalRatings > 0.2){
+    if (this.state.karma[0]/this.state.karma[1] > 0.2){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
@@ -100,36 +89,20 @@ class UserDetail extends Component{
     )}
   };
 
-  handleKarmaRating(event){
-    (console.log(event.target.value));
-    let updatedUserObj;
-    if (event.target.value === "Thumbs Up"){
-      updatedUserObj = Object.assign({}, this.props.currentLogin, {
-        thumbsUpTotal:this.props.currentLogin.thumbsUpTotal +1,
-        totalRatings:this.props.currentLogin.totalRatings +1
-      });
-    };
-    if (event.target.value === "Thumbs Down"){
-      updatedUserObj = Object.assign({}, this.props.currentLogin, {
-        thumbsUpTotal:this.props.currentLogin.thumbsUpTotal,
-        totalRatings:this.props.currentLogin.totalRatings +1
-      });
-    };
-    this.props.updateSettings(updatedUserObj);
-    console.log(updatedUserObj);
-  };
 
 render(){
 
-  let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />)
+  let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px"/>)
   let karmaScore = (this.createKarma())
+  //adds spaces after commas in string of multiple genres
+  let genres = (this.props.currentLogin['genre'].replace(/,/g, ", "))
   let basicUserInfo = (<div>
                        <UsernameRow >{this.props.currentLogin['username']}</UsernameRow>
-                       <UserDetailRow>Genre: {this.props.currentLogin['genre']}</UserDetailRow>
+                       <UserDetailRow>Genre: {genres}</UserDetailRow>
                        <UserDetailRow>Karma Rating: {karmaScore}</UserDetailRow>
                        <UserDetailRow>Followers: {this.props.currentLogin['numFollowers']}</UserDetailRow>
                        </div>)
-  let songs = (<div>
+  let songs = (<div style={{paddingTop:'25px'}}>
               <EmbedSong songURL={this.props.currentLogin.song1} ></EmbedSong>
               <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
               <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
@@ -152,23 +125,6 @@ render(){
     let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
     let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)
 
-
-    //Adds the karma rating system
-    let rateButton = (<form>
-                        <div className="radio">
-                          <label>
-                            <input type="radio" value="Thumbs Up" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
-                            Thumbs Up! Rad!
-                          </label>
-                        </div>
-                        <div className="radio">
-                          <label>
-                            <input type="radio" value="Thumbs Down" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
-                            Thumbs Down! Yuck!
-                          </label>
-                        </div>
-                      </form>)
-
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
         return(
@@ -178,20 +134,21 @@ render(){
                       {goToProfile}
                       {repostModalButton}
                       {repostModal}
-                      {rateButton}
               </div>
             </Row>
             <Row>
-              <Col lg={2} sm={2} >
-                {profilePicture}
-              </Col>
-              <Col lg={7} sm={3} >
               <Grid>
-                {basicUserInfo}
+                <Row>
+                  <Col lg={2} md={2} >
+                    {profilePicture}
+                  </Col>
+                  <Col lg={8} md={8} >
+                    {basicUserInfo}
+                  </Col>
+                </Row>
               </Grid>
-              </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={10} md={10}>
                 {songs}
               </Col>
           </Grid>
@@ -202,16 +159,18 @@ render(){
         return(
           <Grid fluid={true}>
             <Row>
-              <Col lg={2} sm={2} >
-                {profilePicture}
-              </Col>
-              <Col lg={7} sm={3} >
               <Grid>
-                {basicUserInfo}
+                <Row>
+                  <Col lg={2} md={2} >
+                    {profilePicture}
+                  </Col>
+                  <Col lg={8} md={8} >
+                    {basicUserInfo}
+                  </Col>
+                </Row>
               </Grid>
-              </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={12} md={12}>
                 {songs}
               </Col>
           </Grid>

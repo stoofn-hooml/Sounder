@@ -22,10 +22,11 @@ import '../index.css';
 import Popover from 'react-bootstrap/lib/Popover.js';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
 
-const CenteredTitle=styled.h1`
+const CenteredTitle=styled.h2`
   font-weight: bold;
   text-align: center;
   border-bottom: 2px solid #ff4b00;
+  padding-bottom: 10px;
 `;
 
 const MatchName = styled(ListGroupItem)`
@@ -39,7 +40,21 @@ const MatchName = styled(ListGroupItem)`
 `;
 
 const MatchNameStyle = styled(Col)`
- curson: pointer;
+ cursor: pointer;
+  &:hover {
+   color: #FF7700;
+ }
+`
+const NameStyle = styled.p`
+ cursor: pointer;
+ font-weight: bold;
+  &:hover {
+   color: #FF7700;
+ }
+ `
+const TimeStyle = styled.p`
+ cursor: pointer;
+ font-style: italic;
   &:hover {
    color: #FF7700;
  }
@@ -54,30 +69,40 @@ const MatchPreview = styled(Popover)`
 function MatchLog(props){
   const matchlog = (props.matchlist).map((user)=>{
     let name = user.username;
+    let timeString = props.matchTimes[user.id][0];
+    let time;
+    if (timeString.length === 11){
+        time = timeString;
+    } else{
+      time = '';
+
+    }
+  //  name = name + ' ' + time;
     const popoverHoverFocus = (
     <MatchPreview id="popover-trigger-hover-focus" title={name}  positionLeft={200}
       positionTop={50}>
-      <p><strong>Genre</strong> {user.genre}</p>
+      <p><strong>Genre</strong> {user.genre.replace(/,/g, ", ")}</p>
       <p><strong>Followers</strong> {user.numFollowers}</p>
       <p><strong>Karma</strong> {user.karma}</p>
+      <p><strong>Matched</strong> {time}</p>
     </MatchPreview>
   );
     return (
         <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-            <MatchNameStyle lg={2}>{name}</MatchNameStyle>
+            <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle></MatchNameStyle>
           </OverlayTrigger>
         </MatchName>
     );
   });
 
   return (
-    <Grid>
+    <Grid fluid={true}>
       <Row>
-        <Col lg={2} m={3}><CenteredTitle>Matches</CenteredTitle></Col>
+        <Col lg={12} md={12}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>
       <Row>
-        <Col lg={2}>
+        <Col lg={12} md={12}>
           <ListGroup>{matchlog}</ListGroup>
         </Col>
       </Row>

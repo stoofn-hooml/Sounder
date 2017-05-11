@@ -68,6 +68,8 @@ app.put('/sounder/users/:id', (request, response) =>{
     totalRatings: request.body.totalRatings
   }).then((data)=>{
     response.send(data);
+  }).then((status)=>{
+    response.sendStatus(status);
   });
 });
 

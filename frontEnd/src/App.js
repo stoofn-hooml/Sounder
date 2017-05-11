@@ -308,6 +308,32 @@ addMatch(matched_id){
       }
     });
   }
+
+  /*Callback function in UserDetail.js to update karma ratings in database*/
+  updateKarma(updatedUserObj){
+    console.log(this.state.currentMatch);
+    console.log(this.state.currentLogin);
+    this.setState({currentMatch:updatedUserObj})
+
+    const userStr = JSON.stringify(updatedUserObj);
+    const request = new Request(
+    SERVER + "/sounder/users/" + updatedUserObj.id ,
+    {
+      method:'PUT',
+      body: userStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+    );
+
+    fetch(request)
+    .then((response)=>{
+      if (response.ok){
+        this.updateUsers();
+        return response.json();
+      }
+    });
+  }
+
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
@@ -347,7 +373,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes = {this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes = {this.state.matchTimes} />
         </div>
       );
     };

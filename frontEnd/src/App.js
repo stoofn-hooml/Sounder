@@ -309,7 +309,7 @@ addMatch(matched_id){
         return response.json();
       }
     });
-    this.setState({mode: })
+    this.setState({mode: 'home'})
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
 
@@ -350,7 +350,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes={this.state.matchTimes} />
+                            matchTimes={this.state.matchTimes} />
         </div>
       );
     };

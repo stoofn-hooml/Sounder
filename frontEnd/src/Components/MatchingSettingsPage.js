@@ -4,14 +4,13 @@
   This provides the implementation for the profile component.
 
 */
-import DropdownButton from 'react-bootstrap/lib/DropdownButton.js'
-import MenuItem from 'react-bootstrap/lib/MenuItem.js'
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button.js';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 import EmbedSong from './EmbedSong.js';
+import MultiGenreSelect from './MultiGenreSelect.js';
 
 
 
@@ -26,7 +25,8 @@ class MatchingSettings extends Component{
       song1: props.currentLogin.song1,
       song2: props.currentLogin.song2,
       song3: props.currentLogin.song3,
-      profileURL: props.currentLogin.profleURL
+      profileURL: props.currentLogin.profleURL,
+      value: props.currentLogin.genre
     }
   };
 
@@ -59,7 +59,7 @@ class MatchingSettings extends Component{
     let updatedUserObj = Object.assign({}, this.props.currentLogin, {
       followerRangeMin:this.state.min,
       followerRangeMax:this.state.max,
-      genre: this.state.genre,
+      genre: this.state.value,
       song1: this.state.song1,
       song2: this.state.song2,
       song3: this.state.song3,
@@ -69,22 +69,19 @@ class MatchingSettings extends Component{
     alert("Changes Saved!")
   }
 
+  handleSelectChange (value) {
+    console.log('You\'ve selected:', value);
+    this.setState({ value });
+  }
+
 
   render() {
     let minFollowers = (<input style={{display: 'inline'}} id="minFollowers" type="text" size="10" value={this.state.min} onChange={(event)=> {this.handleMin(event)}} />);
     let maxFollowers = (<input style={{display: 'inline'}} id="maxFollowers" type="text" size="10" value={this.state.max} onChange={(event)=> {this.handleMax(event)}} />);
-    let genreOps = ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", "Deep House",
-    "Disco", "Drum & Bass", "Dubstep", "Electronic", "Folk & Singer-Songwriter", "Hip-Hop & Rap", "House", "Indie", "Jazz & Blues", "Latin",
-    "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", "Soundtrack", "Techno", "Trance", "Trap", "Triphop", "World"]
 
     let counter = 0;
-    const genrelist = (genreOps).map((genrei)=>{ //creates a genrelist that is displayed in the "Genre" dropdown
-      counter += 1;
-      return (<MenuItem eventKey={counter} onClick={()=>{this.handleGenre(genrei)}}> {genrei} </MenuItem>);});
 
-    let genre = (<DropdownButton title='Genres' id='genre-dropdown'>
-              {genrelist}
-              </DropdownButton>)
+    let genre = (<MultiGenreSelect style={{paddingRight: '20px'}} handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
 
 
 
@@ -102,9 +99,8 @@ class MatchingSettings extends Component{
                   </div>
                 </Row>
                 <Row bsClass="middleRow">
-                  <div>
+                  <div style={{paddingRight:'150px'}}>
                     {genre}
-                    <input style={{marginLeft:"20px"}} value={this.state.genre}/>
                   </div>
                 </Row>
                 <Row bsClass="middleRow">
@@ -112,17 +108,17 @@ class MatchingSettings extends Component{
                 </Row>
               </Col>
               <Col lg={6} md={6}>
-                <Row>
+                <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song1}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song1" type="text" size="auto" value={this.state.song1} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
-                <Row bsClass="middleRow">
+                <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song2" type="text" size="auto" value={this.state.song2} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
-                <Row bsClass="middleRow">
+                <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
                   <h5 style={{display: 'inline'}}> URL </h5>
                   <input style={{display: 'inline'}} name="song3" type="text" size="auto" value={this.state.song3} onChange={(event)=> {this.handleURL(event)}} />

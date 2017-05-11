@@ -52,9 +52,11 @@ createNewUser(newUserObj){
   userData.profilepictureURL = newUserObj.profilePictureURL;
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
-  userData.genre = newUserObj.genre[0];
   userData.followerRangeMin = 0;
   userData.followerRangeMax = 100000000;
+  //react-select stores multiselected items as string already, don't need to change to store in database
+  userData.genre = newUserObj.genre;
+  console.log(userData.genre);
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
@@ -317,7 +319,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -347,7 +349,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes = {this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes={this.state.matchTimes} />
         </div>
       );
     };

@@ -7,15 +7,9 @@
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
-import MenuItem from 'react-bootstrap/lib/MenuItem.js';
-
+import MultiGenreSelect from './MultiGenreSelect.js';
 
 //import Col from 'react-bootstrap/lib/Col.js';
-
-
-
-
 
 
 const LoginPage = styled.div`
@@ -82,12 +76,17 @@ class SignUp extends Component{
       genres: '', //make this an array later
       numFollowers: '',
       profilePictureURL: '',
-      email: ''
+      email: '',
+			value: []
 
     }
   };
 
-
+handleSelectChange (value) {
+  console.log('You\'ve selected:', value);
+  this.setState({ value });
+  console.log(this.state.value);
+}
 
 handleUsername(inputEvent){
   this.setState({username: inputEvent.target.value});
@@ -147,11 +146,11 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: [this.state.genres], //make this an array later
+  genre: this.state.value, //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
-  karma: 0
+  karma: 0,
 
   /* How to handle these? */
 
@@ -168,6 +167,7 @@ createUser(){ //creates the actual user object
   //online:
   }
 
+  console.log(this.state.value);
   let complete = true;
   Object.keys(newUserObj).map(function(key){ //checks that all fields complete
     if (newUserObj[key] === ""){
@@ -188,22 +188,9 @@ render() {
   let song3Input = (<Input  placeholder="Song 3 URL" type="text" value={this.state.song3} onChange={(event)=>{this.handleSong3(event)}}/>);
   let profileURLInput = (<Input  placeholder="Soundcloud Profile URL" type="text" value={this.state.profileURL} onChange={(event)=>{this.handleProfileURL(event)}}/>);
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
-  let genresInput = (<Input  placeholder="genre (later dropdown)" type="text" value={this.state.genres} onChange={(event)=>{this.handleGenres(event)}}/>);
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
-
-  let genreOps = ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", "Deep House",
-  "Disco", "Drum & Bass", "Dubstep", "Electronic", "Folk & Singer-Songwriter", "Hip-Hop & Rap", "House", "Indie", "Jazz & Blues", "Latin",
-  "Metal", "Piano", "Pop", "R&B & Soul", "Reggae", "Reggaeton", "Rock", "Soundtrack", "Techno", "Trance", "Trap", "Triphop", "World"]
-  let counter = 0;
-  const genrelist = (genreOps).map((genrei)=>{ //creates a genrelist that is displayed in the "Genre" dropdown
-    counter += 1;
-    return (<MenuItem eventKey={counter} onClick={()=>{console.log(genrei)}}> {genrei} </MenuItem>);});
-
-  let genre = (<DropdownButton title='Genres' id='genre-dropdown' onChange={(event)=>{this.handleGenres(event)}}>
-            {genrelist}
-            </DropdownButton>)
-
+  let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
   let signUp = (<LoginButton onClick={()=>this.createUser()}>Sign Up</LoginButton>);
   let cancel = (<LoginButton onClick={()=>this.props.switchToLogin()} >Cancel</LoginButton>);
 

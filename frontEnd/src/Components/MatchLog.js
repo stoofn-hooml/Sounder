@@ -22,10 +22,11 @@ import '../index.css';
 import Popover from 'react-bootstrap/lib/Popover.js';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
 
-const CenteredTitle=styled.h1`
+const CenteredTitle=styled.h2`
   font-weight: bold;
   text-align: center;
   border-bottom: 2px solid #ff4b00;
+  padding-bottom: 10px;
 `;
 
 const MatchName = styled(ListGroupItem)`
@@ -95,7 +96,7 @@ function MatchLog(props){
   });
 
   return (
-    <Grid>
+    <Grid fluid="true">
       <Row>
         <Col lg={2} m={3}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>

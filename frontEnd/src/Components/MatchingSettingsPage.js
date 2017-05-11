@@ -64,7 +64,7 @@ class MatchingSettings extends Component{
       song1: this.state.song1,
       song2: this.state.song2,
       song3: this.state.song3,
-      profileURL: this.state.profleURL
+      profilePictureURL: this.state.profileURL
     });
     this.props.updateSettings(updatedUserObj);
     alert("Changes Saved!")

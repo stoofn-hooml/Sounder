@@ -35,7 +35,8 @@ class App extends Component {
       futureMatches: [],
       currentMatch: null,
       matches: [],
-      likes: null
+      likes: null,
+      matchTimes: []
     }
 
       this.updateUsers();
@@ -211,9 +212,12 @@ getMatches(id, matchData){
     }
   }
   futureMatchArray = alreadyLikedYouArray.concat(futureMatchArray); //merges two arrays with already liked you first
+  console.log(objArray);
+  console.log(timeOfMatches);
+  this.setState({matchTimes: timeOfMatches});
+  console.log("this.state.matchtimes")
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
-  this.setState({matchTimes: timeOfMatches});
 }
 
 
@@ -261,9 +265,9 @@ addMatch(matched_id){
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile});
-        this.loadMatches(profile.id);
         this.setState({mode: 'home'});
-        return;
+        this.loadMatches(profile.id);
+        return true;
       }
     }
     alert("This is not a valid user! Please try again.");
@@ -329,6 +333,8 @@ addMatch(matched_id){
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
 
+
+
   render() {
 
     if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
@@ -344,7 +350,9 @@ addMatch(matched_id){
       return (
         <div className="App">
 
-          <LoginPage setProfile={(username)=>this.handleSignIn(username)} newUser={(username,password)=>this.handleSignUp(username,password)} switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
+          <LoginPage setProfile={(username)=>this.handleSignIn(username)}
+                    newUser={(username,password)=>this.handleSignUp(username,password)}
+                    switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
         </div>
       );
     };

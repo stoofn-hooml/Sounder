@@ -92,7 +92,7 @@ class UserDetail extends Component{
 
 render(){
 
-  let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px" />)
+  let profilePicture = (<Image src={this.props.currentLogin.profilePictureURL}  circle bsStyle="margin:10px;" width="114px" height="114px"/>)
   let karmaScore = (this.createKarma())
   //adds spaces after commas in string of multiple genres
   let genres = (this.props.currentLogin['genre'].replace(/,/g, ", "))
@@ -137,16 +137,18 @@ render(){
               </div>
             </Row>
             <Row>
-              <Col lg={2} sm={2} >
-                {profilePicture}
-              </Col>
-              <Col lg={7} sm={3} >
               <Grid>
-                {basicUserInfo}
+                <Row>
+                  <Col lg={2} md={2} >
+                    {profilePicture}
+                  </Col>
+                  <Col lg={8} md={8} >
+                    {basicUserInfo}
+                  </Col>
+                </Row>
               </Grid>
-              </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={10} md={10}>
                 {songs}
               </Col>
           </Grid>
@@ -157,16 +159,18 @@ render(){
         return(
           <Grid fluid={true}>
             <Row>
-              <Col lg={2} sm={2} >
-                {profilePicture}
-              </Col>
-              <Col lg={7} sm={3} >
               <Grid>
-                {basicUserInfo}
+                <Row>
+                  <Col lg={2} md={2} >
+                    {profilePicture}
+                  </Col>
+                  <Col lg={8} md={8} >
+                    {basicUserInfo}
+                  </Col>
+                </Row>
               </Grid>
-              </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={12} md={12}>
                 {songs}
               </Col>
           </Grid>

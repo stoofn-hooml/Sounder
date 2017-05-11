@@ -349,7 +349,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateSettings(obj)} matchTimes={this.state.matchTimes} />
+                            matchTimes={this.state.matchTimes} />
         </div>
       );
     };

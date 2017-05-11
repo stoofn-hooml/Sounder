@@ -97,12 +97,12 @@ function MatchLog(props){
   });
 
   return (
-    <Grid fluid="true">
+    <Grid fluid={true}>
       <Row>
-        <Col lg={2} m={3}><CenteredTitle>Matches</CenteredTitle></Col>
+        <Col lg={12} md={12}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>
       <Row>
-        <Col lg={2}>
+        <Col lg={12} md={12}>
           <ListGroup>{matchlog}</ListGroup>
         </Col>
       </Row>

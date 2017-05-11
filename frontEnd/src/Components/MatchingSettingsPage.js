@@ -10,6 +10,7 @@ import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 import EmbedSong from './EmbedSong.js';
+import Image from 'react-bootstrap/lib/Image.js';
 import MultiGenreSelect from './MultiGenreSelect.js';
 
 
@@ -25,8 +26,8 @@ class MatchingSettings extends Component{
       song1: props.currentLogin.song1,
       song2: props.currentLogin.song2,
       song3: props.currentLogin.song3,
-      profileURL: props.currentLogin.profleURL,
-      value: props.currentLogin.genre
+      profileURL: props.currentLogin.profilePictureURL,
+      value: props.currentLogin.genre,
     }
   };
 
@@ -76,8 +77,18 @@ class MatchingSettings extends Component{
 
 
   render() {
-    let minFollowers = (<input style={{display: 'inline'}} id="minFollowers" type="text" size="10" value={this.state.min} onChange={(event)=> {this.handleMin(event)}} />);
-    let maxFollowers = (<input style={{display: 'inline'}} id="maxFollowers" type="text" size="10" value={this.state.max} onChange={(event)=> {this.handleMax(event)}} />);
+    let profilePicture = (
+      <Grid>
+        <Col lg={2} md={2}>
+          <Image src={this.state.profileURL}  circle width="114px" height="114px"/>
+        </Col>
+        <Col lg={10} md={10}>
+          <Row><h5> Edit profile picture </h5></Row>
+          <Row><input style={{display: 'inline'}} id="profileURL" type="text" width="50px" size="auto" value={this.state.profileURL} onChange={(event)=>{this.handleProfile(event)}}/></Row>
+        </Col>
+      </Grid>)
+    let minFollowers = (<input style={{display: 'inline'}} id="minFollowers" type="text" size="10" value={this.state.min} onChange={(event)=>{this.handleMin(event)}} />);
+    let maxFollowers = (<input style={{display: 'inline'}} id="maxFollowers" type="text" size="10" value={this.state.max} onChange={(event)=>{this.handleMax(event)}} />);
 
     let counter = 0;
 
@@ -90,6 +101,9 @@ class MatchingSettings extends Component{
           <Row bsClass="topRow">
             <Col lg={6} md={6}>
               <h1>Account Settings</h1>
+                <Row bsClass="middleRow">
+                  {profilePicture}
+                </Row>
                 <Row bsClass="middleRow">
                   <div id="slider" >
                     <h5 style={{display: 'inline'}}> Follower Range </h5>

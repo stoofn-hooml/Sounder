@@ -309,6 +309,7 @@ addMatch(matched_id){
         return response.json();
       }
     });
+    this.setState({mode: })
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
 

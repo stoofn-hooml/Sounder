@@ -5,6 +5,8 @@ const cors = require('cors');
 const server = http.createServer(app);
 //bodyparser for passing JSON around without having to parse each time
 var bodyParser = require('body-parser');
+// for encryption
+var crypto = require('crypto');
 
 // Required for passport authentication local strategy
 var passport = require('passport');
@@ -90,73 +92,41 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 app.use(passport.initialize());
 app.use(passport.session());
 
-//THIS WORKED ABOVE
-
-
 var engine = require('consolidate');
 app.set('views', __dirname + '/build/');
 app.engine('html', engine.mustache);
 app.set('view engine', 'html');
 
-
 var path = require('path');
 
-
 // Define routes.
-app.get('/home',
- //require('connect-ensure-login').ensureLoggedIn(),
- function(req, res) {
-    console.log(req.user);
-  //  res.render('index.ejs', { user: req.user[0] })
-  });
-
 app.get('/login', function(req, res){
     //res.sendFile(path.join(__dirname + '/build/login.html'));
     res.render('login.html')
 });
 
-
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}), function(req, res) {
     let userID = req.user[0]['id'];
     res.redirect('index.html');
-  //  res.redirect('/home');
 });
 
-
-
-
 app.get('/api/user_data', function(req, res) {
-            console.log('Trying to request session user ' + req.session.passport.user[0].username);
-            if (req.user === undefined) {
-                // The user is not logged in
-                res.json({});
-            } else {
-                  console.log("Success, session found!")
-                  res.send(req.user[0]);
-                // res.json({
-                //     user: req.user[]
-                // });
-            }
-        });
-
-
-
-
+    console.log('Trying to request session user ' + req.session.passport.user[0].username);
+    if (req.user === undefined) {
+        // The user is not logged in
+        res.json({});
+    } else {
+          console.log("Success, session found!")
+          res.send(req.user[0]);
+    }
+});
 
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
 
-
-
-
-
-//+-------------------Passport Stuff, Above------------------------+
-
-
-
-
+//+-------------------Database Routes------------------------+
 
 app.get('/sounder/users/', (request,response) =>{
   knex('users').select().then((data)=>{
@@ -174,7 +144,6 @@ app.get('/sounder/users/:id', (request, response) =>{
 
 //adds user to db
 app.post('/sounder/users', (request, response) => {
-  console.log(request.body);
   knex('users').insert(request.body).then((values)=>{
     response.send(values);
   });
@@ -213,7 +182,6 @@ app.get('/sounder/likes', (request, response) =>{
 
 // For adding a new "like" to the database
 app.post('/sounder/likes', (request, response) =>{
-  //console.log(request.body)
   knex('likes').insert(request.body).then((values)=>{
     response.send(values);
   });

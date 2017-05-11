@@ -56,6 +56,7 @@ class UserDetail extends Component{
     console.log(props);
     this.state = {
       showModal: false,
+      karmaModal: false,
       karma: [37,78]
     };
   }
@@ -136,38 +137,51 @@ render(){
               </div>)
 
   let closeModal = () => this.setState({ showModal: false })
-
+  //Modal that directs you how to repost
   let repostModal = (<Modal show={this.state.showModal} onHide={closeModal} container={this} aria-labelledby="contained-modal-title">
                         <Modal.Header closeButton>
-                          <Modal.Title id="contained-modal-title">Repost one of your Matchs Songs!</Modal.Title>
+                          <Modal.Title id="contained-modal-title">Repost one of your Match&apos;s Songs!</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <p> To repost a song, simply click on the orange SoundCloud icon in the top left corner of the song widget.
+                            <p> To repost a song, simply click on the orange SoundCloud icon in the top right corner of the song widget.
                             This will bring you to a page which will allow you to directly repost on SoundCloud.</p>
-                            <h4> Dont Forget to Repost! </h4>
+                            <img src="https://preview.ibb.co/hMm6bQ/Screen_Shot_2017_05_10_at_11_03_22_PM.png" width="580px" height="150px"/>  
+                            <h4> Don&apos;t Forget to Repost! </h4>
                             <p>Make sure you remember to repost, otherwise your match will give you a bad karma rating. </p>
                         </Modal.Body>
                       </Modal>);
 
+  //Modal that Takes you to the Karma rating system
+  let KarmaModal = (<Modal show={this.state.karmaModal} container={this} aria-labelledby="contained-modal-title">
+                    <Modal.Header>
+                    <Modal.Title id="contained-modal-title">Rate this user based on whether they have reposted you or not!</Modal.Title>
+                    </Modal.Header>
+                      <Modal.Body>
+                      <form>
+                        <div className="radio">
+                            <label>
+                            <input type="radio" value="Thumbs Up" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            Yes, They Reposted Me!
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                            <input type="radio" value="Thumbs Down" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            No, They Did Not Repost Me!
+                            </label>
+                        </div>
+                      </form>
+                      </Modal.Body>
+                      <Modal.Footer>
+                            <button type="button" class="btn btn-primary" onClick={()=> this.setState({karmaModal:false})} >Done</button>
+                      </Modal.Footer>
+                    </Modal>);
+
+    //buttons that will display at the top of the screen
     let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
     let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)
+    let karmaModalButton = (<LoginButton onClick={() => this.setState({ karmaModal: true})}>Rate this User</LoginButton>)
 
-
-    //Adds the karma rating system
-    let rateButton = (<form>
-                        <div className="radio">
-                          <label>
-                            <input type="radio" value="Thumbs Up" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
-                            Thumbs Up! Rad!
-                          </label>
-                        </div>
-                        <div className="radio">
-                          <label>
-                            <input type="radio" value="Thumbs Down" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
-                            Thumbs Down! Yuck!
-                          </label>
-                        </div>
-                      </form>)
 
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
@@ -177,8 +191,10 @@ render(){
               <div className="modal-container">
                       {goToProfile}
                       {repostModalButton}
+                      {karmaModalButton}
                       {repostModal}
-                      {rateButton}
+                      {KarmaModal}
+
               </div>
             </Row>
             <Row>

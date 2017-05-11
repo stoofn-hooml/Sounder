@@ -46,19 +46,18 @@ class App extends Component {
 
 
 loadLogin(){
-  console.log("trying to call load login")
+  console.log("Loading login...")
   fetch(SERVER + '/api/user_data', {credentials: 'include'})
         .then((response)=>{
-          console.log(response)
           if (response.ok){
             return response.json();
           }
         })
         .then((data)=>{
-          console.log("holy shit!");
+          console.log("User data:");
           console.log(data);
-
           this.setState({currentLogin: data});
+          this.loadMatches(this.state.currentLogin.id)
           //this.setState({futureMatches: data});
         });
 }
@@ -239,34 +238,34 @@ addMatch(matched_id){
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
-  handleSignIn(username){
-    for (let profile of this.state.data){
-      if (profile.username === username){ //we also need to now check password here
-        this.setState({currentLogin: profile});
-        this.loadMatches(profile.id);
-        this.setState({mode: 'home'});
-        return;
-      }
-    }
-    alert("This is not a valid user! Please try again.");
-  }
+  // handleSignIn(username){
+  //   for (let profile of this.state.data){
+  //     if (profile.username === username){ //we also need to now check password here
+  //       this.setState({currentLogin: profile});
+  //       this.loadMatches(profile.id);
+  //       this.setState({mode: 'home'});
+  //       return;
+  //     }
+  //   }
+  //   alert("This is not a valid user! Please try again.");
+  // }
 
 /* handle signUp will be called when a new user tries to sign up, if the username is in data, it will
    return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
    create a new user with username and password*/
-  handleSignUp(newUserObj){
-      let alreadyThere = false
-      for (let profile of this.state.data){
-          if (profile.username === newUserObj.username){
-              alert("This username is already taken! Please enter a different one.");
-              alreadyThere = true
-              return;
-          }
-      }
-      if (alreadyThere === false){
-        this.createNewUser(newUserObj);
-      }
-  }
+  // handleSignUp(newUserObj){
+  //     let alreadyThere = false
+  //     for (let profile of this.state.data){
+  //         if (profile.username === newUserObj.username){
+  //             alert("This username is already taken! Please enter a different one.");
+  //             alreadyThere = true
+  //             return;
+  //         }
+  //     }
+  //     if (alreadyThere === false){
+  //       this.createNewUser(newUserObj);
+  //     }
+  // }
 
   /*handleLogOut is a function that is turned on when someone tries to log out. It updates the state of currentLogin to be null.
   It updates the mode to be the login page. */

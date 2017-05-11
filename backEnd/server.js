@@ -29,8 +29,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 
-
-
 passport.use(new Strategy(
   function(username, password, done) {
     knex.select().from('users').where('username', username).then((response)=>{
@@ -65,8 +63,7 @@ passport.use(new Strategy(
 //   });
 
 passport.serializeUser(function(user, done) {
-  console.log(user);
-  console.log("serialized user!")
+  console.log("User serialized")
   done(null, user);
 });
 
@@ -74,18 +71,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-
-
-
-
-
-
-
-
-
-
 app.use(express.static(__dirname + '/build'));
-
 
 
 //+-------------------Passport Stuff------------------------+
@@ -105,13 +91,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //THIS WORKED ABOVE
-
-
-
-
-
-
-
 
 
 var engine = require('consolidate');
@@ -138,8 +117,6 @@ app.get('/login', function(req, res){
 
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}), function(req, res) {
-    console.log("hello");
-    console.log(req.user[0]['id']);
     let userID = req.user[0]['id'];
     res.redirect('index.html');
   //  res.redirect('/home');
@@ -149,14 +126,12 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/login'}),
 
 
 app.get('/api/user_data', function(req, res) {
-            console.log('trying to make request');
-            //console.log(req.user[0]);
-            console.log("what this")
-            console.log(req.session.passport.user);
+            console.log('Trying to request session user ' + req.session.passport.user[0].username);
             if (req.user === undefined) {
                 // The user is not logged in
                 res.json({});
             } else {
+                  console.log("Success, session found!")
                   res.send(req.user[0]);
                 // res.json({
                 //     user: req.user[]
@@ -224,8 +199,8 @@ app.put('/sounder/users/:id', (request, response) =>{
     profileURL: request.body.profleURL,
     thumbsUpTotal: request.body.thumbsUpTotal,
     totalRatings: request.body.totalRatings
-  }).then((data)=>{
-    response.send(data);
+  }).then((status)=>{
+    response.sendStatus(status);
   });
 });
 

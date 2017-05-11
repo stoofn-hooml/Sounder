@@ -35,7 +35,8 @@ class App extends Component {
       futureMatches: [],
       currentMatch: null,
       matches: [],
-      likes: null
+      likes: null,
+      matchTimes: []
     }
 
       this.updateUsers();
@@ -61,7 +62,6 @@ createNewUser(newUserObj){
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
   userData.song3 = newUserObj.song3;
-  console.log(userData);
   const userStr = JSON.stringify(userData);
   const request = new Request(
   SERVER + "/sounder/users/" ,
@@ -191,14 +191,33 @@ getMatches(id, matchData){
       }
     }
   }
-  for (let user of this.state.data){
-    if((matchArray.indexOf(user.id) < 0) &&(user.id !== id)){
+
+  let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
+
+  for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
+    if((matchArray.indexOf(user.id) < 0) && (user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
+      //if for not matched, and within followerRange min and max
+      let doesNotLikeYou = true;
+
+      for (let pair of this.state.likes){ //finds those that have already liked the user and puts them in alredyLikedArray
+        if ((pair.user_id === user.id) && (pair.liked_id === this.state.currentLogin.id)){
+          alreadyLikedYouArray.push(user);
+          doesNotLikeYou = false;
+        }
+      }
+
+      if(doesNotLikeYou){
       futureMatchArray.push(user);
+      }
     }
   }
+  futureMatchArray = alreadyLikedYouArray.concat(futureMatchArray); //merges two arrays with already liked you first
+  console.log(objArray);
+  console.log(timeOfMatches);
+  this.setState({matchTimes: timeOfMatches});
+  console.log("this.state.matchtimes")
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
-  this.setState({matchTimes: timeOfMatches});
 }
 
 
@@ -246,9 +265,9 @@ addMatch(matched_id){
     for (let profile of this.state.data){
       if (profile.username === username){ //we also need to now check password here
         this.setState({currentLogin: profile});
-        this.loadMatches(profile.id);
         this.setState({mode: 'home'});
-        return;
+        this.loadMatches(profile.id);
+        return true;
       }
     }
     alert("This is not a valid user! Please try again.");
@@ -310,8 +329,11 @@ addMatch(matched_id){
       }
     });
     this.setState({mode: 'home'})
+    this.loadMatches(this.state.currentLogin.id); //loads futureMatches based on new settings
   }
   /*The following determines which page should be displayed based on what the state of mode is. */
+
+
 
   render() {
 
@@ -319,7 +341,7 @@ addMatch(matched_id){
       console.log(this.state.matchTimes);
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
@@ -328,7 +350,9 @@ addMatch(matched_id){
       return (
         <div className="App">
 
-          <LoginPage setProfile={(username)=>this.handleSignIn(username)} newUser={(username,password)=>this.handleSignUp(username,password)} switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
+          <LoginPage setProfile={(username)=>this.handleSignIn(username)}
+                    newUser={(username,password)=>this.handleSignUp(username,password)}
+                    switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
         </div>
       );
     };
@@ -345,7 +369,7 @@ addMatch(matched_id){
     if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
@@ -358,7 +382,7 @@ addMatch(matched_id){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
@@ -368,12 +392,12 @@ addMatch(matched_id){
         </div>
       );
     }
-    else {
+    else { /*MatchPage*/
       return (
       <div>
-      <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
+      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
-      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} setMode={(article)=>this.setState({mode:'home'})}/>
+      <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }

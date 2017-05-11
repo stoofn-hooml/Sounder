@@ -66,6 +66,8 @@ app.put('/sounder/users/:id', (request, response) =>{
     profileURL: request.body.profleURL,
     thumbsUpTotal: request.body.thumbsUpTotal,
     totalRatings: request.body.totalRatings
+  }).then((data)=>{
+    response.send(data);
   }).then((status)=>{
     response.sendStatus(status);
   });

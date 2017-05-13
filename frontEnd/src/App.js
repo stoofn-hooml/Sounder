@@ -329,10 +329,35 @@ addMatch(matched_id){
     .then((response)=>{
       if (response.ok){
         this.updateUsers();
-        return response.json();
+        //this.updateRating();
       }
     });
   }
+/*How you update match info in the matches table*/
+  // updateRating(matched_id){
+  //
+  //   let twoIds = {user_id: this.state.currentLogin.id, matched_id: this.state.currentMatch.id}
+  //   const IdStr = JSON.stringify(twoIds);
+  //   let karmaInfo;
+  //   const request = new Request(
+  //   SERVER + "/sounder/users/" + twoIds.user_id,
+  //   {
+  //     method:'GET',
+  //     body: IdStr,
+  //     headers: new Headers({'Content-type': 'application/json'})
+  //   }
+  //   );
+  //
+  //   fetch(request)
+  //   .then((response)=>{
+  //     if (response.ok){
+  //       console.log(response.json())
+  //       karmaInfo = response.json();
+  //     }
+  //   });
+  //
+  //
+  // }
 
   /*The following determines which page should be displayed based on what the state of mode is. */
 

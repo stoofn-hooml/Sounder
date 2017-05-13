@@ -66,8 +66,8 @@ app.put('/sounder/users/:id', (request, response) =>{
     profileURL: request.body.profleURL,
     thumbsUpTotal: request.body.thumbsUpTotal,
     totalRatings: request.body.totalRatings
-  }).then((data)=>{
-    response.send(data);
+  }).then(()=>{
+    response.sendStatus(200);
   });
 });
 
@@ -90,6 +90,14 @@ app.post('/sounder/likes', (request, response) =>{
 app.get('/sounder/matches', (request, response) =>{
   knex('matches').select().then((data)=>{
     response.send(data);
+  });
+});
+
+app.get('/sounder/matches:id', (request, response) =>{
+  const userID = parseInt(request.params.user_id);
+  const matchedID = parseInt(request.params.matched_id);
+    knex.select().from('matches').where('user_id', userID).andWhere('matched_id', matched_ID).then((match)=>{
+      response.send(match);
   });
 });
 

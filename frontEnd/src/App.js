@@ -23,7 +23,8 @@ import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
 
 
-const SERVER = 'http://localhost:4321';
+//const SERVER = 'http://localhost:4321';
+const SERVER = 'http://basin.cs.middlebury.edu:4321';
 
 
 class App extends Component {
@@ -341,7 +342,7 @@ addMatch(matched_id){
       console.log(this.state.matchTimes);
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar handleLogOut={()=>this.handleLogOut()} updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
@@ -369,7 +370,7 @@ addMatch(matched_id){
     if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar handleLogOut={()=>this.handleLogOut()} updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
@@ -382,7 +383,7 @@ addMatch(matched_id){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar handleLogOut={()=>this.handleLogOut()} updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
@@ -395,7 +396,7 @@ addMatch(matched_id){
     else { /*MatchPage*/
       return (
       <div>
-      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+      <NavBar handleLogOut={()=>this.handleLogOut()} updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
 
       <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>

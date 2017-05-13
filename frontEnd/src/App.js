@@ -22,6 +22,17 @@ import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
 
+let SC = require('soundcloud')
+
+SC.initialize({
+client_id: 'MSlCbXvMSDcBwSCxpvhItVyxJMubVLqI',
+redirect_uri: 'http://localhost:4321'
+});
+
+
+SC.connect((user)=>{
+  console.log(user);
+});
 
 //const SERVER = 'http://localhost:4321';
 const SERVER = 'http://basin.cs.middlebury.edu:4321';

@@ -25,14 +25,18 @@ import NavBar from './Components/NavBar.js';
 let SC = require('soundcloud')
 
 SC.initialize({
-client_id: 'MSlCbXvMSDcBwSCxpvhItVyxJMubVLqI',
-redirect_uri: 'http://localhost:4321'
+    client_id: '5ZIn6tb49fb7iTXVOjhUWCigTo2XvgDm',
+    redirect_uri: 'basin.cs.middlebury.edu:4321'
+  });
+
+
+SC.connect(function() {
+  // SC.get('/me', function(me) {
+  //   $('#username').html(me.username);
+  // });
 });
 
 
-SC.connect((user)=>{
-  console.log(user);
-});
 
 //const SERVER = 'http://localhost:4321';
 const SERVER = 'http://basin.cs.middlebury.edu:4321';

@@ -39,7 +39,7 @@ SC.connect(function() {
 
 
 //const SERVER = 'http://localhost:4321';
-const SERVER = 'http://basin.cs.middlebury.edu:4321';
+const SERVER = 'basin.cs.middlebury.edu:4321';
 
 
 class App extends Component {

@@ -21,6 +21,39 @@ const corsOptions = {
 
 var port = 4321;
 
+
+
+app.use(express.static(__dirname + '/build'));
+
+
+//+-------------------Passport Stuff------------------------+
+
+//THIS WORKED
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+// app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+
+
+
+var engine = require('consolidate');
+app.set('views', __dirname + '/build/');
+app.engine('html', engine.mustache);
+app.set('view engine', 'html');
+
+var path = require('path');
+
+// Define routes.
+app.get('/', function(req, res){
+    //res.sendFile(path.join(__dirname + '/build/login.html'));
+    res.render('callback.html')
+
+
 app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());

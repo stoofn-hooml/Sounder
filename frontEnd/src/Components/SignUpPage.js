@@ -9,14 +9,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
 import MenuItem from 'react-bootstrap/lib/MenuItem.js';
-
-
 //import Col from 'react-bootstrap/lib/Col.js';
-
-
-
-
-
 
 const LoginPage = styled.div`
   text-align: center;
@@ -169,7 +162,7 @@ createUser(){ //creates the actual user object
   }
 
   let complete = true;
-  Object.keys(newUserObj).map(function(key){ //checks that all fields complete
+  Object.keys(newUserObj).map((key)=>{ //checks that all fields complete
     if (newUserObj[key] === ""){
       complete = false;
       alert("please fill out the " + key + " section");
@@ -188,7 +181,11 @@ render() {
   let song3Input = (<Input  placeholder="Song 3 URL" type="text" value={this.state.song3} onChange={(event)=>{this.handleSong3(event)}}/>);
   let profileURLInput = (<Input  placeholder="Soundcloud Profile URL" type="text" value={this.state.profileURL} onChange={(event)=>{this.handleProfileURL(event)}}/>);
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
-  let genresInput = (<Input  placeholder="genre (later dropdown)" type="text" value={this.state.genres} onChange={(event)=>{this.handleGenres(event)}}/>);
+
+  // ***** Is this getting used?? ****
+  //let genresInput = (<Input  placeholder="genre (later dropdown)" type="text" value={this.state.genres} onChange={(event)=>{this.handleGenres(event)}}/>);
+  // ********************************
+
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
 

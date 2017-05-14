@@ -53,7 +53,6 @@ const LoginButton = styled.div`
 class UserDetail extends Component{
   constructor(props){
     super(props);
-    console.log(props);
     this.state = {
       showModal: false,
       karmaModal: false,
@@ -63,7 +62,6 @@ class UserDetail extends Component{
 
   createKarma(rating){
     if (this.props.currentLogin.totalRatings ===0){
-      console.log('no ratings yet');
       return(
         <div>
         <p>No Ratings Yet</p>
@@ -102,7 +100,6 @@ class UserDetail extends Component{
   };
 
   handleKarmaRating(event){
-    (console.log(event.target.value));
     let updatedUserObj;
     if (event.target.value === "Thumbs Up"){
       updatedUserObj = Object.assign({}, this.props.currentLogin, {
@@ -117,7 +114,6 @@ class UserDetail extends Component{
       });
     };
     this.props.updateSettings(updatedUserObj);
-    console.log(updatedUserObj);
   };
 
 render(){
@@ -145,7 +141,7 @@ render(){
                         <Modal.Body>
                             <p> To repost a song, simply click on the orange SoundCloud icon in the top right corner of the song widget.
                             This will bring you to a page which will allow you to directly repost on SoundCloud.</p>
-                            <img src="https://preview.ibb.co/hMm6bQ/Screen_Shot_2017_05_10_at_11_03_22_PM.png" width="580px" height="150px"/>  
+                            <img role='presentation' src="https://preview.ibb.co/hMm6bQ/Screen_Shot_2017_05_10_at_11_03_22_PM.png" width="580px" height="150px"/>
                             <h4> Don&apos;t Forget to Repost! </h4>
                             <p>Make sure you remember to repost, otherwise your match will give you a bad karma rating. </p>
                         </Modal.Body>
@@ -207,7 +203,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={9} md={6}>
                 {songs}
               </Col>
           </Grid>
@@ -227,7 +223,7 @@ render(){
               </Grid>
               </Col>
             </Row>
-              <Col lg={9} m={6}>
+              <Col lg={9} md={6}>
                 {songs}
               </Col>
           </Grid>

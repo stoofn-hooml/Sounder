@@ -91,7 +91,7 @@ class MatchPage extends Component{
   }
 
   render(){
-    if(this.state.futureMatchIndex == this.props.futureMatches.length){
+    if(this.state.futureMatchIndex === this.props.futureMatches.length){
       return(
         <div><p>Sorry, you have run out of matches!</p></div>
       );

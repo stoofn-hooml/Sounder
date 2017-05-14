@@ -329,46 +329,24 @@ addMatch(matched_id){
     .then((response)=>{
       if (response.ok){
         this.updateUsers();
-        //this.updateRating();
+        this.updateRating();
       }
     });
   }
 /*How you update match info in the matches table*/
-  // updateRating(matched_id){
-  //
-  //   let twoIds = {user_id: this.state.currentLogin.id, matched_id: this.state.currentMatch.id}
-  //   const IdStr = JSON.stringify(twoIds);
-  //   let karmaInfo;
-  //   const request = new Request(
-  //   SERVER + "/sounder/users/" + twoIds.user_id,
-  //   {
-  //     method:'GET',
-  //     body: IdStr,
-  //     headers: new Headers({'Content-type': 'application/json'})
-  //   }
-  //   );
-  //
-  //   fetch(request)
-  //   .then((response)=>{
-  //     if (response.ok){
-  //       console.log(response.json())
-  //       karmaInfo = response.json();
-  //     }
-  //   });
-  //
-  //
-  // }
+  updateRating(matched_id){
+    console.log(this.state.matches);
+  }
 
   /*The following determines which page should be displayed based on what the state of mode is. */
 
   render() {
 
     if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
-      console.log(this.state.matchTimes);
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes = {this.state.matchTimes}  currentLogin={this.state.currentLogin} />
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -398,7 +376,7 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes = {this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes={this.state.matchTimes} />
         </div>
       );
     };

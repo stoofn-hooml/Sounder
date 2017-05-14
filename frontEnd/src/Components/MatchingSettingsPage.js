@@ -86,8 +86,6 @@ class MatchingSettings extends Component{
               {genrelist}
               </DropdownButton>)
 
-
-
       return(
         <Grid>
           <Row bsClass="topRow">

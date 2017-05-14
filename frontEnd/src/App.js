@@ -279,16 +279,13 @@ addMatch(matched_id){
 
 /*clickMatch is a callback function that is turned on when a match in the matchlog is clicked. It changes the state of currentMatch and the mode. */
   clickMatch(match){
-    if(this.state.mode === 'home'){
-      this.setState({mode: 'matchdetails'})
-    }
     this.setState({currentMatch: match});
+    this.getMatch()
   }
 
   /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
   updateSettings(updatedUserObj){
     this.setState({currentLogin:updatedUserObj})
-
 
     const userStr = JSON.stringify(updatedUserObj);
     const request = new Request(
@@ -311,9 +308,7 @@ addMatch(matched_id){
 
   /*Callback function in UserDetail.js to update karma ratings in database*/
   updateKarma(updatedUserObj){
-    console.log(this.state.currentMatch);
-    console.log(this.state.currentLogin);
-    this.setState({currentMatch:updatedUserObj})
+    this.setState({currentMatch:updatedUserObj});
 
     const userStr = JSON.stringify(updatedUserObj);
     const request = new Request(
@@ -329,14 +324,58 @@ addMatch(matched_id){
     .then((response)=>{
       if (response.ok){
         this.updateUsers();
-        this.updateRating();
       }
     });
   }
-/*How you update match info in the matches table*/
-  updateRating(matched_id){
-    console.log(this.state.matches);
+
+// This is a helper function which passes the match of interest down to MatchDetail and UserDetail to handle
+// changes to karma rating for the match
+getMatch(){
+  fetch(SERVER + '/sounder/matches/' + this.state.currentLogin.id)
+  .then((response)=>{
+    if (response.ok){
+      return response.json();
+    }
+  })
+  .then((data)=>{
+    for (let match of data) {
+      if (match.user_id === this.state.currentLogin.id){
+        if (match.matched_id === this.state.currentMatch.id) {
+          this.setState({getMatch: match});
+        }
+      }else{    // This handles the fact that we store matches in two ways in match table
+        if (match.user_id === this.state.currentMatch.id){
+          this.setState({getMatch: match});
+        }
+      }
+    }
+  })
+  .then(()=>{
+    if(this.state.mode === 'home'){
+      this.setState({mode: 'matchdetails'})
+    }
+  });
+}
+
+// Handles rating changes, PUT request to update match karma rating info
+updateRating(newMatchObject){
+  const matchStr = JSON.stringify(newMatchObject);
+  const request = new Request(
+  SERVER + "/sounder/matches/" + this.state.currentLogin.id ,
+  {
+    method:'PUT',
+    body: matchStr,
+    headers: new Headers({'Content-type': 'application/json'})
   }
+  );
+
+  fetch(request)
+  .then((response)=>{
+    if (response.ok){
+      this.updateUsers();
+    }
+  });
+}
 
   /*The following determines which page should be displayed based on what the state of mode is. */
 
@@ -346,7 +385,7 @@ addMatch(matched_id){
       return (
         <div className="App">
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
-        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
+        <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes} currentLogin={this.state.currentLogin} />
         </div>
       );
     }
@@ -373,10 +412,11 @@ addMatch(matched_id){
         <div>
         <NavBar setMode={(whichMode)=>this.setState({mode: whichMode})} handleLogOut={()=>this.handleLogOut()}/>
 
-          <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
+          <MatchDetailPage  clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes={this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes={this.state.matchTimes}
+                            getMatch={this.state.getMatch} updateMatchKarma={(matchObj)=>this.updateRating(matchObj)}/>
         </div>
       );
     };

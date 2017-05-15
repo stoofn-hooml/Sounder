@@ -21,6 +21,8 @@ import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
+import WelcomeNavBar from './Components/WelcomeNavBar.js';
+import WelcomePage from './Components/WelcomePage.js';
 
 
 const SERVER = 'http://localhost:4321';
@@ -30,7 +32,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      mode: 'login',
+      mode: 'welcome',
       currentLogin: null,
       futureMatches: [],
       currentMatch: null,
@@ -336,7 +338,15 @@ addMatch(matched_id){
 
 
   render() {
-
+    if(this.state.mode === 'welcome'){
+      console.log("welcome!");
+      return(
+        <div className="App">
+          <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
+          <WelcomePage />
+        </div>
+      );
+    };
     if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
       console.log(this.state.matchTimes);
       return (
@@ -349,7 +359,7 @@ addMatch(matched_id){
     if(this.state.mode ==='login'){
       return (
         <div className="App">
-
+          <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
           <LoginPage setProfile={(username)=>this.handleSignIn(username)}
                     newUser={(username,password)=>this.handleSignUp(username,password)}
                     switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
@@ -360,7 +370,7 @@ addMatch(matched_id){
     if(this.state.mode ==='signUp'){
       return (
         <div className="App">
-
+        <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
           <SignUpPage newUser={(obj)=>this.handleSignUp(obj)} switchToLogin={()=>this.setState({mode: 'login'})}/>
         </div>
       );

@@ -195,11 +195,18 @@ getMatches(id, matchData){
   }
 
   let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
-
+  let arrayWithHeur = {};
   for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
     if((matchArray.indexOf(user.id) < 0) && (user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
       //if for not matched, and within followerRange min and max
       let doesNotLikeYou = true;
+
+
+
+
+
+
+
 
       for (let pair of this.state.likes){ //finds those that have already liked the user and puts them in alredyLikedArray
         if ((pair.user_id === user.id) && (pair.liked_id === this.state.currentLogin.id)){
@@ -209,15 +216,66 @@ getMatches(id, matchData){
       }
 
       if(doesNotLikeYou){
+
+        let ourGenres = this.state.currentLogin.genre.split(',');
+        console.log(ourGenres);
+        let theirGenres = user.genre.split(',');
+        console.log(user.username);
+        console.log(theirGenres)
+        let heur = 0;
+        for (let i of ourGenres) {
+          for (let j of theirGenres){
+            if(i === j){
+              heur +=1;
+            }
+          }
+        }
+        console.log(heur);
+        arrayWithHeur[user.id] = heur;
+
+
+
       futureMatchArray.push(user);
+
       }
     }
   }
-  futureMatchArray = alreadyLikedYouArray.concat(futureMatchArray); //merges two arrays with already liked you first
-  console.log(objArray);
-  console.log(timeOfMatches);
+
+  var sortedByCommonGenre = Object.keys(arrayWithHeur).map(function(key) {
+      return [key, arrayWithHeur[key]];
+  });
+
+  //Sort the array based on the second element
+
+  sortedByCommonGenre.sort(function(first, second) {
+      return second[1] - first[1];
+
+});
+   let sortedArray = [];
+  for (let matchid of sortedByCommonGenre) {
+    for (let user of futureMatchArray){
+      if (matchid[0] === String(user.id)) {
+        sortedArray.push(user);
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  console.log(futureMatchArray);
+  console.log(sortedArray);
+  futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
+  console.log(futureMatchArray);
   this.setState({matchTimes: timeOfMatches});
-  console.log("this.state.matchtimes")
+
   this.setState({matches: objArray});
   this.setState({futureMatches: futureMatchArray});
 }
@@ -351,7 +409,7 @@ addMatch(matched_id){
       console.log(this.state.matchTimes);
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
@@ -379,8 +437,7 @@ addMatch(matched_id){
     if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
@@ -392,8 +449,7 @@ addMatch(matched_id){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
             updateSettings={(obj)=>this.updateSettings(obj)}
@@ -405,8 +461,7 @@ addMatch(matched_id){
     else { /*MatchPage*/
       return (
       <div>
-      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}/>
-
+      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
       <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );

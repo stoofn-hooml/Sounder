@@ -121,13 +121,11 @@ app.put('/sounder/matches/:id', (request, response)=>{
   let body = request.body.matchObject;
   let userID = parseInt(request.params.id);
   if (ratingToChange === 1){    // user_id is the logged in user
-    //console.log("if")
     knex('matches').where('user_id', body.user_id).andWhere('matched_id', userID).update({user_id_rating: body.user_id_rating})
     .then(()=>{
       response.sendStatus(200);
     })
   }else{
-    //console.log("else")
     knex('matches').where('user_id', userID).andWhere('matched_id', body.matched_id).update({matched_id_rating: body.matched_id_rating})
     .then(()=>{
       response.sendStatus(200);

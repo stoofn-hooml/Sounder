@@ -14,6 +14,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
+import EmbedSong from './EmbedSong.js';
 import MenuItem from 'react-bootstrap/lib/MenuItem.js';
 
 
@@ -271,8 +272,17 @@ render() {
         <div>
           <UsernameInput>
             {song1Input}
+            <div>
+              <EmbedSong songURL={this.state.song1}></EmbedSong>
+            </div>
             {song2Input}
+            <div>
+              <EmbedSong songURL={this.state.song2}></EmbedSong>
+            </div>
             {song3Input}
+            <div>
+              <EmbedSong songURL={this.state.song3}></EmbedSong>
+            </div>
           </UsernameInput>
         </div>
 

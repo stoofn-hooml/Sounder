@@ -58,7 +58,6 @@ createNewUser(newUserObj){
   userData.followerRangeMax = 100000000;
   //react-select stores multiselected items as string already, don't need to change to store in database
   userData.genre = newUserObj.genre;
-  console.log(userData.genre);
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
@@ -200,13 +199,6 @@ getMatches(id, matchData){
       //if for not matched, and within followerRange min and max
       let doesNotLikeYou = true;
 
-
-
-
-
-
-
-
       for (let pair of this.state.likes){ //finds those that have already liked the user and puts them in alredyLikedArray
         if ((pair.user_id === user.id) && (pair.liked_id === this.state.currentLogin.id)){
           alreadyLikedYouArray.push(user);
@@ -217,10 +209,7 @@ getMatches(id, matchData){
       if(doesNotLikeYou){
 
         let ourGenres = this.state.currentLogin.genre.split(',');
-        console.log(ourGenres);
         let theirGenres = user.genre.split(',');
-        console.log(user.username);
-        console.log(theirGenres)
         let heur = 0;
         for (let i of ourGenres) {
           for (let j of theirGenres){
@@ -229,10 +218,7 @@ getMatches(id, matchData){
             }
           }
         }
-        console.log(heur);
         arrayWithHeur[user.id] = heur;
-
-
 
       futureMatchArray.push(user);
 
@@ -258,21 +244,7 @@ getMatches(id, matchData){
       }
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-  console.log(futureMatchArray);
-  console.log(sortedArray);
   futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
-  console.log(futureMatchArray);
   this.setState({matchTimes: timeOfMatches});
 
   this.setState({matches: objArray});
@@ -288,9 +260,6 @@ addMatch(matched_id){
   const now = new Date();
   matchData.matchTime = String(now).slice(4,15);
   matchData.matchTimeInt = now.getTime();
-  console.log("here is the time:");
-  console.log(matchData.matchTime);
-  console.log(matchData.matchTimeInt);
   const matchStr = JSON.stringify(matchData);
   const request = new Request(
     SERVER + "/sounder/matches",
@@ -316,7 +285,6 @@ addMatch(matched_id){
     this.addLike(this.state.currentLogin.id, liked_id)
 
   }
-
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */

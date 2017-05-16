@@ -133,6 +133,8 @@ class UserDetail extends Component{
         alert("You have already given this user a Thumbs Down!")
       };
     }
+    console.log(currentRating)
+    console.log(newRating)
     if (currentRating !== newRating){
       this.props.updateUserKarma(updatedUserObj);
     };
@@ -150,6 +152,7 @@ updateRating(event){
   let user_id_rating = match.user_id_rating
   let matched_id_rating = match.matched_id_rating
 
+  console.log(match)
 
   if (event.target.value === "Thumbs Up") {
     newRating = 1;
@@ -206,6 +209,8 @@ updateRating(event){
     }
   }
   if (matchObject){
+    console.log("new object")
+    console.log(matchObject)
     this.props.updateRating(matchObject, ratingToChange);
   };
   return {currentRating, newRating}

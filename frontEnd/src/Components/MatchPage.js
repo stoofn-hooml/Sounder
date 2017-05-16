@@ -52,23 +52,51 @@ const MatchPageWrap = styled.div`
 class MatchPage extends Component{
   constructor(props){
     super(props);
-
+    if (this.checkLiked(0)){
+        this.state = {
+          futureMatchIndex: this.findNext(0)
+        }
+    }
+    else{
     this.state = {
       futureMatchIndex:0
-
     };
+    }
   }
 
+  checkLiked(index){//checks whether the next up user has been liked
+      for (let pair of this.props.likeData){
+        if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[index].id)){
+          console.log("This user"+ this.props.futureMatches[index].username + "has already been liked, will not record!")
+          return true;
+        }
+      }
+    console.log("This user "+ this.props.futureMatches[index].username + "has not yet been liked, displaying")
+    console.log(this.props.futureMatches)
+    return false;
+  }
+
+  findNext(currentIndex){ //finds the next valid match candidate to be displayed at/after currentIndex
+    let i = currentIndex+1 //index of next user
+      while (i < this.props.futureMatches.length){
+          if(this.checkLiked(i)){ //keeps going through candidates untill we get to one that hasn't been liked
+            i+=1;
+          }else{
+            return i;
+          }
+      }
+      return this.props.futureMatches.length; //return end of array index
+  }
 
   handleNext(){
-    this.setState({futureMatchIndex: (this.state.futureMatchIndex + 1)});
-  }
+        this.setState({futureMatchIndex: this.findNext(this.state.futureMatchIndex)});
+      }
+
 
   handleLike(){
     for (let pair of this.props.likeData){
       // Don't know if this is necessary, but will catch duplicate likes
-      if ((pair.user1_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
-        console.log("This user has already been liked, will not record!")
+      if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
         this.handleNext();
         return;
       }
@@ -83,15 +111,18 @@ class MatchPage extends Component{
   checkMatch(){
     for (let pair of this.props.likeData){
       if ((pair.user_id === this.props.futureMatches[this.state.futureMatchIndex].id) && (pair.liked_id === this.props.currentLogin.id)){
-        console.log("we foudn a new match!");
         alert("You just matched with " + this.props.futureMatches[this.state.futureMatchIndex].username + "!")
         this.props.returnMatch(this.props.futureMatches[this.state.futureMatchIndex].id)
       }
     }
   }
 
+  handleRefresh(){
+    this.setState({futureMatchIndex: this.findNext(-1)}); //goes back to start (-1 is because of how findnext works normally)
+  }
+
   render(){
-    if(this.state.futureMatchIndex === this.props.futureMatches.length){
+    if(this.props.futureMatches.length > 0 && this.state.futureMatchIndex < this.props.futureMatches.length){
       return(
         <div><p>Sorry, you have run out of matches!</p></div>
       );
@@ -117,7 +148,10 @@ class MatchPage extends Component{
 
     } else {
       return(
-        <div><p>Sorry, there is no one to match with!</p></div>
+        <div><p>Sorry, there is no one to match with! Try widening your search by follower range in Settings.</p>
+        <LoginButton onClick={()=>this.props.goToSettings()} value="Settings">Settings</LoginButton>
+        <p>Or refresh matches.</p>
+        <LoginButton onClick={()=>this.handleRefresh()} value="Refresh">Refresh</LoginButton></div>
       )
 
     }

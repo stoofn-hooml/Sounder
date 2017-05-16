@@ -22,10 +22,11 @@ import '../index.css';
 import Popover from 'react-bootstrap/lib/Popover.js';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
 
-const CenteredTitle=styled.h1`
+const CenteredTitle=styled.h2`
   font-weight: bold;
   text-align: center;
   border-bottom: 2px solid #ff4b00;
+  padding-bottom: 10px;
 `;
 
 const MatchName = styled(ListGroupItem)`
@@ -80,27 +81,28 @@ function MatchLog(props){
     const popoverHoverFocus = (
     <MatchPreview id="popover-trigger-hover-focus" title={name}  positionLeft={200}
       positionTop={50}>
-      <p><strong>Genre</strong> {user.genre}</p>
+      <p><strong>Genre</strong> {user.genre.replace(/,/g, ", ")}</p>
       <p><strong>Followers</strong> {user.numFollowers}</p>
       <p><strong>Karma</strong> {user.karma}</p>
+      <p><strong>Matched</strong> {time}</p>
     </MatchPreview>
   );
     return (
         <MatchName key={name} value={name} onClick={()=>{props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-            <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle><TimeStyle>{time}</TimeStyle></MatchNameStyle>
+            <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle></MatchNameStyle>
           </OverlayTrigger>
         </MatchName>
     );
   });
 
   return (
-    <Grid>
+    <Grid fluid={true}>
       <Row>
-        <Col lg={2} md={3}><CenteredTitle>Matches</CenteredTitle></Col>
+        <Col lg={12} md={12}><CenteredTitle>Matches</CenteredTitle></Col>
       </Row>
       <Row>
-        <Col lg={2}>
+        <Col lg={12} md={12}>
           <ListGroup>{matchlog}</ListGroup>
         </Col>
       </Row>

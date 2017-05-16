@@ -14,6 +14,35 @@ import Image from 'react-bootstrap/lib/Image.js';
 import MultiGenreSelect from './MultiGenreSelect.js';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
 import Tooltip from 'react-bootstrap/lib/Tooltip.js';
+import styled from 'styled-components';
+
+const CenteredTitle=styled.h2`
+  font-weight: bold;
+  border-bottom: 2px solid #ff4b00;
+  padding-bottom: 10px;
+  width: 250px;
+`;
+
+const SettingsHeader=styled.h4`
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 16px;
+`;
+
+const LoginButton = styled.div`
+  bsSize: xsmall;
+  display: inline;
+  background-color: #e7e7e7;
+  border: none;
+  color: white;
+  padding: 5px 5px 5px 5px;
+  color: black;
+  margin-left: 10px;
+  border-radius: 28px;
+  text-align: center;
+
+`;
+
 
 
 
@@ -79,16 +108,48 @@ class MatchingSettings extends Component{
 
 
   render() {
+    //Code for tool tip funcitonality - can definitely be condensed
+    const help = <LoginButton bsSize="xsmall" style={{display: 'inline'}}> ? </LoginButton>
 
-    const tooltip = (
-        <Tooltip id="tooltip"><strong>Holy guacamole!</strong> Check this info.</Tooltip>
+    const proPicToolTip = (
+        <Tooltip id="tooltip" style={{fontSize: '12pt'}}> Copy and paste the URL of your new profile picture. </Tooltip>
     );
 
-    const positionerInstance = (
-      <OverlayTrigger placement="left" overlay={tooltip}>
-        <Button bsStyle="default">Holy guacamole!</Button>
+    const proPicHelp = (
+      <OverlayTrigger placement="top" overlay={proPicToolTip}>
+        {help}
         </OverlayTrigger>
       );
+
+    const followerToolTip = (
+          <Tooltip id="tooltip" style={{fontSize: '12pt'}}> Enter the range of followers you would like your potential matches to have. </Tooltip>
+      );
+
+    const followerHelp = (
+        <OverlayTrigger placement="right" overlay={followerToolTip}>
+          {help}
+          </OverlayTrigger>
+        );
+
+    const genreToolTip = (
+          <Tooltip id="tooltip" style={{fontSize: '12pt'}}> Pick which genres you would like your potential matches to have. </Tooltip>
+        );
+
+    const genreHelp = (
+          <OverlayTrigger placement="right" overlay={genreToolTip}>
+            {help}
+            </OverlayTrigger>
+        );
+
+    const songToolTip = (
+            <Tooltip id="tooltip" style={{fontSize: '12pt'}}> To change your one of your songs, click the share button on the SoundCloud song widget. Click the 'Embed' tab. Copy and paste the 'Code and Preview' text below the song you want to change. </Tooltip>
+        );
+
+    const songHelp = (
+          <OverlayTrigger placement="right" overlay={songToolTip}>
+            {help}
+            </OverlayTrigger>
+          );
 
     let profilePicture = (
       <Grid>
@@ -98,10 +159,9 @@ class MatchingSettings extends Component{
         </Col>
         <Col lg={10} md={10}>
           <Row>
-            <h5>
-              Edit profile picture
-            </h5>
-            <Button> Holy guacamole!</Button>
+              <SettingsHeader>Edit your profile picture
+              {proPicHelp}
+              </SettingsHeader>
           </Row>
           <Row><input style={{display: 'inline'}} id="profileURL" type="text"
                       width="50px" size="auto" value={this.state.profileURL}
@@ -120,7 +180,7 @@ class MatchingSettings extends Component{
 
     let counter = 0;
 
-    let genre = (<MultiGenreSelect style={{paddingRight: '20px'}}
+    let genre = (<MultiGenreSelect style={{display: 'inline'}}
                   handleSelectChange={(value)=>this.handleSelectChange(value)}
                   value={this.state.value}>
                 </MultiGenreSelect>
@@ -131,22 +191,26 @@ class MatchingSettings extends Component{
         <Grid>
           <Row bsClass="topRow">
             <Col lg={6} md={6}>
-              <h1>Account Settings</h1>
+              <CenteredTitle>Account Settings</CenteredTitle>
                 <Row bsClass="middleRow">
                   {profilePicture}
-                  {positionerInstance}
                 </Row>
                 <Row bsClass="middleRow">
                   <div id="slider" >
-                    <h5 style={{display: 'inline'}}>
+                    <SettingsHeader>
                     Follower Range
-                    </h5>
+                    {followerHelp}
+                    </SettingsHeader>
                     {minFollowers}
                     <p style={{display: 'inline'}}> to </p>
                     {maxFollowers}
                   </div>
                 </Row>
                 <Row bsClass="middleRow">
+                  <SettingsHeader>
+                  Genres
+                  {genreHelp}
+                  </SettingsHeader>
                   <div style={{paddingRight:'150px'}}>
                     {genre}
                   </div>
@@ -156,19 +220,23 @@ class MatchingSettings extends Component{
                 </Row>
               </Col>
               <Col lg={6} md={6}>
+                <SettingsHeader>
+                Edit my Songs
+                {songHelp}
+                </SettingsHeader>
                 <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song1}></EmbedSong>
-                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <h4 style={{display: 'inline'}}> URL </h4>
                   <input style={{display: 'inline'}} name="song1" type="text" size="auto" value={this.state.song1} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song2}></EmbedSong>
-                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <h4 style={{display: 'inline'}}> URL </h4>
                   <input style={{display: 'inline'}} name="song2" type="text" size="auto" value={this.state.song2} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
                 <Row bsClass="padded">
                   <EmbedSong songURL={this.props.currentLogin.song3}></EmbedSong>
-                  <h5 style={{display: 'inline'}}> URL </h5>
+                  <h4 style={{display: 'inline'}}> URL </h4>
                   <input style={{display: 'inline'}} name="song3" type="text" size="auto" value={this.state.song3} onChange={(event)=> {this.handleURL(event)}} />
                 </Row>
               </Col>

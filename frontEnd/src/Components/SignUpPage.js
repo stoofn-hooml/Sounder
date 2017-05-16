@@ -182,7 +182,7 @@ createUser(){ //creates the actual user object
   //online:
   }
 
-  if (checkValid() == true){
+  if (checkValid() === true){
     this.props.newUser(newUserObj);
   }
 
@@ -197,22 +197,22 @@ createUser(){ //creates the actual user object
       }
     })
 
-    if (newUserObj.song1.search("w.soundcloud.com/player/") == -1 ||
-      newUserObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song1.search("w.soundcloud.com/player/") === -1 ||
+      newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 1!");
     }
-    if (newUserObj.song2.search("w.soundcloud.com/player/") == -1 ||
-      newUserObj.song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
+      newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 2!");
     }
-    if (newUserObj.song3.search("w.soundcloud.com/player/") == -1 ||
-      newUserObj.song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
+      newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 3!");
     }
-    if (newUserObj.profilePictureURL.search(".jpg") == -1 && newUserObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
+    if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
         alert("Please enter a .jpg or .png file for profile picture!");
     }
-    if(newUserObj.password != newUserObj.password2) { //checks that password/confirm password match
+    if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
       alert("Passwords do not match, please confirm password")
     }
     else {

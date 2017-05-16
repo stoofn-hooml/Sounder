@@ -292,16 +292,16 @@ render(){
             <Row>
               <Grid>
                 <Row>
-                  <Col lg={2} md={2} >
+                  <Col lg={3} md={3} sm={3} >
                     {profilePicture}
                   </Col>
-                  <Col lg={8} md={8} >
+                  <Col lg={9} md={9} sm={9} >
                     {basicUserInfo}
                   </Col>
                 </Row>
               </Grid>
             </Row>
-              <Col lg={9} md={6}>
+              <Col lg={12} md={12} sm={12} >
                 {songs}
               </Col>
           </Grid>
@@ -314,16 +314,16 @@ render(){
             <Row>
               <Grid>
                 <Row>
-                  <Col lg={2} md={2} >
+                  <Col lg={3} md={3} sm={3} >
                     {profilePicture}
                   </Col>
-                  <Col lg={8} md={8} >
+                  <Col lg={9} md={9} sm={9} >
                     {basicUserInfo}
                   </Col>
                 </Row>
               </Grid>
             </Row>
-              <Col lg={9} md={6}>
+              <Col lg={12} md={12} sm={12} >
                 {songs}
               </Col>
           </Grid>

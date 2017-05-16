@@ -12,15 +12,10 @@ import Col from 'react-bootstrap/lib/Col.js';
 import EmbedSong from './EmbedSong.js';
 import Image from 'react-bootstrap/lib/Image.js';
 import MultiGenreSelect from './MultiGenreSelect.js';
-import Popover from 'react-bootstrap/lib/Popover.js';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger.js';
-import styled from 'styled-components';
+import Tooltip from 'react-bootstrap/lib/Tooltip.js';
 
 
-const TutorialPopOver = styled(Popover)`
-  width: 400px;
-
-`
 
 class MatchingSettings extends Component{
   constructor(props){
@@ -85,38 +80,51 @@ class MatchingSettings extends Component{
 
   render() {
 
-    let popoverHoverFocus = (
-      <TutorialPopOver id="popover-trigger-hover-focus" title={name}  positionLeft={200}
-        positionTop={50}>
-        <p><strong>This is a tutorial popover!</strong></p>
-      </TutorialPopOver>);
+    const tooltip = (
+        <Tooltip id="tooltip"><strong>Holy guacamole!</strong> Check this info.</Tooltip>
+    );
+
+    const positionerInstance = (
+      <OverlayTrigger placement="left" overlay={tooltip}>
+        <Button bsStyle="default">Holy guacamole!</Button>
+        </OverlayTrigger>
+      );
 
     let profilePicture = (
       <Grid>
         <Col lg={2} md={2}>
-          <Image src={this.state.profileURL}  circle width="114px" height="114px"/>
+          <Image src={this.state.profileURL}  circle width="114px" height="114px">
+          </Image>
         </Col>
         <Col lg={10} md={10}>
-          <Row><h5> Edit profile picture </h5></Row>
-          <Row><input style={{display: 'inline'}} id="profileURL" type="text" width="50px" size="auto" value={this.state.profileURL} onChange={(event)=>{this.handleProfile(event)}}/></Row>
+          <Row>
+            <h5>
+              Edit profile picture
+            </h5>
+            <Button> Holy guacamole!</Button>
+          </Row>
+          <Row><input style={{display: 'inline'}} id="profileURL" type="text"
+                      width="50px" size="auto" value={this.state.profileURL}
+                      onChange={(event)=>{this.handleProfile(event)}}>
+                </input>
+          </Row>
         </Col>
       </Grid>);
 
     let minFollowers = (<input style={{display: 'inline'}} id="minFollowers"
                                 type="text" size="10" value={this.state.min}
                                 onChange={(event)=>{this.handleMin(event)}}>
-                                <OverlayTrigger
-                                  trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
-                                </OverlayTrigger>
                                 </input>);
 
     let maxFollowers = (<input style={{display: 'inline'}} id="maxFollowers" type="text" size="10" value={this.state.max} onChange={(event)=>{this.handleMax(event)}} />);
 
     let counter = 0;
 
-    let genre = (<MultiGenreSelect style={{paddingRight: '20px'}} handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
-
-
+    let genre = (<MultiGenreSelect style={{paddingRight: '20px'}}
+                  handleSelectChange={(value)=>this.handleSelectChange(value)}
+                  value={this.state.value}>
+                </MultiGenreSelect>
+                )
 
 
       return(
@@ -126,10 +134,13 @@ class MatchingSettings extends Component{
               <h1>Account Settings</h1>
                 <Row bsClass="middleRow">
                   {profilePicture}
+                  {positionerInstance}
                 </Row>
                 <Row bsClass="middleRow">
                   <div id="slider" >
-                    <h5 style={{display: 'inline'}}> Follower Range </h5>
+                    <h5 style={{display: 'inline'}}>
+                    Follower Range
+                    </h5>
                     {minFollowers}
                     <p style={{display: 'inline'}}> to </p>
                     {maxFollowers}

@@ -49,15 +49,15 @@ const LoginButton = styled.div`
 class UserDetail extends Component{
   constructor(props){
     super(props);
-
     this.state = {
       showModal: false,
+      karmaModal: false,
       karma: [37,78]
     };
   }
 
   createKarma(rating){
-    if (this.state.karma[0]/this.state.karma[1] > 0.8){
+    if (this.props.currentLogin.totalRatings ===0){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" />
@@ -89,6 +89,126 @@ class UserDetail extends Component{
     )}
   };
 
+  handleKarmaRating(event){
+    let ratings = this.updateRating(event)
+    let currentRating = ratings.currentRating;
+    let newRating = ratings.newRating;
+    let updatedUserObj;
+
+    if (currentRating === 0) {
+      if (newRating === 1){
+        updatedUserObj = Object.assign({}, this.props.currentLogin, {
+          thumbsUpTotal:this.props.currentLogin.thumbsUpTotal +1,
+          totalRatings:this.props.currentLogin.totalRatings +1
+        });
+      };
+      if (newRating === 2){
+        updatedUserObj = Object.assign({}, this.props.currentLogin, {
+          thumbsUpTotal:this.props.currentLogin.thumbsUpTotal,
+          totalRatings:this.props.currentLogin.totalRatings +1
+        });
+      };
+    }
+
+    if (currentRating === 1) {
+      if (newRating === 1){
+        alert("You have already given this user a Thumbs Up!")
+      };
+      if (newRating === 2){
+        updatedUserObj = Object.assign({}, this.props.currentLogin, {
+          thumbsUpTotal:this.props.currentLogin.thumbsUpTotal - 1,
+          totalRatings:this.props.currentLogin.totalRatings
+        });
+      };
+    }
+
+    if (currentRating === 2) {
+      if (newRating === 1){
+        updatedUserObj = Object.assign({}, this.props.currentLogin, {
+          thumbsUpTotal:this.props.currentLogin.thumbsUpTotal +1,
+          totalRatings:this.props.currentLogin.totalRatings
+        });
+      };
+      if (newRating === 2){
+        alert("You have already given this user a Thumbs Down!")
+      };
+    }
+    if (currentRating !== newRating){
+      this.props.updateUserKarma(updatedUserObj);
+    };
+  };
+
+// This helper function has two purposes:
+// (1) Set up state to make the correct changes to karma rating in handleKarmaRating function
+// (2) Create correct newMatchObject to return to App.js to be PUT in database in matches table
+updateRating(event){
+  let match = this.props.getMatch
+  let newRating;
+  let currentRating;
+  let ratingToChange;
+  let matchObject;
+  let user_id_rating = match.user_id_rating
+  let matched_id_rating = match.matched_id_rating
+
+  if (event.target.value === "Thumbs Up") {
+    newRating = 1;
+  }else if (event.target.value === "Thumbs Down"){
+    newRating = 2;
+  }
+
+  if (match.user_id === this.props.currentUser.id) {
+    ratingToChange = 0;
+    // Hasn't been rated yet, make the change to new rating regardless
+    if (matched_id_rating === 0){
+      currentRating = 0;
+      matchObject = Object.assign({}, match, {matched_id_rating:newRating});
+    }
+
+    // Has been rated "Thumbs Up", make the change to new rating if they chose "Thumbs Down" (2)
+    if (matched_id_rating === 1){
+      currentRating = 1;
+      if (newRating === 2){
+        matchObject = Object.assign({}, match, {matched_id_rating:newRating});
+      }
+    }
+
+    // Has been rated "Thumbs Down", make the change to new rating if they chose "Thumbs Up" (1)
+    if (matched_id_rating === 2){
+      currentRating = 2;
+      if (newRating === 1){
+        matchObject = Object.assign({}, match, {matched_id_rating:newRating});
+      }
+    }
+
+  }else{
+    ratingToChange = 1;
+    // Hasn't been rated yet, make the change to new rating regardless
+    if (user_id_rating === 0){
+      currentRating = 0;
+      matchObject = Object.assign({}, match, {user_id_rating:newRating});
+    }
+
+    // Has been rated "Thumbs Up", make the change to new rating if they chose "Thumbs Down" (2)
+    if (user_id_rating === 1){
+      currentRating = 1;
+      if (newRating === 2){
+        matchObject = Object.assign({}, match, {user_id_rating:newRating});
+      }
+    }
+
+    // Has been rated "Thumbs Down", make the change to new rating if they chose "Thumbs Up" (1)
+    if (user_id_rating === 2){
+      currentRating = 2;
+      if (newRating === 1){
+        matchObject = Object.assign({}, match, {user_id_rating:newRating});
+      }
+    }
+  }
+  if (matchObject){
+    this.props.updateRating(matchObject, ratingToChange);
+  };
+  return {currentRating, newRating}
+}
 
 render(){
 
@@ -109,21 +229,51 @@ render(){
               </div>)
 
   let closeModal = () => this.setState({ showModal: false })
-
+  //Modal that directs you how to repost
   let repostModal = (<Modal show={this.state.showModal} onHide={closeModal} container={this} aria-labelledby="contained-modal-title">
                         <Modal.Header closeButton>
-                          <Modal.Title id="contained-modal-title">Repost one of your Matchs Songs!</Modal.Title>
+                          <Modal.Title id="contained-modal-title">Repost one of your Match&apos;s Songs!</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <p> To repost a song, simply click on the orange SoundCloud icon in the top left corner of the song widget.
+                            <p> To repost a song, simply click on the orange SoundCloud icon in the top right corner of the song widget.
                             This will bring you to a page which will allow you to directly repost on SoundCloud.</p>
-                            <h4> Dont Forget to Repost! </h4>
+                            <img role='presentation' src="https://preview.ibb.co/hMm6bQ/Screen_Shot_2017_05_10_at_11_03_22_PM.png" width="580px" height="150px"/>
+                            <h4> Don&apos;t Forget to Repost! </h4>
                             <p>Make sure you remember to repost, otherwise your match will give you a bad karma rating. </p>
                         </Modal.Body>
                       </Modal>);
 
+  //Modal that Takes you to the Karma rating system
+  let KarmaModal = (<Modal show={this.state.karmaModal} container={this} aria-labelledby="contained-modal-title">
+                    <Modal.Header>
+                    <Modal.Title id="contained-modal-title">Rate this user based on whether they have reposted you or not!</Modal.Title>
+                    </Modal.Header>
+                      <Modal.Body>
+                      <form>
+                        <div className="radio">
+                            <label>
+                            <input type="radio" value="Thumbs Up" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            Yes, They Reposted Me!
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                            <input type="radio" value="Thumbs Down" name="karma" onClick={(event)=> this.handleKarmaRating(event)} />
+                            No, They Did Not Repost Me!
+                            </label>
+                        </div>
+                      </form>
+                      </Modal.Body>
+                      <Modal.Footer>
+                            <button type="button" className="btn btn-primary" onClick={()=> this.setState({karmaModal:false})} >Done</button>
+                      </Modal.Footer>
+                    </Modal>);
+
+    //buttons that will display at the top of the screen
     let goToProfile = (<LoginButton onClick={()=>(window.open(this.props.currentLogin.profileURL))}>Visit SoundCloud Profile</LoginButton>)
     let repostModalButton = (<LoginButton onClick={() => this.setState({ showModal: true})}>How do I repost a Song?</LoginButton>)
+    let karmaModalButton = (<LoginButton onClick={() => this.setState({ karmaModal: true})}>Rate this User</LoginButton>)
+
 
     /*Checks to see if the User is looking at MatchDetailPage*/
     if(this.props.profileLink){
@@ -133,7 +283,10 @@ render(){
               <div className="modal-container">
                       {goToProfile}
                       {repostModalButton}
+                      {karmaModalButton}
                       {repostModal}
+                      {KarmaModal}
+
               </div>
             </Row>
             <Row>
@@ -148,7 +301,7 @@ render(){
                 </Row>
               </Grid>
             </Row>
-              <Col lg={10} md={10}>
+              <Col lg={9} md={6}>
                 {songs}
               </Col>
           </Grid>
@@ -170,7 +323,7 @@ render(){
                 </Row>
               </Grid>
             </Row>
-              <Col lg={12} md={12}>
+              <Col lg={9} md={6}>
                 {songs}
               </Col>
           </Grid>

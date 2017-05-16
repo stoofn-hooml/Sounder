@@ -28,8 +28,6 @@ import Col from 'react-bootstrap/lib/Col.js';
 import '../index.css';
 
 function HomePage(props) {
-  console.log("home apge");
-  console.log
   return (
     <Grid>
       <Row bsClass="topRow">

@@ -88,7 +88,7 @@ function MatchLog(props){
     </MatchPreview>
   );
     return (
-        <MatchName key={name} value={name} onClick={()=>{console.log(user);props.clickMatch(user)}}>
+        <MatchName key={name} value={name} onClick={()=>{props.clickMatch(user)}}>
           <OverlayTrigger trigger={['hover', 'focus']} placement="top" overlay={popoverHoverFocus} arrowOffsetLeft='40px'>
             <MatchNameStyle lg={12}> <NameStyle>{name}</NameStyle></MatchNameStyle>
           </OverlayTrigger>

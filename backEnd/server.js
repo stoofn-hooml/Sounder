@@ -66,10 +66,8 @@ app.put('/sounder/users/:id', (request, response) =>{
     profileURL: request.body.profleURL,
     thumbsUpTotal: request.body.thumbsUpTotal,
     totalRatings: request.body.totalRatings
-  }).then((data)=>{
-    response.send(data);
-  }).then((status)=>{
-    response.sendStatus(status);
+  }).then(()=>{
+    response.sendStatus(200);
   });
 });
 
@@ -95,6 +93,14 @@ app.get('/sounder/matches', (request, response) =>{
   });
 });
 
+app.get('/sounder/matches:id', (request, response) =>{
+  const userID = parseInt(request.params.user_id);
+  const matchedID = parseInt(request.params.matched_id);
+    knex.select().from('matches').where('user_id', userID).andWhere('matched_id', matched_ID).then((match)=>{
+      response.send(match);
+  });
+});
+
 // For adding a new "match" to the database
 app.post('/sounder/matches', (request, response) =>{
   knex('matches').insert(request.body).then((values)=>{
@@ -108,6 +114,23 @@ app.get('/sounder/matches/:id', (request, response)=>{
     knex.select().from('matches').where('user_id', userID).orWhere('matched_id', userID).then((matches)=>{
       response.send(matches);
     });
+});
+
+app.put('/sounder/matches/:id', (request, response)=>{
+  let ratingToChange = request.body.ratingToChange;
+  let body = request.body.matchObject;
+  let userID = parseInt(request.params.id);
+  if (ratingToChange === 1){    // user_id is the logged in user
+    knex('matches').where('user_id', body.user_id).andWhere('matched_id', userID).update({user_id_rating: body.user_id_rating})
+    .then(()=>{
+      response.sendStatus(200);
+    })
+  }else{
+    knex('matches').where('user_id', userID).andWhere('matched_id', body.matched_id).update({matched_id_rating: body.matched_id_rating})
+    .then(()=>{
+      response.sendStatus(200);
+    })
+  }
 });
 
 

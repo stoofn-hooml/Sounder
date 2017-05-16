@@ -94,8 +94,6 @@ class MatchingSettings extends Component{
 
     let genre = (<MultiGenreSelect style={{paddingRight: '20px'}} handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
 
-
-
       return(
         <Grid>
           <Row bsClass="topRow">

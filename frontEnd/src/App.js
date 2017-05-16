@@ -24,6 +24,7 @@ import NavBar from './Components/NavBar.js';
 
 
 const SERVER = 'http://localhost:4321';
+//const SERVER = 'http://basin.cs.middlebury.edu:4321';
 
 
 class App extends Component {
@@ -57,7 +58,6 @@ createNewUser(newUserObj){
   userData.followerRangeMax = 100000000;
   //react-select stores multiselected items as string already, don't need to change to store in database
   userData.genre = newUserObj.genre;
-  console.log(userData.genre);
   userData.online = 0;
   userData.song1 = newUserObj.song1;
   userData.song2 = newUserObj.song2;
@@ -199,13 +199,6 @@ getMatches(id, matchData){
       //if for not matched, and within followerRange min and max
       let doesNotLikeYou = true;
 
-
-
-
-
-
-
-
       for (let pair of this.state.likes){ //finds those that have already liked the user and puts them in alredyLikedArray
         if ((pair.user_id === user.id) && (pair.liked_id === this.state.currentLogin.id)){
           alreadyLikedYouArray.push(user);
@@ -216,10 +209,7 @@ getMatches(id, matchData){
       if(doesNotLikeYou){
 
         let ourGenres = this.state.currentLogin.genre.split(',');
-        console.log(ourGenres);
         let theirGenres = user.genre.split(',');
-        console.log(user.username);
-        console.log(theirGenres)
         let heur = 0;
         for (let i of ourGenres) {
           for (let j of theirGenres){
@@ -228,10 +218,7 @@ getMatches(id, matchData){
             }
           }
         }
-        console.log(heur);
         arrayWithHeur[user.id] = heur;
-
-
 
       futureMatchArray.push(user);
 
@@ -257,21 +244,7 @@ getMatches(id, matchData){
       }
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-  console.log(futureMatchArray);
-  console.log(sortedArray);
   futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
-  console.log(futureMatchArray);
   this.setState({matchTimes: timeOfMatches});
 
   this.setState({matches: objArray});
@@ -287,9 +260,6 @@ addMatch(matched_id){
   const now = new Date();
   matchData.matchTime = String(now).slice(4,15);
   matchData.matchTimeInt = now.getTime();
-  console.log("here is the time:");
-  console.log(matchData.matchTime);
-  console.log(matchData.matchTimeInt);
   const matchStr = JSON.stringify(matchData);
   const request = new Request(
     SERVER + "/sounder/matches",
@@ -315,7 +285,6 @@ addMatch(matched_id){
     this.addLike(this.state.currentLogin.id, liked_id)
 
   }
-
 
   /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
   match this username. It also will update the state to be the home page. */
@@ -358,16 +327,13 @@ addMatch(matched_id){
 
 /*clickMatch is a callback function that is turned on when a match in the matchlog is clicked. It changes the state of currentMatch and the mode. */
   clickMatch(match){
-    if(this.state.mode === 'home'){
-      this.setState({mode: 'matchdetails'})
-    }
     this.setState({currentMatch: match});
+    this.getMatch()
   }
 
   /*callback function in MatchingSettings page, replaces old user object with updated objected with updated settings*/
   updateSettings(updatedUserObj){
     this.setState({currentLogin:updatedUserObj})
-
 
     const userStr = JSON.stringify(updatedUserObj);
     const request = new Request(
@@ -389,6 +355,84 @@ addMatch(matched_id){
     this.setState({mode: 'home'})
     this.loadMatches(this.state.currentLogin.id); //loads futureMatches based on new settings
   }
+
+  /*Callback function in UserDetail.js to update karma ratings in database*/
+  updateKarma(updatedUserObj){
+    this.setState({currentMatch:updatedUserObj});
+
+    const userStr = JSON.stringify(updatedUserObj);
+    const request = new Request(
+    SERVER + "/sounder/users/" + updatedUserObj.id ,
+    {
+      method:'PUT',
+      body: userStr,
+      headers: new Headers({'Content-type': 'application/json'})
+    }
+    );
+
+    fetch(request)
+    .then((response)=>{
+      if (response.ok){
+        this.updateUsers();
+      }
+    });
+  }
+
+// This is a helper function which passes the match of interest down to MatchDetail and UserDetail to handle
+// changes to karma rating for the match
+getMatch(){
+  fetch(SERVER + '/sounder/matches/' + this.state.currentLogin.id)
+  .then((response)=>{
+    if (response.ok){
+      return response.json();
+    }
+  })
+  .then((data)=>{
+    for (let match of data) {
+      if (match.user_id === this.state.currentLogin.id){
+        if (match.matched_id === this.state.currentMatch.id) {
+          this.setState({getMatch: match});
+        }
+      }else{    // This handles the fact that we store matches in two ways in match table
+        if (match.user_id === this.state.currentMatch.id){
+          this.setState({getMatch: match});
+        }
+      }
+    }
+  })
+  .then(()=>{
+    if(this.state.mode === 'home'){
+      this.setState({mode: 'matchdetails'})
+    }
+  });
+}
+
+// Handles rating changes, PUT request to update match karma rating info
+updateRating(newMatchObject, ratingToChange){
+  let match = {
+    matchObject : newMatchObject,
+    ratingToChange : ratingToChange
+  }
+
+  const matchStr = JSON.stringify(match);
+  const request = new Request(
+  SERVER + "/sounder/matches/" + this.state.currentLogin.id ,
+  {
+    method:'PUT',
+    body: matchStr,
+    headers: new Headers({'Content-type': 'application/json'})
+  }
+  );
+
+  fetch(request)
+  .then((response)=>{
+    if (response.ok){
+      this.updateUsers();
+      this.setState({getMatch : newMatchObject})
+    }
+  });
+}
+
   /*The following determines which page should be displayed based on what the state of mode is. */
 
 
@@ -396,7 +440,6 @@ addMatch(matched_id){
   render() {
 
     if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
-      console.log(this.state.matchTimes);
       return (
         <div className="App">
         <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
@@ -431,7 +474,9 @@ addMatch(matched_id){
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
-                            matchTimes={this.state.matchTimes} />
+                            updateSettings={(obj)=>this.updateKarma(obj)} matchTimes={this.state.matchTimes}
+                            getMatch={this.state.getMatch} updateRating={(matchObj, ratingToChange)=>this.updateRating(matchObj,ratingToChange)}
+                            currentUser={this.state.currentLogin}/>
         </div>
       );
     };

@@ -28,7 +28,7 @@ import Col from 'react-bootstrap/lib/Col.js';
 
 
 function MatchDetailPage(props){
-    console.log(props.currentMatch)
+    //console.log(props.currentMatch)
     return (
       <Grid fluid={true}>
         <Row bsClass="topRow">
@@ -36,7 +36,7 @@ function MatchDetailPage(props){
             <MatchLog clickMatch={(match)=>props.clickMatch(match)} matchlist={props.matchlist} matchTimes={props.matchTimes} />
           </Col>
           <Col lg={9} md={9}>
-            <UserDetail getMatch={props.getMatch} currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL} updateUserKarma={(obj)=>props.updateSettings(obj)} updateMatchKarma={(matchObj)=>props.updateMatchKarma(matchObj)}/>
+            <UserDetail getMatch={props.getMatch} currentUser={props.currentUser} currentLogin={props.currentMatch} profileLink={props.currentMatch.profileURL} updateUserKarma={(obj)=>props.updateSettings(obj)} updateRating={(matchObj, ratingToChange)=>props.updateRating(matchObj, ratingToChange)}/>
           </Col>
         </Row>
       </Grid>

@@ -358,8 +358,13 @@ getMatch(){
 }
 
 // Handles rating changes, PUT request to update match karma rating info
-updateRating(newMatchObject){
-  const matchStr = JSON.stringify(newMatchObject);
+updateRating(newMatchObject, ratingToChange){
+  let match = {
+    matchObject : newMatchObject,
+    ratingToChange : ratingToChange
+  }
+
+  const matchStr = JSON.stringify(match);
   const request = new Request(
   SERVER + "/sounder/matches/" + this.state.currentLogin.id ,
   {
@@ -373,6 +378,7 @@ updateRating(newMatchObject){
   .then((response)=>{
     if (response.ok){
       this.updateUsers();
+      this.setState({getMatch : newMatchObject})
     }
   });
 }
@@ -416,7 +422,8 @@ updateRating(newMatchObject){
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
                             updateSettings={(obj)=>this.updateKarma(obj)} matchTimes={this.state.matchTimes}
-                            getMatch={this.state.getMatch} updateMatchKarma={(matchObj)=>this.updateRating(matchObj)}/>
+                            getMatch={this.state.getMatch} updateRating={(matchObj, ratingToChange)=>this.updateRating(matchObj,ratingToChange)}
+                            currentUser={this.state.currentLogin}/>
         </div>
       );
     };

@@ -193,7 +193,7 @@ getMatches(id, matchData){
       }
     }
   }
-
+  console.log("trying for matches!")
   let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
   let arrayWithHeur = {};
   for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
@@ -247,6 +247,7 @@ getMatches(id, matchData){
     }
   }
   futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
+  console.log(futureMatchArray);
   this.setState({matchTimes: timeOfMatches});
 
   this.setState({matches: objArray});

@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import MultiGenreSelect from './MultiGenreSelect.js';
+//import MultiGenreSelect from './MultiGenreSelect.js';
 
 //import Col from 'react-bootstrap/lib/Col.js';
 
@@ -146,6 +146,85 @@ handleEmail(inputEvent){
  ********************************************************************
 */
 
+// createUser(){ //creates the actual user object
+//   let newUserObj = {
+//   username: this.state.username,
+//   password: this.state.password,
+//   song1: this.state.song1,
+//   song2: this.state.song2,
+//   song3: this.state.song3,
+//   profileURL: this.state.profileURL,
+//   genre: this.state.value, //make this an array later
+//   numFollowers: this.state.numFollowers,
+//   profilePictureURL: this.state.profilePictureURL,
+//   email: this.state.email,
+//   karma: 0,
+//
+//   /* How to handle these? */
+//
+//   //id:
+//   //followers:
+//   //id;
+//   //followers: //who follows the user
+//   //following: //who the user follows
+//   //followerRange:
+//   //peopleYouLike:
+//   //peopleWhoLikedYou:
+//   //currentMatches:
+//   //pastMatches:
+//   //online:
+// }
+//   console.log(this.state.value);
+//   let complete = true;
+//   Object.keys(newUserObj).map(function(key){ //checks that all fields complete
+//     if (newUserObj[key] === ""){
+//       complete = false;
+//       alert("please fill out the " + key + " section");
+//     }
+//
+//   if (checkValid() === true){
+//     this.props.newUser(newUserObj);
+//   }
+//
+//   //CheckValid looks all the sign-up parameters to see if they are valid. Returns true if valid.
+//   function checkValid(){
+//     let complete = false; //Initialize as false just in case some checks fail.
+//
+//     Object.keys(newUserObj).map(function(key){ //checks that all fields complete
+//       if (newUserObj[key] === ""){ //If anything is empty then alert the user
+//         alert("please fill out the " + key + " section");
+//         return complete;
+//       }
+//     })
+//
+//     if (newUserObj.song1.search("w.soundcloud.com/player/") === -1 ||
+//       newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+//         alert("Please insert a valid embed code for song 1!");
+//     }
+//     if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
+//       newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+//         alert("Please insert a valid embed code for song 2!");
+//     }
+//     if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
+//       newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+//         alert("Please insert a valid embed code for song 3!");
+//     }
+//     if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
+//         alert("Please enter a .jpg or .png file for profile picture!");
+//     }
+//     if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
+//       alert("Passwords do not match, please confirm password")
+//
+//     }
+//   })
+//   if (complete === true){
+//     this.props.newUser(newUserObj);
+//   }
+//
+// }
+
+
+
 createUser(){ //creates the actual user object
   let newUserObj = {
   username: this.state.username,
@@ -154,11 +233,11 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: this.state.value, //make this an array later
+  genre: [this.state.genres], //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
-  karma: 0,
+  karma: 0
 
   /* How to handle these? */
 
@@ -175,15 +254,7 @@ createUser(){ //creates the actual user object
   //online:
   }
 
-<<<<<<< HEAD
-  console.log(this.state.value);
-  let complete = true;
-  Object.keys(newUserObj).map(function(key){ //checks that all fields complete
-    if (newUserObj[key] === ""){
-      complete = false;
-      alert("please fill out the " + key + " section");
-=======
-  if (checkValid() === true){
+  if (checkValid() == true){
     this.props.newUser(newUserObj);
   }
 
@@ -198,30 +269,44 @@ createUser(){ //creates the actual user object
       }
     })
 
-    if (newUserObj.song1.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song1.search("w.soundcloud.com/player/") == -1 ||
+      newUserObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 1!");
     }
-    if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song2.search("w.soundcloud.com/player/") == -1 ||
+      newUserObj.song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 2!");
     }
-    if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
+    if (newUserObj.song3.search("w.soundcloud.com/player/") == -1 ||
+      newUserObj.song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 3!");
     }
-    if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
+    if (newUserObj.profilePictureURL.search(".jpg") == -1 && newUserObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
         alert("Please enter a .jpg or .png file for profile picture!");
     }
-    if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
+    if(newUserObj.password != newUserObj.password2) { //checks that password/confirm password match
       alert("Passwords do not match, please confirm password")
->>>>>>> 02853f97c05e2e093552547a6ba5588da2cfb5a1
     }
-  })
-  if (complete === true){
-    this.props.newUser(newUserObj);
+    else {
+      complete = true;
+    }
+    return complete;
   }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 render() {
   let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
@@ -231,14 +316,14 @@ render() {
   let song3Input = (<Input  placeholder="Song 3 URL" type="text" value={this.state.song3} onChange={(event)=>{this.handleSong3(event)}}/>);
   let profileURLInput = (<Input  placeholder="Soundcloud Profile URL" type="text" value={this.state.profileURL} onChange={(event)=>{this.handleProfileURL(event)}}/>);
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
-<<<<<<< HEAD
-  let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
+
+  //let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
   let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
-=======
-  let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
+
+  //let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
-  let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
+  //let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
 
   // let genreOps = ["Alternative Rock", "Ambient", "Classical", "Country", "Dance & EDM", "Dancehall", "Deep House",
   // "Disco", "Drum & Bass", "Dubstep", "Electronic", "Folk & Singer-Songwriter", "Hip-Hop & Rap", "House", "Indie", "Jazz & Blues", "Latin",
@@ -252,7 +337,7 @@ render() {
   //           {genrelist}
   //           </DropdownButton>)
 
->>>>>>> 02853f97c05e2e093552547a6ba5588da2cfb5a1
+
   let signUp = (<LoginButton onClick={()=>this.createUser()}>Sign Up</LoginButton>);
   let cancel = (<LoginButton onClick={()=>this.props.switchToLogin()} >Cancel</LoginButton>);
 

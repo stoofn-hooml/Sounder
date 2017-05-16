@@ -23,8 +23,8 @@ import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
 
 
-//const SERVER = 'http://localhost:4321';
-const SERVER = 'http://basin.cs.middlebury.edu:4321';
+const SERVER = 'http://localhost:4321';
+//const SERVER = 'http://basin.cs.middlebury.edu:4321';
 
 
 class App extends Component {

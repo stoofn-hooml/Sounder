@@ -56,8 +56,8 @@ createNewUser(newUserObj){
   userData.profilepictureURL = newUserObj.profilePictureURL;
   userData.karma = newUserObj.karma;
   userData.profileURL = newUserObj.profileURL;
-  userData.followerRangeMin = 0;
-  userData.followerRangeMax = 100000000;
+  userData.followerRangeMin = newUserObj.followerRangeMin;
+  userData.followerRangeMax = newUserObj.followerRangeMax;
   //react-select stores multiselected items as string already, don't need to change to store in database
   userData.genre = newUserObj.genre;
   userData.online = 0;
@@ -193,10 +193,15 @@ getMatches(id, matchData){
       }
     }
   }
-  console.log("trying for matches!")
+  console.log(this.state.currentLogin)
   let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
   let arrayWithHeur = {};
   for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
+    console.log(user)
+    console.log((matchArray.indexOf(user.id) < 0) && (user.id !== id))
+    console.log((this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax))
+    console.log(this.state.currentLogin.followerRangeMin)
+    console.log(this.state.currentLogin.followerRangeMax)
     if((matchArray.indexOf(user.id) < 0) && (user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
       //if for not matched, and within followerRange min and max
       let doesNotLikeYou = true;
@@ -207,8 +212,8 @@ getMatches(id, matchData){
           doesNotLikeYou = false;
         }
       }
-
-      if(doesNotLikeYou){
+      console.log(user)
+      if(doesNotLikeYou && user.genre){
 
         let ourGenres = this.state.currentLogin.genre.split(',');
         let theirGenres = user.genre.split(',');
@@ -223,7 +228,7 @@ getMatches(id, matchData){
         arrayWithHeur[user.id] = heur;
 
       futureMatchArray.push(user);
-
+      console.log(futureMatchArray);
       }
     }
   }

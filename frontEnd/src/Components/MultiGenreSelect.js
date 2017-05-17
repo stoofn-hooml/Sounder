@@ -39,14 +39,14 @@ var MultiSelectField = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string,
     handleSelectChange: React.PropTypes.func,
-    value: React.PropTypes.array
+    value: React.PropTypes.string
 	},
 	getInitialState () {
 		return {
 			disabled: false,
 			crazy: false,
 			options: GENREOPS,
-			value: [],
+			value: '',
 		};
 	},
 	handleSelectChange (value) {

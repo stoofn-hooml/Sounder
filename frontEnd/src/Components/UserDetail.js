@@ -49,6 +49,7 @@ const LoginButton = styled.div`
 class UserDetail extends Component{
   constructor(props){
     super(props);
+    console.log(this.props.currentLogin)
     this.state = {
       showModal: false,
       karmaModal: false,

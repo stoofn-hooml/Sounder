@@ -85,7 +85,7 @@ class SignUp extends Component{
       numFollowers: '',
       profilePictureURL: '',
       email: '',
-			value: []
+			value: ''
 
     }
   };
@@ -146,85 +146,6 @@ handleEmail(inputEvent){
  ********************************************************************
 */
 
-// createUser(){ //creates the actual user object
-//   let newUserObj = {
-//   username: this.state.username,
-//   password: this.state.password,
-//   song1: this.state.song1,
-//   song2: this.state.song2,
-//   song3: this.state.song3,
-//   profileURL: this.state.profileURL,
-//   genre: this.state.value, //make this an array later
-//   numFollowers: this.state.numFollowers,
-//   profilePictureURL: this.state.profilePictureURL,
-//   email: this.state.email,
-//   karma: 0,
-//
-//   /* How to handle these? */
-//
-//   //id:
-//   //followers:
-//   //id;
-//   //followers: //who follows the user
-//   //following: //who the user follows
-//   //followerRange:
-//   //peopleYouLike:
-//   //peopleWhoLikedYou:
-//   //currentMatches:
-//   //pastMatches:
-//   //online:
-// }
-//   console.log(this.state.value);
-//   let complete = true;
-//   Object.keys(newUserObj).map(function(key){ //checks that all fields complete
-//     if (newUserObj[key] === ""){
-//       complete = false;
-//       alert("please fill out the " + key + " section");
-//     }
-//
-//   if (checkValid() === true){
-//     this.props.newUser(newUserObj);
-//   }
-//
-//   //CheckValid looks all the sign-up parameters to see if they are valid. Returns true if valid.
-//   function checkValid(){
-//     let complete = false; //Initialize as false just in case some checks fail.
-//
-//     Object.keys(newUserObj).map(function(key){ //checks that all fields complete
-//       if (newUserObj[key] === ""){ //If anything is empty then alert the user
-//         alert("please fill out the " + key + " section");
-//         return complete;
-//       }
-//     })
-//
-//     if (newUserObj.song1.search("w.soundcloud.com/player/") === -1 ||
-//       newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-//         alert("Please insert a valid embed code for song 1!");
-//     }
-//     if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
-//       newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-//         alert("Please insert a valid embed code for song 2!");
-//     }
-//     if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
-//       newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-//         alert("Please insert a valid embed code for song 3!");
-//     }
-//     if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
-//         alert("Please enter a .jpg or .png file for profile picture!");
-//     }
-//     if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
-//       alert("Passwords do not match, please confirm password")
-//
-//     }
-//   })
-//   if (complete === true){
-//     this.props.newUser(newUserObj);
-//   }
-//
-// }
-
-
-
 createUser(){ //creates the actual user object
   let newUserObj = {
   username: this.state.username,
@@ -233,11 +154,13 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: [this.state.genres], //make this an array later
+  genre: this.state.value, //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
-  karma: 0
+  karma: 0,
+  followerRangeMin : 0,
+  followerRangeMax : 100000000
 
   /* How to handle these? */
 
@@ -284,9 +207,9 @@ createUser(){ //creates the actual user object
     if (newUserObj.profilePictureURL.search(".jpg") == -1 && newUserObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
         alert("Please enter a .jpg or .png file for profile picture!");
     }
-    if(newUserObj.password != newUserObj.password2) { //checks that password/confirm password match
-      alert("Passwords do not match, please confirm password")
-    }
+    // if(newUserObj.password != newUserObj.password2) { //checks that password/confirm password match
+    //   alert("Passwords do not match, please confirm password")
+    // }
     else {
       complete = true;
     }

@@ -4,7 +4,7 @@
 /frontEnd/node_modules/
 /backEnd/node_modules/
 /node_modules/
-
+frontEnd/node_modules/.cache/eslint-loader/data.json
 # testing
 /coverage
 

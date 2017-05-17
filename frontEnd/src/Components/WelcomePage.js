@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Image from 'react-bootstrap/lib/Image.js';
 import sounderLogo from './sounder.png'
@@ -7,15 +7,13 @@ import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 
 
-const Logo = styled(Image)`
-  margin-top: 40px;
-`
-
-const StyledCol = styled(Col)`
-  margin-left: 20px;
-
-
-`
+// const Logo = styled(Image)`
+//   margin-top: 40px;
+// `
+//
+// const StyledCol = styled(Col)`
+//   margin-left: 20px;
+// `
 const Title = styled.p`
   margin-top: 20px;
   font-size: 60px;

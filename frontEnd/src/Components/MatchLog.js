@@ -52,13 +52,13 @@ const NameStyle = styled.p`
    color: #FF7700;
  }
  `
-const TimeStyle = styled.p`
- cursor: pointer;
- font-style: italic;
-  &:hover {
-   color: #FF7700;
- }
-`
+// const TimeStyle = styled.p`
+//  cursor: pointer;
+//  font-style: italic;
+//   &:hover {
+//    color: #FF7700;
+//  }
+// `
 
 const MatchPreview = styled(Popover)`
   width: 400px;

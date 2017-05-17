@@ -193,15 +193,9 @@ getMatches(id, matchData){
       }
     }
   }
-  console.log(this.state.currentLogin)
   let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
   let arrayWithHeur = {};
   for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
-    console.log(user)
-    console.log((matchArray.indexOf(user.id) < 0) && (user.id !== id))
-    console.log((this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax))
-    console.log(this.state.currentLogin.followerRangeMin)
-    console.log(this.state.currentLogin.followerRangeMax)
     if((matchArray.indexOf(user.id) < 0) && (user.id !== id) && (this.state.currentLogin.followerRangeMin <= user.numFollowers) && (user.numFollowers <= this.state.currentLogin.followerRangeMax)){
       //if for not matched, and within followerRange min and max
       let doesNotLikeYou = true;
@@ -212,7 +206,6 @@ getMatches(id, matchData){
           doesNotLikeYou = false;
         }
       }
-      console.log(user)
       if(doesNotLikeYou && user.genre){
 
         let ourGenres = this.state.currentLogin.genre.split(',');
@@ -228,7 +221,6 @@ getMatches(id, matchData){
         arrayWithHeur[user.id] = heur;
 
       futureMatchArray.push(user);
-      console.log(futureMatchArray);
       }
     }
   }
@@ -252,7 +244,6 @@ getMatches(id, matchData){
     }
   }
   futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
-  console.log(futureMatchArray);
   this.setState({matchTimes: timeOfMatches});
 
   this.setState({matches: objArray});
@@ -447,7 +438,6 @@ updateRating(newMatchObject, ratingToChange){
 
   render() {
     if(this.state.mode === 'welcome'){
-      console.log("welcome!");
       return(
         <div className="App">
           <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />

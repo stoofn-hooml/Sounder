@@ -44,12 +44,40 @@ class App extends Component {
 
       this.updateUsers();
       this.updateLikes();
-
+      this.loadLogin();
 }
 
 /*
 ************************* User Functions ***************************************
 */
+
+
+
+loadLogin(){
+  console.log("Loading login...")
+  fetch(SERVER + '/api/user_data', {credentials: 'include'})
+        .then((response)=>{
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then((data)=>{
+          console.log("User data:");
+          console.log(data);
+          this.setState({currentLogin: data});
+          this.loadMatches(this.state.currentLogin.id)
+          //this.setState({futureMatches: data});
+        });
+}
+
+
+
+
+
+
+
+
+
 
   /* Creates new user to be stored in users table with object created in SignUpPage.js,
      information is passed up to App and sent here in POST request */

@@ -6,6 +6,20 @@ const server = http.createServer(app);
 //bodyparser for passing JSON around without having to parse each time
 var bodyParser = require('body-parser');
 
+
+
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+
+
+
+
+
+
+
+
+
+
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -24,6 +38,43 @@ var port = 4321;
 app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());
+
+
+
+
+
+/*Passport Stuff*/
+
+
+
+
+passport.use(new Strategy(
+  function(username, password, done) {
+    knex.select().from('users').where('username', username).then((response)=>{
+      if (response.length === 0) {
+        console.log("Incorrect username")
+      }
+      else if (response[0].password === password){
+        console.log("Password success");
+        return done(null, response);
+      }
+    })
+  }
+));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // For getting general user data
 app.get('/sounder/users/', (request,response) =>{

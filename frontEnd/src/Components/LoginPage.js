@@ -85,7 +85,7 @@ handlePassword(inputEvent){
 render() {
 
   let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
-  let passwordInput = (<Input  placeholder="Password" type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
+  let passwordInput = (<Input  placeholder="Password" type="password" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
   let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
   let createAccount = (<LoginButton onClick={()=>{this.props.switchToSignUp()}}>Create Account</LoginButton>);
 

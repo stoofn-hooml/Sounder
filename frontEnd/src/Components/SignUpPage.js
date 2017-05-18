@@ -77,6 +77,7 @@ class SignUp extends Component{
       id: '',
       username: '',
       password: '',
+      password2: '',
       song1: '',
       song2: '',
       song3: '',
@@ -100,6 +101,10 @@ handleUsername(inputEvent){
 
 handlePassword(inputEvent){
   this.setState({password: inputEvent.target.value});
+}
+
+handlePassword2(inputEvent){
+  this.setState({password2: inputEvent.target.value});
 }
 
 handleSong1(inputEvent){
@@ -146,6 +151,7 @@ createUser(){ //creates the actual user object
   let newUserObj = {
   username: this.state.username,
   password: this.state.password,
+  password2: this.state.password2,
   song1: this.state.song1,
   song2: this.state.song2,
   song3: this.state.song3,
@@ -192,20 +198,20 @@ createUser(){ //creates the actual user object
       newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 1!");
     }
-    if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
+    else if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
       newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 2!");
     }
-    if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
+    else if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
       newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
         alert("Please insert a valid embed code for song 3!");
     }
-    if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
+    else if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
         alert("Please enter a .jpg or .png file for profile picture!");
     }
-    // if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
-    //   alert("Passwords do not match, please confirm password")
-    // }
+    else if(newUserObj.password !== newUserObj.password2) { //checks that password/confirm password match
+      alert("Passwords do not match, please confirm password")
+    }
     else {
       complete = true;
     }
@@ -217,7 +223,8 @@ createUser(){ //creates the actual user object
 
 render() {
   let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
-  let passwordInput = (<Input  placeholder="Password" type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
+  let passwordInput = (<Input  placeholder="Password" type="password" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
+  let password2Input = (<Input  placeholder="Password" type="password" value={this.state.password2} onChange={(event)=>{this.handlePassword2(event)}}/>);
   let song1Input = (<Input  placeholder="Song 1 URL" type="text" value={this.state.song1} onChange={(event)=>{this.handleSong1(event)}}/>);
   let song2Input = (<Input  placeholder="Song 2 URL" type="text" value={this.state.song2} onChange={(event)=>{this.handleSong2(event)}}/>);
   let song3Input = (<Input  placeholder="Song 3 URL" type="text" value={this.state.song3} onChange={(event)=>{this.handleSong3(event)}}/>);
@@ -246,6 +253,7 @@ render() {
         <div>
           <UsernameInput>
             {passwordInput}
+            {password2Input}
           </UsernameInput>
         </div>
 

@@ -117,13 +117,7 @@ class MatchPage extends Component{
   }
 
   render(){
-    if(this.props.futureMatches.length > 0 && this.state.futureMatchIndex === this.props.futureMatches.length){
-      return(
-        <div><p>Sorry, you have run out of matches!</p></div>
-      );
-    }
-
-    else if(this.props.futureMatches.length > 0){
+    if(this.props.futureMatches.length > 0 && this.state.futureMatchIndex < this.props.futureMatches.length){
       return(
         <Grid>
           <Row>
@@ -138,8 +132,9 @@ class MatchPage extends Component{
             <Col><UserDetail currentLogin={this.props.futureMatches[this.state.futureMatchIndex]}/></Col>
           </Row>
         </Grid>
-      );
 
+
+      );
 
     } else {
       return(

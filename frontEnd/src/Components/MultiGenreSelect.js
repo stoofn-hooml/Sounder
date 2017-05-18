@@ -50,7 +50,6 @@ var MultiSelectField = React.createClass({
 		};
 	},
 	handleSelectChange (value) {
-		console.log('You\'ve selected:', value);
 		this.setState({ value });
 	},
 

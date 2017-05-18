@@ -73,17 +73,15 @@ class SignUp extends Component{
       song2: '',
       song3: '',
       profileURL: '',
-      genres: '', //make this an array later
+      genres: '',
       numFollowers: '',
       profilePictureURL: '',
-      email: '',
-			value: ''
-
+      email: ''
     }
   };
 
 handleSelectChange (value) {
-  this.setState({ value });
+  this.setState({genres: value });
 }
 
 handleUsername(inputEvent){
@@ -118,10 +116,6 @@ handleNumFollowers(inputEvent){
   this.setState({numFollowers: inputEvent.target.value});
 }
 
-handleGenres(inputEvent){ //make this an array handler later
-  this.setState({genres: inputEvent.target.value});
-}
-
 handlePhotoURL(inputEvent){
   this.setState({profilePictureURL: inputEvent.target.value});
 
@@ -147,27 +141,13 @@ createUser(){ //creates the actual user object
   song2: this.state.song2,
   song3: this.state.song3,
   profileURL: this.state.profileURL,
-  genre: this.state.value, //make this an array later
+  genre: this.state.genres, //make this an array later
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
   karma: 0,
   followerRangeMin : 0,
   followerRangeMax : 100000000
-
-  /* How to handle these? */
-
-  //id:
-  //followers:
-  //id;
-  //followers: //who follows the user
-  //following: //who the user follows
-  //followerRange:
-  //peopleYouLike:
-  //peopleWhoLikedYou:
-  //currentMatches:
-  //pastMatches:
-  //online:
   }
 
   if (checkValid() === true){
@@ -177,25 +157,17 @@ createUser(){ //creates the actual user object
   //CheckValid looks all the sign-up parameters to see if they are valid. Returns true if valid.
   function checkValid(){
     let complete = false; //Initialize as false just in case some checks fail.
+    let unfilled;
 
     Object.keys(newUserObj).map(function(key){ //checks that all fields complete
       if (newUserObj[key] === ""){ //If anything is empty then alert the user
         alert("please fill out the " + key + " section");
-        return complete;
+        unfilled = true;
       }
     })
 
-    if (newUserObj.song1.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song1.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-        alert("Please insert a valid embed code for song 1!");
-    }
-    else if (newUserObj.song2.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song2.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-        alert("Please insert a valid embed code for song 2!");
-    }
-    else if (newUserObj.song3.search("w.soundcloud.com/player/") === -1 ||
-      newUserObj.song3.search("tracks") === -1){ //Checks if the song is a valid code and not a playlist
-        alert("Please insert a valid embed code for song 3!");
+    if (unfilled){
+      return complete;
     }
     else if (newUserObj.profilePictureURL.search(".jpg") === -1 && newUserObj.profilePictureURL.search(".png") === -1){ //Image URL should end in .jpg or .png
         alert("Please enter a .jpg or .png file for profile picture!");
@@ -223,7 +195,7 @@ render() {
   let numFollowersInput = (<Input  placeholder="# of SC Followers" type="text" value={this.state.numFollowers} onChange={(event)=>{this.handleNumFollowers(event)}}/>);
 
   let emailInput = (<Input  placeholder="Email" type="text" value={this.state.email} onChange={(event)=>{this.handleEmail(event)}}/>);
-  let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.value}/>)
+  let genre = (<MultiGenreSelect handleSelectChange={(value)=>this.handleSelectChange(value)} value={this.state.genres}/>)
 
   let photoURLInput = (<Input  placeholder="Photo URL" type="text" value={this.state.profilePictureURL} onChange={(event)=>{this.handlePhotoURL(event)}}/>);
 

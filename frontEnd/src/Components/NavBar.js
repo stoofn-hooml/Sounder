@@ -17,9 +17,6 @@ import NavDropdown from 'react-bootstrap/lib/NavDropdown.js';
 import MenuItem from 'react-bootstrap/lib/MenuItem.js';
 
 
-
-
-
 function NavBar(props){
   return(
     <Navbar inverse collapseOnSelect>

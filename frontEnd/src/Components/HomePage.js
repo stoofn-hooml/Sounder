@@ -18,13 +18,11 @@
 
 
 import React from 'react';
-//import styled from 'styled-components';
 import UserDetail from './UserDetail.js';
 import MatchLog from './MatchLog.js';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
-//import Button from 'react-bootstrap/lib/Button.js';
 import '../index.css';
 
 function HomePage(props) {

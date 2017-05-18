@@ -82,9 +82,7 @@ class MatchingSettings extends Component{
   }
 
   handleGenre(genre){
-      console.log(genre);
       this.setState({genre: genre});
-      console.log(this.state.genre)
   }
 
   handleSave(){ //sends the updatedUserObj back up to App.js
@@ -102,13 +100,12 @@ class MatchingSettings extends Component{
   }
 
   handleSelectChange (value) {
-    console.log('You\'ve selected:', value);
     this.setState({ value });
   }
 
 
   render() {
-    //Code for tool tip funcitonality - can definitely be condensed
+    //Code for tool tip funcitonality 
     const help = <LoginButton bsSize="xsmall" style={{display: 'inline'}}> ? </LoginButton>
 
     const proPicToolTip = (

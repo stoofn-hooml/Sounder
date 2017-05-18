@@ -6,14 +6,6 @@ import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 
-
-// const Logo = styled(Image)`
-//   margin-top: 40px;
-// `
-//
-// const StyledCol = styled(Col)`
-//   margin-left: 20px;
-// `
 const Title = styled.p`
   margin-top: 20px;
   font-size: 60px;

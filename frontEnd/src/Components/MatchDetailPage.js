@@ -24,11 +24,7 @@ import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
 
 
-
-
-
 function MatchDetailPage(props){
-    //console.log(props.currentMatch)
     return (
       <Grid fluid={true}>
         <Row bsClass="topRow">

@@ -20,7 +20,6 @@ import UserDetail from './UserDetail.js';
 import Grid from 'react-bootstrap/lib/Grid.js';
 import Row from 'react-bootstrap/lib/Row.js';
 import Col from 'react-bootstrap/lib/Col.js';
-//import Button from 'react-bootstrap/lib/Button.js';
 
 const LoginButton = styled.div`
   background-color: #525252; /* Green */
@@ -48,7 +47,6 @@ const MatchPageWrap = styled.div`
 `;
 
 
-
 class MatchPage extends Component{
   constructor(props){
     super(props);
@@ -67,12 +65,9 @@ class MatchPage extends Component{
   checkLiked(index){//checks whether the next up user has been liked
       for (let pair of this.props.likeData){
         if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[index].id)){
-          console.log("This user"+ this.props.futureMatches[index].username + "has already been liked, will not record!")
           return true;
         }
       }
-    console.log("This user "+ this.props.futureMatches[index].username + "has not yet been liked, displaying")
-    console.log(this.props.futureMatches)
     return false;
   }
 
@@ -95,7 +90,7 @@ class MatchPage extends Component{
 
   handleLike(){
     for (let pair of this.props.likeData){
-      // Don't know if this is necessary, but will catch duplicate likes
+      //  Catches duplicate likes
       if ((pair.user_id === this.props.currentLogin.id) && (pair.liked_id === this.props.futureMatches[this.state.futureMatchIndex].id)){
         this.handleNext();
         return;

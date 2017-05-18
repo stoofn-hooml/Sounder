@@ -12,13 +12,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 
-//import Col from 'react-bootstrap/lib/Col.js';
-//import Button from 'react-bootstrap/lib/Button.js';
-
-
-
-
-
 const LoginPage = styled.div`
   text-align: center;
   margin-top: 100px;
@@ -91,16 +84,10 @@ handlePassword(inputEvent){
 
 render() {
 
-
-
   let usernameInput = (<Input  placeholder="Username" type="text" value={this.state.username} onChange={(event)=>{this.handleUsername(event)}}/>);
   let passwordInput = (<Input  placeholder="Password" type="text" value={this.state.password} onChange={(event)=>{this.handlePassword(event)}}/>);
   let signIn = (<LoginButton onClick={()=>this.props.setProfile(this.state.username)}>Sign In</LoginButton>);
-  let createAccount = (<LoginButton onClick={()=>{this.props.switchToSignUp(); console.log("go to signup!!")}}>Create Account</LoginButton>);
-
-
-
-
+  let createAccount = (<LoginButton onClick={()=>{this.props.switchToSignUp()}}>Create Account</LoginButton>);
 
 
   if (this.state.mode === 'login'){

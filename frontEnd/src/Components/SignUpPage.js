@@ -7,17 +7,8 @@
 */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
-//import MultiGenreSelect from './MultiGenreSelect.js';
-
-//import Col from 'react-bootstrap/lib/Col.js';
-
-//import DropdownButton from 'react-bootstrap/lib/DropdownButton.js';
-//import MenuItem from 'react-bootstrap/lib/MenuItem.js';
+import EmbedSong from './EmbedSong.js';
 import MultiGenreSelect from './MultiGenreSelect.js'
-
-
-//import Col from 'react-bootstrap/lib/Col.js';
 
 
 const LoginPage = styled.div`
@@ -260,8 +251,17 @@ render() {
         <div>
           <UsernameInput>
             {song1Input}
+            <div>
+              <EmbedSong songURL={this.state.song1}></EmbedSong>
+            </div>
             {song2Input}
+            <div>
+              <EmbedSong songURL={this.state.song2}></EmbedSong>
+            </div>
             {song3Input}
+            <div>
+              <EmbedSong songURL={this.state.song3}></EmbedSong>
+            </div>
           </UsernameInput>
         </div>
 

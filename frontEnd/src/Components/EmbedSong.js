@@ -27,11 +27,19 @@ function EmbedSong(props){
 
   }
   else{
+    if (props.songURL){
     return(
       <div>
-      <p>{props.songURL}</p>
+      <p>Please enter valid URL!</p>
       </div>
     )
+    }else{
+      return(
+        <div>
+        <p>{props.songURL}</p>
+        </div>
+      )
+    }
   }
 
 };

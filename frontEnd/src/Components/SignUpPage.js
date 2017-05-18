@@ -145,7 +145,6 @@ createUser(){ //creates the actual user object
   numFollowers: this.state.numFollowers,
   profilePictureURL: this.state.profilePictureURL,
   email: this.state.email,
-  karma: 0,
   followerRangeMin : 0,
   followerRangeMax : 100000000
   }

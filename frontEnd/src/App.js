@@ -285,7 +285,7 @@ loadLogin(){
             doesNotLikeYou = false;
           }
         }
-        if(doesNotLikeYou && user.genre){
+        if(doesNotLikeYou ){ //commented out && user.genre
 
           let ourGenres = this.state.currentLogin.genre.split(',');
           let theirGenres = user.genre.split(',');
@@ -323,6 +323,8 @@ loadLogin(){
       }
     }
     futureMatchArray = alreadyLikedYouArray.concat(sortedArray); //merges two arrays with already liked you first
+    console.log("here is the order of the people you can view");
+    console.log(futureMatchArray);
     this.setState({matchTimes: timeOfMatches});
 
     this.setState({matches: objArray});

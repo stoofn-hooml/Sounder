@@ -52,30 +52,30 @@ class UserDetail extends Component{
     this.state = {
       showModal: false,
       karmaModal: false,
-      karma: [37,78]
+      karma: this.props.currentLogin.thumbsUpTotal / this.props.currentLogin.totalRatings
     };
   }
 
-  createKarma(rating){
-    if (this.props.currentLogin.totalRatings ===0){
+  createKarma(){
+    if ((this.props.currentLogin.totalRatings === 0) || (this.state.karma > 0.8)){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.6){
+    if (this.state.karma > 0.6){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.4){
+    if (this.state.karma > 0.4){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
       </div>
     )}
-    if (this.state.karma[0]/this.state.karma[1] > 0.2){
+    if (this.state.karma > 0.2){
       return(
         <div>
         <Glyphicon glyph="star" /><Glyphicon glyph="star" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" /><Glyphicon glyph="star-empty" />
@@ -135,6 +135,7 @@ class UserDetail extends Component{
     }
     if (currentRating !== newRating){
       this.props.updateUserKarma(updatedUserObj);
+      this.setState({karma: updatedUserObj.thumbsUpTotal / updatedUserObj.totalRatings})
     };
   };
 

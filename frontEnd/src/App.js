@@ -101,7 +101,6 @@ loadLogin(){
     userData.username = newUserObj.username;
     userData.numFollowers = newUserObj.numFollowers;
     userData.profilepictureURL = newUserObj.profilePictureURL;
-    userData.karma = newUserObj.karma;
     userData.profileURL = newUserObj.profileURL;
     userData.followerRangeMin = newUserObj.followerRangeMin;
     userData.followerRangeMax = newUserObj.followerRangeMax;

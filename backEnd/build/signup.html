@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
+
+    <!--
+      Notice the use of %PUBLIC_URL% in the tag above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+
+
+
+  <link rel="stylesheet" href="signup.css">
+
+
+
+
+
+
+  <title>Sounder</title>
+  <script src="signup.js"></script>
+
+  </head>
+  <body>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <div class = "main">
+    <div class="container">
+    	<div class="row">
+    	<form class="form-horizontal" method='post' name="myForm" action='/signup' onsubmit="return validateForm()">
+    <fieldset>
+
+    <!-- Form Name -->
+    <center>
+      <h1>Register for Sounder</h1>
+      <h5> After you have successfully registered, you will be redirected to the login page. </h5>
+    </center>
+
+
+  <!-- Text input-->
+    <div class="form-group">
+
+      <label class="col-md-4 control-label" for="username">Username</label>
+      <div class="col-md-5">
+      <input id="username" name="username" type="text" placeholder="Your username here" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+    <!-- Password input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="password">Password </label>
+      <div class="col-md-5">
+        <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="profileURL">SoundCloud Profile URL</label>
+      <div class="col-md-5">
+      <input id="profileURL" name="profileURL" type="text" placeholder="Your SoundCloud Profile URL here" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="numFollowers"># of SoundCloud Followers</label>
+      <div class="col-md-5">
+      <input id="numFollowers" name="numFollowers" type="text" placeholder="Your number of SoundCloud followers here" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="profilepictureURL">Profile Picture URL</label>
+      <div class="col-md-5">
+      <input id="profilePictureURL" name="profilePictureURL" type="text" placeholder="Profile Picture URL" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="genre">Genre</label>
+      <div class="col-md-5">
+      <input id="genre" name="genre" type="text" placeholder="Your genre here" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="song1">Song 1</label>
+      <div class="col-md-5">
+      <input id="song1" name="song1" type="text" placeholder="Song 1" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="song2">Song 2</label>
+      <div class="col-md-5">
+      <input id="song2" name="song2" type="text" placeholder="Song 2" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="song3">Song 3</label>
+      <div class="col-md-5">
+      <input id="song3" name="song3" type="text" placeholder="Song 3" class="form-control input-md" required="">
+
+      </div>
+    </div>
+
+
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="confirmation"></label>
+      <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="login.html">Login</a></span>
+
+      <div class="col-md-4">
+        <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Sign In"></span>
+
+      </div>
+    </div>
+
+
+    </fieldset>
+    </form>
+
+    	</div>
+    </div>
+  </div>
+        </body>
+      </html>

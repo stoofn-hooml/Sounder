@@ -33,7 +33,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      mode: 'welcome',
+      mode: null,
       currentLogin: null,
       futureMatches: [],
       currentMatch: null,
@@ -65,9 +65,24 @@ loadLogin(){
           console.log("User data:");
           console.log(data);
           this.setState({currentLogin: data});
-          this.loadMatches(this.state.currentLogin.id)
+
+
           //this.setState({futureMatches: data});
-        });
+        }).then((data)=>{
+            console.log("loading matches");
+            console.log(data);
+            this.loadMatches(this.state.currentLogin.id)
+
+          }).then((data)=>{
+              console.log("setting state of mode");
+              console.log(data);
+              this.setState({mode:'home'});
+
+            })
+
+
+
+          ;
 }
 
 
@@ -485,6 +500,7 @@ loadLogin(){
 //The following determines which page should be rendered based on what the state of mode is.
 
   render() {
+    let movieContents = (<h2>Loading...</h2>);
     if(this.state.mode === 'welcome'){
       return(
         <div className="App">
@@ -547,13 +563,24 @@ loadLogin(){
         </div>
       );
     }
-    else { /*MatchPage*/
+    if(this.state.mode==='matching'){
       return (
       <div>
       <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
       <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
+    }
+
+
+
+
+    else { /*MatchPage*/
+    return(
+      <div>
+      {movieContents}
+      </div>
+    )
     }
   }
 }

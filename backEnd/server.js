@@ -52,9 +52,10 @@ passport.use(new Strategy(
   function(username, password, done) {
     knex.select().from('users').where('username', username).then((response)=>{
       if (response.length === 0) {
-        console.log("Incorrect username")
+      console.log("Incorrect username or password");
       }
       else if (response[0].password === password){
+       //alert("Incorrect username or password")
         console.log("Password success");
         return done(null, response);
       }
@@ -63,6 +64,93 @@ passport.use(new Strategy(
 ));
 
 
+passport.serializeUser(function(user, done) {
+  console.log("User serialized")
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+app.use(express.static(__dirname + '/build'));
+
+//THIS WORKED
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+// app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var engine = require('consolidate');
+app.set('views', __dirname + '/build/');
+app.engine('html', engine.mustache);
+app.set('view engine', 'html');
+
+var path = require('path');
+
+// Define routes.
+
+
+
+
+app.get('/login', function(req, res){
+    console.log("ellllo!");
+    //res.sendFile(path.join(__dirname + '/build/login.html'));
+    res.render('login.html')
+});
+
+app.get('/signup', function(req, res){
+    console.log("ellllo!");
+    //res.sendFile(path.join(__dirname + '/build/login.html'));
+    res.render('signup.html')
+});
+
+
+
+app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'}), function(req, res) {
+    console.log("")
+    let userID = req.user[0]['id'];
+    res.redirect('index.html');
+});
+
+
+
+app.post('/signup', function(req, res) {
+    let newUserObj = req.body;
+    if (song1.search("w.soundcloud.com/player/") == -1 ||
+     song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+        res.render('signup.html');
+    }
+    if (song2.search("w.soundcloud.com/player/") == -1 ||
+        song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+        res.render('signup.html');
+    }
+    if (song3.search("w.soundcloud.com/player/") == -1 ||
+         song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+         res.render('signup.html');
+    }
+    if (profilePictureURL.search(".jpg") == -1 && profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
+        res.render('signup.html');
+    }
+  }
+    else {
+      knex('users').insert(newUserObj).then((values)=>{
+
+        console.log(values);
+        res.render('login.html')
+      });
+    }
+
+
+});
 
 
 
@@ -71,6 +159,25 @@ passport.use(new Strategy(
 
 
 
+
+
+app.get('/api/user_data', function(req, res) {
+    console.log('Trying to request session user ' + req.session.passport.user[0].username);
+    if (req.user === undefined) {
+        // The user is not logged in
+        res.json({});
+    } else {
+          console.log("Success, session found!")
+          res.send(req.user[0]);
+    }
+});
+
+app.get('/logout',
+  function(req, res){
+    console.log("trying to log out!");
+    req.logout();
+    res.redirect('/login');
+  });
 
 
 
@@ -93,6 +200,7 @@ app.get('/sounder/users/:id', (request, response) =>{
 
 //adds user to db
 app.post('/sounder/users', (request, response) => {
+  console.log(request.body);
   knex('users').insert(request.body).then((values)=>{
     response.send(values);
   });
@@ -131,7 +239,7 @@ app.get('/sounder/likes', (request, response) =>{
 
 // For adding a new "like" to the database
 app.post('/sounder/likes', (request, response) =>{
-  //console.log(request.body)
+  console.log(request.body)
   knex('likes').insert(request.body).then((values)=>{
     response.send(values);
   });

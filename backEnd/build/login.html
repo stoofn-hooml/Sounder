@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/login.css">
+
+  <title>Sounder</title>
+  <script src="js/login.js"></script>
+  </head>
+
+
+
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <div class="main">
+
+
+    <div class="container">
+    <center>
+    <div class="middle">
+          <div id="login">
+
+          <form method='post' name="myForm" action='/login' onsubmit="return validateForm()">
+
+              <fieldset class="clearfix">
+                <p ><span class="fa fa-user"></span><input type="text" name="username"  Placeholder="Username" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
+                <p><span class="fa fa-lock"></span><input type="password"  name="password"  Placeholder="Password" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+                <div>
+                    <span style="width:48%; text-align:left;  display: inline-block;"><a class="signup" href="signup.html">Sign Up</a></span>
+                    <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Sign In"></span>
+                </div>
+
+              </fieldset>
+              <div class="clearfix"></div>
+            </form>
+
+            <div class="clearfix"></div>
+
+          </div> <!-- end login -->
+          <div class="logo">
+            <img src="images/sounder.png" style="width:300px;height:300px;">
+
+              <div class="clearfix"></div>
+          </div>
+
+          </div>
+    </center>
+    <center>
+      <div class= "description">
+        <h1> Sounder is a networking platform for like-minded SoundCloud artists. </h1>
+         <h3> Organically grow your follower base. Connect with artists from around the world. Find new music in your favorite genre. </h3>
+      </div>
+    </center>
+        </div>
+
+    </div>
+
+
+  </body>
+</html>

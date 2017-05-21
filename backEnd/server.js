@@ -120,23 +120,24 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'})
 
 
 app.post('/signup', function(req, res) {
+    console.log(req.body)
     let userObj = req.body;
     if (userObj.song1.search("w.soundcloud.com/player/") == -1 ||
      userObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
     }
-    if (userObj.song2.search("w.soundcloud.com/player/") == -1 ||
+    else if (userObj.song2.search("w.soundcloud.com/player/") == -1 ||
         userObj.song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
     }
-    if (userObj.song3.search("w.soundcloud.com/player/") == -1 ||
+    else if (userObj.song3.search("w.soundcloud.com/player/") == -1 ||
          userObj.song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
          res.render('signup.html');
     }
-    if (userObj.profilePictureURL.search(".jpg") == -1 && userObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
+    else if (userObj.profilePictureURL.search(".jpg") == -1 && userObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
         res.render('signup.html');
     }
-    if(isNaN(userObj.numFollowers)){ //numFollowers should be a number
+    else if(isNaN(userObj.numFollowers)){ //numFollowers should be a number
         res.render('signup.html');
     }
 
@@ -145,8 +146,7 @@ app.post('/signup', function(req, res) {
         /*check to make sure that the username does not already exist*/
         if (response.length === 0) {
           console.log("new user!");
-          knex('users').insert(userObj).then((values)=>{
-            console.log(values);
+          knex('users').insert(userObj).then(()=>{
             res.render('login.html')
           });
         }

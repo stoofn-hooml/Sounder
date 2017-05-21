@@ -106,12 +106,10 @@ loadLogin(){
     userData.followerRangeMax = newUserObj.followerRangeMax;
     //react-select stores multiselected items as string already, don't need to change to store in database
     userData.genre = newUserObj.genre;
-    userData.online = 0;
     userData.song1 = newUserObj.song1;
     userData.song2 = newUserObj.song2;
     userData.song3 = newUserObj.song3;
     const userStr = JSON.stringify(userData);
-    console.log(userStr)
     const request = new Request(
 
     SERVER + "/sounder/users/" ,

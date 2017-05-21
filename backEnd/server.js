@@ -120,8 +120,8 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'})
 
 
 app.post('/signup', function(req, res) {
-    console.log(req.body)
-    let userObj = req.body;
+    let userObj = Object.assign({}, req.body, {genre:req.body.genre.toString()});
+    console.log(userObj)
     if (userObj.song1.search("w.soundcloud.com/player/") == -1 ||
      userObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');

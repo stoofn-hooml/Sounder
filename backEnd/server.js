@@ -120,8 +120,7 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'})
 
 
 app.post('/signup', function(req, res) {
-    let userObj = Object.assign({}, req.body, {genre:req.body.genre.toString()});
-    console.log(userObj)
+    let userObj = req.body;
     if (userObj.song1.search("w.soundcloud.com/player/") == -1 ||
      userObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
@@ -140,8 +139,13 @@ app.post('/signup', function(req, res) {
     else if(isNaN(userObj.numFollowers)){ //numFollowers should be a number
         res.render('signup.html');
     }
+    else if(req.body.password !== req.body.password2) { //checks that password/confirm password match
+      res.render('signup.html');
+    }
 
     else {
+      delete req.body.password2
+      let userObj = Object.assign({}, req.body, {genre:req.body.genre.toString()});
       knex.select().from('users').where('username', userObj.username).then((response)=>{
         /*check to make sure that the username does not already exist*/
         if (response.length === 0) {

@@ -111,6 +111,7 @@ loadLogin(){
     userData.song2 = newUserObj.song2;
     userData.song3 = newUserObj.song3;
     const userStr = JSON.stringify(userData);
+    console.log(userStr)
     const request = new Request(
 
     SERVER + "/sounder/users/" ,

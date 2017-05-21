@@ -124,7 +124,12 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'})
 
 
 app.post('/signup', function(req, res) {
+    console.log(req.body)
     let newUserObj = req.body;
+    let song1 = req.body.song1
+    let song2 = req.body.song2
+    let song3 = req.body.song3
+    let profilePictureURL = req.body.profilePictureURL
     if (song1.search("w.soundcloud.com/player/") == -1 ||
      song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
@@ -140,7 +145,6 @@ app.post('/signup', function(req, res) {
     if (profilePictureURL.search(".jpg") == -1 && profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
         res.render('signup.html');
     }
-  }
     else {
       knex('users').insert(newUserObj).then((values)=>{
 

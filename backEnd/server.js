@@ -102,14 +102,10 @@ var path = require('path');
 
 
 app.get('/login', function(req, res){
-    console.log("ellllo!");
-    //res.sendFile(path.join(__dirname + '/build/login.html'));
     res.render('login.html')
 });
 
 app.get('/signup', function(req, res){
-    console.log("ellllo!");
-    //res.sendFile(path.join(__dirname + '/build/login.html'));
     res.render('signup.html')
 });
 
@@ -124,34 +120,42 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'})
 
 
 app.post('/signup', function(req, res) {
-    console.log(req.body)
-    let newUserObj = req.body;
-    let song1 = req.body.song1
-    let song2 = req.body.song2
-    let song3 = req.body.song3
-    let profilePictureURL = req.body.profilePictureURL
-    if (song1.search("w.soundcloud.com/player/") == -1 ||
-     song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    let userObj = req.body;
+    if (userObj.song1.search("w.soundcloud.com/player/") == -1 ||
+     userObj.song1.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
     }
-    if (song2.search("w.soundcloud.com/player/") == -1 ||
-        song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    if (userObj.song2.search("w.soundcloud.com/player/") == -1 ||
+        userObj.song2.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
         res.render('signup.html');
     }
-    if (song3.search("w.soundcloud.com/player/") == -1 ||
-         song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
+    if (userObj.song3.search("w.soundcloud.com/player/") == -1 ||
+         userObj.song3.search("tracks") == -1){ //Checks if the song is a valid code and not a playlist
          res.render('signup.html');
     }
-    if (profilePictureURL.search(".jpg") == -1 && profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
+    if (userObj.profilePictureURL.search(".jpg") == -1 && userObj.profilePictureURL.search(".png") == -1){ //Image URL should end in .jpg or .png
         res.render('signup.html');
     }
-    else {
-      knex('users').insert(newUserObj).then((values)=>{
-
-        console.log(values);
-        res.render('login.html')
-      });
+    if(isNaN(userObj.numFollowers)){ //numFollowers should be a number
+        res.render('signup.html');
     }
+
+    else {
+      knex.select().from('users').where('username', userObj.username).then((response)=>{
+        /*check to make sure that the username does not already exist*/
+        if (response.length === 0) {
+          console.log("new user!");
+          knex('users').insert(userObj).then((values)=>{
+            console.log(values);
+            res.render('login.html')
+          });
+        }
+        else {
+          res.render('signup.html')
+        }
+
+    })
+  }
 
 
 });

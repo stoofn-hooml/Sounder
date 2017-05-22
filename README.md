@@ -15,13 +15,13 @@ The code for Sounder is divided into two directories: frontEnd and backEnd. fron
 To run the project, you must cd into the backEnd directory and run the following command:
   node server.js
 
-If you want to see any changes you have made to any of the files in the frontEnd directory, you will have to cd into the backEnd directory and run the following commands:
-  rm -rf build
-  cd ../frontEnd
-  npm run build
-  mv build ../backEnd
-  cd ../backEnd
-  node server.js
+If you want to see any changes you have made to any of the files in the frontEnd directory, you will have to cd into the backEnd directory and run the following commands: </br>
+  rm -rf build <br/>
+  cd ../frontEnd <br/>
+  npm run build <br/>
+  mv build ../backEnd <br/>
+  cd ../backEnd <br/>
+  node server.js <br/>
 
 This will remove the old build directory in the backEnd and replace it with a build with updated changes from the frontEnd directory.
 

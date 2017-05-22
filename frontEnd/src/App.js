@@ -3,26 +3,23 @@
 
   App is the top-level component of our application. It is responsible for managing the data collection.
 
-  App maintains state in the form of mode, currentLogin, currentMatch, matches, and futureMatches.
+  App maintains state in the form of mode, currentLogin, currentMatch, matches, futureMatches, likes, and matchTimes.
   -mode determines which page is being displayed.
   -currentLogin is an object that stores the account information for the person who is currently logged in.
   -currentMatch is an object that stores the account information of the person that will be dispalyed in MatchDetailPage
   -matches is an array of objects that store the acccount information of the artists that currentLogin has matched with
   -futureMatches is an array of objects that store the acccount information of the artists that currentLogin could potentially match with
   -likes is an array with all the likes in the database
-
+  -matchTimes is an array that stores all the times that currentLogin matched with another user
   */
 
 import React, { Component } from 'react';
 import MatchPage from './Components/MatchPage.js';
 import HomePage from './Components/HomePage.js';
-import LoginPage from './Components/LoginPage.js';
-import SignUpPage from './Components/SignUpPage.js';
 import MatchingSettingsPage from './Components/MatchingSettingsPage.js';
 import MatchDetailPage from './Components/MatchDetailPage.js';
 import NavBar from './Components/NavBar.js';
-import WelcomeNavBar from './Components/WelcomeNavBar.js';
-import WelcomePage from './Components/WelcomePage.js';
+
 
 
 const SERVER = 'http://localhost:4321';
@@ -235,8 +232,12 @@ loadLogin(){
 
   /*getMatches is a helper function for loadMatches
    it sets the state of matches and futureMatches
+   -order of matches is based off the time of the match
+   -order of future matches is based off the following set of criteria: they have liked you,
+   they have genres in common with you, they are in your follower range
   */
   getMatches(id, matchData){
+    /*----setting state of matches------*/
     let matchArray = [];
     let objArray = [];
     let futureMatchArray = [];
@@ -271,6 +272,8 @@ loadLogin(){
         }
       }
     }
+
+    /*--------setting state of futurematches----------------------*/
     let alreadyLikedYouArray = [] //this handles putting those that have already liked you first
     let arrayWithHeur = {};
     for (let user of this.state.data){ //creates futureMatchArray with users in follower range (matching algorithm)
@@ -284,7 +287,7 @@ loadLogin(){
             doesNotLikeYou = false;
           }
         }
-        if(doesNotLikeYou ){ //commented out && user.genre
+        if(doesNotLikeYou ){ //orders users who have not liked you based off how many genres you have in common
 
           let ourGenres = this.state.currentLogin.genre.split(',');
           let theirGenres = user.genre.split(',');
@@ -369,44 +372,6 @@ loadLogin(){
 
   }
 
-  /*handleSignIn is a function that is turned on when someone tries to sign in. If the username is in the database, it changes the state of currentLogin to
-  match this username. It also will update the state to be the home page */
-  handleSignIn(username){
-    for (let profile of this.state.data){
-      if (profile.username === username){ //we also need to now check password here
-        this.setState({currentLogin: profile});
-        this.setState({mode: 'home'});
-        this.loadMatches(profile.id);
-        return true;
-      }
-    }
-    alert("This is not a valid user! Please try again.");
-  }
-
-/* handle signUp will be called when a new user tries to sign up, if the username is in data, it will
-   return nothing and LoginPage will throw an error to the user, if the username is not in data, it will
-   create a new user with username and password*/
-  handleSignUp(newUserObj){
-      let alreadyThere = false
-      for (let profile of this.state.data){
-          if (profile.username === newUserObj.username){
-              alert("This username is already taken! Please enter a different one.");
-              alreadyThere = true
-              return;
-          }
-      }
-      if (alreadyThere === false){
-        this.createNewUser(newUserObj);
-      }
-  }
-
-  /* handleLogOut is a function that is turned on when someone tries to log out. It updates the state of currentLogin to be null.
-     Updates the mode to be the login page. */
-  handleLogOut(){
-      this.setState({currentLogin:null, matches: [], mode: 'login'});
-      /*reload the page*/
-      location.reload(true);
-    }
 
 // clickMatch is a callback function that is turned on when a match in the matchlog is clicked. It changes the state of currentMatch and the mode.
   clickMatch(match){
@@ -500,47 +465,22 @@ loadLogin(){
 //The following determines which page should be rendered based on what the state of mode is.
 
   render() {
-    let movieContents = (<h2>Loading...</h2>);
-    if(this.state.mode === 'welcome'){
-      return(
-        <div className="App">
-          <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
-          <WelcomePage />
-        </div>
-      );
-    };
+    let loading = (<h2>Loading...</h2>);
+
     if(this.state.mode ==='home' && this.state.matches && this.state.matchTimes){
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})} />
         <HomePage clickMatch={(match)=>this.clickMatch(match)} matchlist={this.state.matches} matchTimes={this.state.matchTimes}  currentLogin={this.state.currentLogin} />
         </div>
       );
     }
-    if(this.state.mode ==='login'){
-      return (
-        <div className="App">
-          <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
-          <LoginPage setProfile={(username)=>this.handleSignIn(username)}
-                    newUser={(username,password)=>this.handleSignUp(username,password)}
-                    switchToSignUp={()=>this.setState({mode: 'signUp'})}/>
-        </div>
-      );
-    };
 
-    if(this.state.mode ==='signUp'){
-      return (
-        <div className="App">
-        <WelcomeNavBar setMode={(whichMode)=>this.setState({mode: whichMode})} />
-          <SignUpPage newUser={(obj)=>this.handleSignUp(obj)} switchToLogin={()=>this.setState({mode: 'login'})}/>
-        </div>
-      );
-    };
 
     if(this.state.mode === 'matchdetails' && this.state.matchTimes){
       return (
         <div>
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})} />
           <MatchDetailPage clickMatch={(match)=>this.clickMatch(match)}
                             matchlist={this.state.matches} currentMatch={this.state.currentMatch}
                             setMode={(article)=>this.setState({mode:'home'})}
@@ -554,7 +494,7 @@ loadLogin(){
     if(this.state.mode==='settings'){
       return (
         <div className="App">
-        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
+        <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})} />
           <MatchingSettingsPage
             currentLogin={this.state.currentLogin}
             updateSettings={(obj)=>this.updateSettings(obj)}
@@ -566,19 +506,17 @@ loadLogin(){
     if(this.state.mode==='matching'){
       return (
       <div>
-      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})}  handleLogOut={()=>this.handleLogOut()} />
+      <NavBar updateFutureMatches={()=>this.loadMatches(this.state.currentLogin.id)} setMode={(whichMode)=>this.setState({mode: whichMode})} />
       <MatchPage returnMatch={(matched_id)=>this.addMatch(matched_id)} likeData={this.state.likes} returnLike={(liked_id)=>this.handleLike(liked_id)} currentLogin={this.state.currentLogin} futureMatches={this.state.futureMatches} goToSettings={(article)=>this.setState({mode:'settings'})} setMode={(article)=>this.setState({mode:'home'})}/>
       </div>
       );
     }
 
 
-
-
-    else { /*MatchPage*/
+    else {
     return(
       <div>
-      {movieContents}
+      {loading}
       </div>
     )
     }

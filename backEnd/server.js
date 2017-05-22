@@ -53,11 +53,15 @@ passport.use(new Strategy(
     knex.select().from('users').where('username', username).then((response)=>{
       if (response.length === 0) {
       console.log("Incorrect username or password");
+      return done(null, false);
       }
       else if (response[0].password === password){
        //alert("Incorrect username or password")
         console.log("Password success");
         return done(null, response);
+      }
+      else{
+        return done(null, false);
       }
     })
   }
@@ -111,7 +115,7 @@ app.get('/signup', function(req, res){
 
 
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/signup'}), function(req, res) {
+app.post('/login', passport.authenticate('local', {  failureRedirect: '/signup'}), function(req, res) {
     console.log("")
     let userID = req.user[0]['id'];
     res.redirect('index.html');

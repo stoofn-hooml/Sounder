@@ -9,7 +9,12 @@ the embedded song window from soundcloud
 */
 
 import React from 'react';
+import styled from 'styled-components';
 
+
+const Song = styled.p`
+  margin: 10px 0px 10px 0px;
+`
 function EmbedSong(props){
   if(props.songURL && (props.songURL).length >= 20){
     let songString = props.songURL.split('src="');
@@ -29,7 +34,7 @@ function EmbedSong(props){
   else{
     return(
       <div>
-      <p>{props.songURL}</p>
+      <Song>{props.songURL}</Song>
       </div>
     )
   }
